@@ -1,5 +1,9 @@
 # Grace Shopper
 
+## Waffle
+
+[![Waffle.io - Issues in progress](https://badge.waffle.io/DIM-Squad/Grace-Shopper.png?label=in%20progress&title=In%20Progress)](http://waffle.io/DIM-Squad/Grace-Shopper)
+
 ## Customize
 
 Now that you've got the code, follow these steps to get acclimated:
