@@ -1,7 +1,7 @@
 {
-  "name": "boilermaker",
-  "version": "1.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "name": "grace-shopper",
+  "version": "0.1",
+  "description": "It's the Grace Shopper project!",
   "engines": {
     "node": ">= 7.0.0"
   },
@@ -18,9 +18,9 @@
     "postinstall": "touch secrets.js",
     "seed": "node script/seed.js",
     "start": "node server",
-    "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run start-server",
-    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
-    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
+    "start-dev": "NODE_ENV='dtravisrun build-client-watch & npm run start-server",
+    "start-server": "nodemon traviss,scss --ignore public --ignore client",
+    "test": "NODE_ENV='test' travis/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -28,7 +28,7 @@
       "npm run lint-fix",
       "git add"
     ],
-    "*.{css,scss,json,md}": [
+    "*.{css,scss,json,md}": [travis
       "prettier --write",
       "git add"
     ]
