@@ -27,7 +27,7 @@
       "npm run lint-fix",
       "git add"
     ],
-    "*.{css,scss,json,md}": [travis
+    "*.{css,scss,json,md}": [
       "prettier --write",
       "git add"
     ]
