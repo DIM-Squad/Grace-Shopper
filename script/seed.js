@@ -81,11 +81,11 @@ async function seed() {
 
   await Promise.all([
     User.bulkCreate(chance.unique(chance.user), 400),
-    //,Product.bulkCreate(chance.unique(chance.product(300))),
-    //Order.bulkCreate(chance.unique(chance.order(30))),
-    Category.bulkCreate(chance.unique(chance.tag(30)))
-    //Artist.bulkCreate(chance.unique(chance.artist(30))),
-    //Review.bulkCreate(chance.unique(chance.review(100)))
+    //,Product.bulkCreate(chance.unique(chance.product, 300)),
+    //Order.bulkCreate(chance.unique(chance.order, 30)),
+    Category.bulkCreate(chance.unique(chance.category, 30))
+    //Artist.bulkCreate(chance.unique(chance.artist, 30)),
+    //Review.bulkCreate(chance.unique(chance.review, 100))
   ])
 
   console.log(`seeded successfully`)
