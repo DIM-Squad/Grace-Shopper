@@ -33,4 +33,23 @@ describe('User model', () => {
       })
     }) // end describe('correctPassword')
   }) // end describe('instanceMethods')
+
+  describe('fullName', () => {
+    let cody
+
+    beforeEach(async () => {
+      cody = await User.create({
+        firstName: 'Cody',
+        lastName: 'Pug',
+        address: 'codys address',
+        isAdmin: false,
+        email: 'cody@puppybook.com',
+        password: 'bones'
+      })
+    })
+
+    it('returns fullName', () => {
+      expect(cody.fullName).to.be.equal('Cody Pug')
+    })
+  })
 }) // end describe('User model')

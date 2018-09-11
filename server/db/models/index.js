@@ -4,6 +4,7 @@ const Order = require('./order')
 //const Artist = require('./artist')
 //const Review = require('./review')
 const Product = require('./product')
+const Review = require('./review')
 
 //Artist.hasMany(Product)
 //Product.belongsTo(Artist)
@@ -27,4 +28,5 @@ module.exports = {
   Order
   //Artist,
   //Review
+  Review
 }
