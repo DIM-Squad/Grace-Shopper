@@ -4,20 +4,20 @@ const db = require('../db')
 
 const User = db.define('user', {
   firstName: {
-    type: Sequalize.STRING,
+    type: Sequelize.STRING,
     validate: {
-      notEmpty:true
+      notEmpty: true
     },
     lastName: {
       type: Sequelize.STRING,
       validate: {
-        notEmpty:true
+        notEmpty: true
       }
     },
     address: {
       type: Sequelize.STRING,
       allowNull: false
-    }, 
+    },
     isAdmin: {
       type: Sequelize.BOOLEAN
     }
