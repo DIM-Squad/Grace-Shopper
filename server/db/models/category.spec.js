@@ -8,12 +8,17 @@ chai.use(require('chai-as-promised'))
 
 describe('Category model', () => {
   beforeEach(() => {
-    db.sync({force: true})
-    Category.create({name: 'foo'})
+    return db.sync({force: true})
   })
 
-  it("can't have duplicates", () => {
-    return expect(() => Category.create({name: 'foo'})).to.eventually.be
-      .rejected
+  describe('CannotHaveDuplicates', () => {
+    let newCategory
+    beforeEach(async () => {
+      newCategory = await Category.create({name: 'foo'})
+    })
+
+    it("can't have duplicates", () => {
+      return expect(Category.create({name: 'foo'})).to.eventually.be.rejected
+    })
   })
 })

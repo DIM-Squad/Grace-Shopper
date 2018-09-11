@@ -8,18 +8,24 @@ chai.use(require('chai-as-promised'))
 
 describe('Product model', () => {
   beforeEach(() => {
-    db.sync({force: true})
+    return db.sync({force: true})
   })
 
-  it('appropriately fills in default price', async function() {
-    const newProduct = (await Product.create({
-      name: 'Hello World Art',
-      description: "Who says it isn't art?",
-      artistId: 1,
-      size: 'medium',
-      quantity: 0
-    })).dataValues
-
-    return expect(newProduct).to.have.ownProperty('price')
+  describe('SetDefaultPrice', () => {
+    let newProduct
+    beforeEach(async () => {
+      newProduct = await Product.create({
+        name: 'Hello World Art',
+        description: "Who says it isn't art?",
+        size: 'medium',
+        quantity: 0
+      })
+    })
+    it('appropriately creates a price attribute', () => {
+      expect(newProduct.dataValues).to.have.ownProperty('price')
+    })
+    it('sets a default value for price', () => {
+      expect(parseFloat(newProduct.price)).to.be.equal(999999.99)
+    })
   })
 })
