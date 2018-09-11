@@ -37,9 +37,10 @@ chance.mixin({
     name: chance.words(),
     description: chance.paragraph(),
     price: chance.natural({min: 4, max: 1688}),
-    tags: [],
     imageUrl: '/favicon.ico',
-    artistId: 1
+    artistId: 1,
+    size: chance.weighted(['small', 'medium', 'large'], [8, 21, 15]),
+    quantity: chance.weighted([chance.natural({min: 0, max: 750}), 0], [15, 70])
   })
 })
 
@@ -81,7 +82,7 @@ async function seed() {
 
   await Promise.all([
     User.bulkCreate(chance.unique(chance.user, 400)),
-    //,Product.bulkCreate(chance.unique(chance.product, 300)),
+    Product.bulkCreate(chance.unique(chance.product, 300)),
     //Order.bulkCreate(chance.unique(chance.order, 30)),
     Category.bulkCreate(chance.unique(chance.category, 30))
     //Artist.bulkCreate(chance.unique(chance.artist, 30)),

@@ -27,16 +27,14 @@ const Product = db.define('product', {
   },
   quantity: {
     type: Sequelize.INTEGER,
+    allowNull: false,
     validate: {
       min: 0
     }
   },
   size: {
-    type: Sequelize.ENUM('large', 'medium', 'small')
-  },
-  categories: {
-    type: Sequelize.ARRAY,
-    defaultValue: []
+    type: Sequelize.ENUM('large', 'medium', 'small'),
+    allowNull: false
   }
 })
 
