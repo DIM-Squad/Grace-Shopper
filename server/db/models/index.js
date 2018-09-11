@@ -1,6 +1,6 @@
 const User = require('./user')
 const Category = require('./category')
-//const Order = require('./order')
+const Order = require('./order')
 //const Artist = require('./artist')
 //const Review = require('./review')
 const Product = require('./product')
@@ -23,8 +23,8 @@ const Product = require('./product')
 module.exports = {
   User,
   Category,
-  Product
-  //Order,
+  Product,
+  Order
   //Artist,
   //Review
 }

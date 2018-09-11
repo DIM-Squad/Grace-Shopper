@@ -67,12 +67,12 @@ chance.mixin({
 
 chance.mixin({
   order: () => ({
-    userId: 1,
-    productId: 1,
-    status: chance.weighted(
-      ['completed', 'shipped', 'cancelled', 'returned', 'ordered', 'in cart'],
-      [4, 1, 0.5, 0.5, 3, 7]
-    )
+    status: chance.weighted(['shipped', 'cancelled', 'confirmed'], [4, 1, 0.5]),
+    shippingAddress: chance.address(),
+    shippingState: chance.state({territories: true}),
+    shippingCost: chance.natural({min: 100, max: 4500}) / 100,
+    shippingZip: chance.zip(),
+    email: chance.email()
   })
 })
 
