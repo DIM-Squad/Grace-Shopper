@@ -64,7 +64,7 @@ chance.mixin({
   })
 })
 
-chance.mixing({
+chance.mixin({
   order: () => ({
     userId: 1,
     productId: 1,
