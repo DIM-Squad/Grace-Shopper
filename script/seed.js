@@ -10,7 +10,7 @@ const {
   Review
 } = require('../server/db/models')
 const Chance = require('chance')
-const chance = new Chance()(95698435)
+const chance = new Chance(95698435)
 
 chance.mixin({
   user: () => ({
