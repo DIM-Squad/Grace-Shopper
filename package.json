@@ -81,6 +81,7 @@
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.0",
     "chai": "^3.5.0",
+    "chai-as-promised": "^7.1.1",
     "chance": "^1.0.16",
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.0.0",
