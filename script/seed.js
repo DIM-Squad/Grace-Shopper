@@ -1,18 +1,93 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {
+  User,
+  Product,
+  Tag,
+  Order,
+  Artist,
+  Review
+} = require('../server/db/models')
+const Chance = require('chance')(95698435)
+const chance = new Chance()
+
+chance.mixin({
+  user: () => ({
+    first: chance.first(),
+    last: chance.last(),
+    email: chance.email(),
+    address: `${chance.address()}, ${chance.city()}, ${chance.state()} ${chance.zip()}`,
+    role: chance.weighted(['admin', 'shopper'], [2, 48])
+  })
+})
+
+chance.mixin({
+  words: () =>
+    chance
+      .sentence({words: chance.pickone([1, 2, 3, 4, 5, 6])})
+      .slice(0, -1)
+      .split(' ')
+      .map(w => w[0].toUpperCase() + w.slice(1))
+      .join(' ')
+})
+
+chance.mixin({
+  product: () => ({
+    name: chance.words(),
+    description: chance.paragraph(),
+    price: chance.natural({min: 4, max: 1688}),
+    tags: [],
+    imageUrl: '/favicon.ico',
+    artistId: 1
+  })
+})
+
+chance.mixin({
+  artist: () => ({
+    name: chance.name()
+  })
+})
+
+chance.mixin({
+  tag: () => ({name: chance.word()})
+})
+
+chance.mixin({
+  review: () => ({
+    stars: chance.natural({min: 1, max: 5}),
+    text: chance.paragraph(),
+    title: chance.words(),
+    userId: 1,
+    artistId: 1,
+    productId: 1
+  })
+})
+
+chance.mixing({
+  order: () => ({
+    userId: 1,
+    productId: 1,
+    status: chance.weighted(
+      ['completed', 'shipped', 'cancelled', 'returned', 'ordered', 'in cart'],
+      [4, 1, 0.5, 0.5, 3, 7]
+    )
+  })
+})
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+  await Promise.all([
+    User.bulkCreate(chance.unique(chance.user), 400)
+    //,Product.bulkCreate(chance.unique(chance.product(300))),
+    //Order.bulkCreate(chance.unique(chance.order(30))),
+    //Tag.bulkCreate(chance.unique(chance.tag(30))),
+    //Artist.bulkCreate(chance.unique(chance.artist(30))),
+    //Review.bulkCreate(chance.unique(chance.review(100)))
   ])
 
-  console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
 
