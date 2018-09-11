@@ -80,7 +80,7 @@ async function seed() {
   console.log('db synced!')
 
   await Promise.all([
-    User.bulkCreate(chance.unique(chance.user), 400),
+    User.bulkCreate(chance.unique(chance.user, 400)),
     //,Product.bulkCreate(chance.unique(chance.product, 300)),
     //Order.bulkCreate(chance.unique(chance.order, 30)),
     Category.bulkCreate(chance.unique(chance.category, 30))
