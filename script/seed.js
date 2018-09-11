@@ -14,11 +14,11 @@ const chance = new Chance()
 
 chance.mixin({
   user: () => ({
-    first: chance.first(),
-    last: chance.last(),
+    firstName: chance.first(),
+    lastName: chance.last(),
     email: chance.email(),
     address: `${chance.address()}, ${chance.city()}, ${chance.state()} ${chance.zip()}`,
-    role: chance.weighted(['admin', 'shopper'], [2, 48])
+    isAdmin: chance.bool({likelihood: 2})
   })
 })
 
