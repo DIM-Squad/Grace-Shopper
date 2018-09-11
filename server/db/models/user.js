@@ -5,28 +5,57 @@ const db = require('../db')
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
+    allowNull: false,
     validate: {
       notEmpty: true
-    },
-    lastName: {
-      type: Sequelize.STRING,
-      validate: {
-        notEmpty: true
-      }
-    },
-    address: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    isAdmin: {
-      type: Sequelize.BOOLEAN
     }
   },
+
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+
+  fullName: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return (
+        this.getDataValue('firstName') + ' ' + this.getDataValue('lastName')
+      )
+    }
+  },
+
+  /**
+   * TODO: Break up the address information into
+   * address, city, state, zip eventually.
+   */
+
+  address: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      isEmail: true
+    }
   },
+
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.

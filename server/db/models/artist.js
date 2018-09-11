@@ -1,10 +1,16 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Category = db.define('category', {
+const Artist = db.define('artist', {
   name: {
     type: Sequelize.STRING,
-    unique: true,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  slug: {
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: true
@@ -12,4 +18,4 @@ const Category = db.define('category', {
   }
 })
 
-module.exports = Category
+module.exports = Artist
