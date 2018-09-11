@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize')
 const User = require('./user')
 const Category = require('./category')
 const Order = require('./order')
@@ -5,11 +6,15 @@ const Artist = require('./artist')
 const Review = require('./review')
 const Product = require('./product')
 
+//join table for many-to-many associations
+//http://docs.sequelizejs.com/class/lib/associations/belongs-to-many.js~BelongsToMany.html
+const ProductCategory = Sequelize.define('product_category')
+
 Artist.hasMany(Product)
 Product.belongsTo(Artist)
 
-Product.hasMany(Category)
-Category.belongsToMany(Product)
+Product.belongsToMany(Category, {through: ProductCategory})
+Category.belongsToMany(Product, {through: ProductCategory})
 
 Product.hasMany(Review)
 Review.belongsTo(Product)
