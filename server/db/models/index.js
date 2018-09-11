@@ -1,29 +1,30 @@
 const User = require('./user')
 const Category = require('./category')
-const Order = require('./order')
-const Artist = require('./artist')
-const Review = require('./review')
+//const Order = require('./order')
+//const Artist = require('./artist')
+//const Review = require('./review')
 const Product = require('./product')
 
-Artist.hasMany(Product)
-Product.belongsTo(Artist)
+//Artist.hasMany(Product)
+//Product.belongsTo(Artist)
 
-Product.hasMany(Category)
-Category.belongsToMany(Product)
+//Product.hasMany(Category)
+//Category.belongsToMany(Product)
 
-Product.hasMany(Review)
-Review.belongsTo(Product)
+//Product.hasMany(Review)
+//Review.belongsTo(Product)
 
-User.hasMany(Review)
-Review.belongsTo(User)
+//User.hasMany(Review)
+//Review.belongsTo(User)
 
-Artist.hasMany(Review)
-Review.belongsTo(Artist)
+//Artist.hasMany(Review)
+//Review.belongsTo(Artist)
 
 module.exports = {
   User,
   Category,
-  Order,
-  Artist,
-  Review
+  Product
+  //Order,
+  //Artist,
+  //Review
 }
