@@ -20,7 +20,6 @@ describe('Review model', () => {
     })
 
     it('Sets a default value for stars', () => {
-      console.log('New Review =>', newReview)
       expect(newReview.rating).to.be.equal(1)
     })
   })

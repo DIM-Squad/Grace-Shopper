@@ -13,6 +13,7 @@ describe('Category model', () => {
   })
 
   it("can't have duplicates", () => {
-    return expect(Category.create({name: 'foo'})).to.eventually.be.rejected
+    return expect(() => Category.create({name: 'foo'})).to.eventually.be
+      .rejected
   })
 })

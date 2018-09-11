@@ -8,13 +8,13 @@ const Review = require('./review')
 
 //join table for many-to-many associations
 //http://docs.sequelizejs.com/class/lib/associations/belongs-to-many.js~BelongsToMany.html
-const ProductCategory = db.define('product_category')
+//const ProductCategory = db.define('product_category')
 
 Artist.hasMany(Product)
 Product.belongsTo(Artist)
 
-Product.belongsToMany(Category, {through: ProductCategory})
-Category.belongsToMany(Product, {through: ProductCategory})
+//Product.belongsToMany(Category, {through: ProductCategory})
+//Category.belongsToMany(Product, {through: ProductCategory})
 
 Product.hasMany(Review)
 Review.belongsTo(Product)
