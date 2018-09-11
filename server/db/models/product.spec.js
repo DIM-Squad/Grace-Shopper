@@ -12,13 +12,13 @@ describe('Category model', () => {
   })
 
   it('appropriately fills in default price', async function() {
-    const newProduct = await Product.create({
+    const newProduct = (await Product.create({
       name: 'Hello World Art',
       description: "Who says it isn't art?",
       artistId: 1,
       size: 'medium',
       quantity: 0
-    })
+    })).dataValues
 
     return expect(newProduct).to.have.ownProperty('price')
   })
