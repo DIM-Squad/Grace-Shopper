@@ -1,6 +1,6 @@
 {
   "name": "grace-shopper",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "It's the Grace Shopper project!",
   "engines": {
     "node": ">= 7.0.0"
