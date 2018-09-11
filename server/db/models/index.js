@@ -8,7 +8,7 @@ const Product = require('./product')
 Artist.hasMany(Product)
 Product.belongsTo(Artist)
 
-Product.hasMany(Categories)
+Product.hasMany(Category)
 Category.belongsToMany(Product)
 
 Product.hasMany(Review)
