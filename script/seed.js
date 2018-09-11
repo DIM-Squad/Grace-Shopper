@@ -9,16 +9,16 @@ const {
   Artist,
   Review
 } = require('../server/db/models')
-const Chance = require('chance')(95698435)
-const chance = new Chance()
+const Chance = require('chance')
+const chance = new Chance()(95698435)
 
 chance.mixin({
   user: () => ({
-    first: chance.first(),
-    last: chance.last(),
+    firstName: chance.first(),
+    lastName: chance.last(),
     email: chance.email(),
     address: `${chance.address()}, ${chance.city()}, ${chance.state()} ${chance.zip()}`,
-    role: chance.weighted(['admin', 'shopper'], [2, 48])
+    isAdmin: chance.bool({likelihood: 2})
   })
 })
 
