@@ -4,7 +4,7 @@ const db = require('../server/db')
 const {
   User,
   Product,
-  Tag,
+  Category,
   Order,
   Artist,
   Review
@@ -50,7 +50,7 @@ chance.mixin({
 })
 
 chance.mixin({
-  tag: () => ({name: chance.word()})
+  category: () => ({name: chance.word()})
 })
 
 chance.mixin({
@@ -80,10 +80,10 @@ async function seed() {
   console.log('db synced!')
 
   await Promise.all([
-    User.bulkCreate(chance.unique(chance.user), 400)
+    User.bulkCreate(chance.unique(chance.user), 400),
     //,Product.bulkCreate(chance.unique(chance.product(300))),
     //Order.bulkCreate(chance.unique(chance.order(30))),
-    //Tag.bulkCreate(chance.unique(chance.tag(30))),
+    Category.bulkCreate(chance.unique(chance.tag(30)))
     //Artist.bulkCreate(chance.unique(chance.artist(30))),
     //Review.bulkCreate(chance.unique(chance.review(100)))
   ])
