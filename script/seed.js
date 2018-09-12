@@ -7,7 +7,8 @@ const {
   Category,
   Order,
   Artist,
-  Review
+  Review,
+  ProductCategory
 } = require('../server/db/models')
 const Chance = require('chance')
 const chance = new Chance(95698435)
@@ -83,6 +84,19 @@ chance.mixin({
   })
 })
 
+const productCategoryAssociations = []
+
+for (let i = 1; i <= numOfProducts; i++) {
+  const numOfAssocs = chance.natural({min: 1, max: 4})
+  const assocs = chance.unique(
+    () => chance.natural({min: 1, max: numOfCategories}),
+    numOfAssocs
+  )
+  for (let j = 0; j < numOfAssocs; j++) {
+    productCategoryAssociations.push({productId: i, categoryId: assocs[j]})
+  }
+}
+
 async function seed() {
   await db.sync({force: true})
   console.log(`db ${db.config.database} synced!`)
@@ -95,6 +109,7 @@ async function seed() {
   await User.bulkCreate(chance.n(chance.user, numOfUsers))
   await Review.bulkCreate(chance.n(chance.review, numOfReviews))
   await Order.bulkCreate(chance.n(chance.order, numOfOrders))
+  await ProductCategory.bulkCreate(productCategoryAssociations)
 
   console.log(`seeded successfully`)
 }
