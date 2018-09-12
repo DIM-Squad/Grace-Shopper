@@ -7,10 +7,18 @@ const {
   Category,
   Order,
   Artist,
-  Review
+  Review,
+  ProductCategory
 } = require('../server/db/models')
 const Chance = require('chance')
 const chance = new Chance(95698435)
+
+const numOfCategories = 22
+const numOfArtists = 17
+const numOfProducts = 60
+const numOfUsers = 1000
+const numOfReviews = 670
+const numOfOrders = 3000
 
 chance.mixin({
   user: () => ({
@@ -38,7 +46,7 @@ chance.mixin({
     description: chance.paragraph(),
     price: chance.natural({min: 4, max: 1688}),
     imageUrl: '/favicon.ico',
-    //artistId: 1,
+    artistId: chance.natural({min: 1, max: numOfArtists}),
     size: chance.weighted(['small', 'medium', 'large'], [8, 21, 15]),
     quantity: chance.weighted([chance.natural({min: 0, max: 750}), 0], [15, 70])
   })
@@ -52,17 +60,13 @@ chance.mixin({
 })
 
 chance.mixin({
-  category: () => ({name: chance.word()})
-})
-
-chance.mixin({
   review: () => ({
     rating: chance.natural({min: 1, max: 5}),
     description: chance.paragraph(),
-    title: chance.words()
-    //userId: 1,
+    title: chance.words(),
+    userId: chance.natural({min: 1, max: numOfUsers}),
     //artistId: 1,
-    //productId: 1
+    productId: chance.natural({min: 1, max: numOfProducts})
   })
 })
 
@@ -80,18 +84,32 @@ chance.mixin({
   })
 })
 
+const productCategoryAssociations = []
+
+for (let i = 1; i <= numOfProducts; i++) {
+  const numOfAssocs = chance.natural({min: 1, max: 4})
+  const assocs = chance.unique(
+    () => chance.natural({min: 1, max: numOfCategories}),
+    numOfAssocs
+  )
+  for (let j = 0; j < numOfAssocs; j++) {
+    productCategoryAssociations.push({productId: i, categoryId: assocs[j]})
+  }
+}
+
 async function seed() {
   await db.sync({force: true})
   console.log(`db ${db.config.database} synced!`)
 
-  await Promise.all([
-    User.bulkCreate(chance.unique(chance.user, 400)),
-    Product.bulkCreate(chance.unique(chance.product, 300)),
-    Order.bulkCreate(chance.unique(chance.order, 30)),
-    Category.bulkCreate(chance.unique(chance.category, 30)),
-    Artist.bulkCreate(chance.unique(chance.artist, 30)),
-    Review.bulkCreate(chance.unique(chance.review, 100))
-  ])
+  await Category.bulkCreate(
+    chance.unique(chance.word, numOfCategories).map(w => ({name: w}))
+  )
+  await Artist.bulkCreate(chance.n(chance.artist, numOfArtists))
+  await Product.bulkCreate(chance.n(chance.product, numOfProducts))
+  await User.bulkCreate(chance.n(chance.user, numOfUsers))
+  await Review.bulkCreate(chance.n(chance.review, numOfReviews))
+  await Order.bulkCreate(chance.n(chance.order, numOfOrders))
+  await ProductCategory.bulkCreate(productCategoryAssociations)
 
   console.log(`seeded successfully`)
 }
