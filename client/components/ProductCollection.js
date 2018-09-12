@@ -26,9 +26,9 @@ class ProductCollection extends Component {
                 <Button
                   primary
                   floated="left"
-                  disabled={product.quantity !== 0}
+                  disabled={product.quantity === 0}
                 >
-                  {product.quantity === 0 ? 'Add to cart' : 'Out of stock'}
+                  {product.quantity !== 0 ? 'Add to cart' : 'Out of stock'}
                 </Button>
                 <Button primary floated="right">
                   See more details
