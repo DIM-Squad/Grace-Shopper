@@ -8,7 +8,8 @@ const {
   Order,
   Artist,
   Review,
-  ProductCategory
+  ProductCategory,
+  LineItem
 } = require('../server/db/models')
 const Chance = require('chance')
 const chance = new Chance(95698435)
@@ -19,6 +20,7 @@ const numOfProducts = 60
 const numOfUsers = 1000
 const numOfReviews = 670
 const numOfOrders = 3000
+const numOfLineItems = 10000
 
 chance.mixin({
   user: () => ({
@@ -84,6 +86,13 @@ chance.mixin({
   })
 })
 
+chance.mixin({
+  lineItem: () => ({
+    quantity: chance.natural({min: 1, max: 15}),
+    itemPrice: chance.natural({min: 4, max: 1688})
+  })
+})
+
 const productCategoryAssociations = []
 
 for (let i = 1; i <= numOfProducts; i++) {
@@ -94,6 +103,24 @@ for (let i = 1; i <= numOfProducts; i++) {
   )
   for (let j = 0; j < numOfAssocs; j++) {
     productCategoryAssociations.push({productId: i, categoryId: assocs[j]})
+  }
+}
+
+const lineItemAssociations = []
+
+for (let i = 1; i <= numOfOrders; i++) {
+  const numOfAssocs = chance.natural({min: 1, max: 10})
+  const assocs = chance.unique(
+    () => chance.natural({min: 1, max: numOfProducts}),
+    numOfAssocs
+  )
+  for (let j = 0; j < numOfAssocs; j++) {
+    lineItemAssociations.push({
+      orderId: i,
+      productId: assocs[j],
+      quantity: chance.natural({min: 1, max: 15}),
+      itemPrice: chance.natural({min: 400, max: 150000}) / 100
+    })
   }
 }
 
@@ -110,6 +137,7 @@ async function seed() {
   await Review.bulkCreate(chance.n(chance.review, numOfReviews))
   await Order.bulkCreate(chance.n(chance.order, numOfOrders))
   await ProductCategory.bulkCreate(productCategoryAssociations)
+  await LineItem.bulkCreate(lineItemAssociations)
 
   console.log(`seeded successfully`)
 }

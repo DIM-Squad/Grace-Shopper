@@ -28,7 +28,6 @@ describe('Line item', () => {
       })
       newLineItem = await LineItem.create({
         itemPrice: 9.0,
-        itemSKU: '9',
         productId: newProduct.id,
         orderId: newOrder.id
       })
