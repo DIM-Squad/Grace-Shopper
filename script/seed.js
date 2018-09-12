@@ -17,7 +17,7 @@ const chance = new Chance(95698435)
 const numOfCategories = 22
 const numOfArtists = 17
 const numOfProducts = 60
-const numOfUsers = 1000
+const numOfUsers = 999
 const numOfReviews = 670
 const numOfOrders = 3000
 
@@ -27,7 +27,8 @@ chance.mixin({
     lastName: chance.last(),
     email: chance.email(),
     address: `${chance.address()}, ${chance.city()}, ${chance.state()} ${chance.zip()}`,
-    isAdmin: chance.bool({likelihood: 2})
+    isAdmin: chance.bool({likelihood: 2}),
+    password: 'dimsquad'
   })
 })
 
@@ -49,7 +50,11 @@ chance.mixin({
     imageUrl: '/favicon.ico',
     artistId: chance.natural({min: 1, max: numOfArtists}),
     size: chance.weighted(['small', 'medium', 'large'], [8, 21, 15]),
-    quantity: chance.weighted([chance.natural({min: 0, max: 750}), 0], [15, 70])
+    quantity: chance.weighted(
+      [chance.natural({min: 0, max: 750}), 0],
+      [80, 15]
+    ),
+    featured: chance.bool({likelihood: 5})
   })
 })
 
@@ -125,7 +130,9 @@ async function seed() {
   )
   await Artist.bulkCreate(chance.n(chance.artist, numOfArtists))
   await Product.bulkCreate(chance.n(chance.product, numOfProducts))
-  await User.bulkCreate(chance.n(chance.user, numOfUsers))
+  await User.bulkCreate(chance.n(chance.user, numOfUsers), {
+    individualHooks: true
+  })
   await Review.bulkCreate(chance.n(chance.review, numOfReviews))
   await Order.bulkCreate(chance.n(chance.order, numOfOrders))
   await ProductCategory.bulkCreate(productCategoryAssociations)
