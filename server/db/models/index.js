@@ -5,6 +5,7 @@ const Order = require('./order')
 const Artist = require('./artist')
 const Product = require('./product')
 const Review = require('./review')
+const LineItem = require('./lineItem')
 
 //join table for many-to-many associations
 //http://docs.sequelizejs.com/class/lib/associations/belongs-to-many.js~BelongsToMany.html
@@ -26,11 +27,17 @@ Review.belongsTo(User)
 Artist.hasMany(Review)
 Review.belongsTo(Artist)
 
+Product.belongsToMany(Order, { through: LineItem })
+Order.belongsToMany(Product, {through: LineItem})
+
+
+
 module.exports = {
   User,
   Category,
   Product,
   Order,
   Artist,
-  Review
+  Review,
+  LineItem
 }
