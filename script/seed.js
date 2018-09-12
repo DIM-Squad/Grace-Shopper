@@ -8,7 +8,8 @@ const {
   Order,
   Artist,
   Review,
-  ProductCategory
+  ProductCategory,
+  LineItem
 } = require('../server/db/models')
 const Chance = require('chance')
 const chance = new Chance(95698435)
@@ -97,6 +98,24 @@ for (let i = 1; i <= numOfProducts; i++) {
   }
 }
 
+const lineItemAssociations = []
+
+for (let i = 1; i <= numOfOrders; i++) {
+  const numOfAssocs = chance.natural({min: 1, max: 10})
+  const assocs = chance.unique(
+    () => chance.natural({min: 1, max: numOfProducts}),
+    numOfAssocs
+  )
+  for (let j = 0; j < numOfAssocs; j++) {
+    lineItemAssociations.push({
+      orderId: i,
+      productId: assocs[j],
+      quantity: chance.natural({min: 1, max: 15}),
+      itemPrice: chance.natural({min: 400, max: 150000}) / 100
+    })
+  }
+}
+
 async function seed() {
   await db.sync({force: true})
   console.log(`db ${db.config.database} synced!`)
@@ -110,6 +129,7 @@ async function seed() {
   await Review.bulkCreate(chance.n(chance.review, numOfReviews))
   await Order.bulkCreate(chance.n(chance.order, numOfOrders))
   await ProductCategory.bulkCreate(productCategoryAssociations)
+  await LineItem.bulkCreate(lineItemAssociations)
 
   console.log(`seeded successfully`)
 }
