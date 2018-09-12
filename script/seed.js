@@ -20,7 +20,6 @@ const numOfProducts = 60
 const numOfUsers = 1000
 const numOfReviews = 670
 const numOfOrders = 3000
-const numOfLineItems = 10000
 
 chance.mixin({
   user: () => ({
@@ -83,13 +82,6 @@ chance.mixin({
     shippingCost: chance.natural({min: 100, max: 4500}) / 100,
     shippingZip: chance.zip(),
     email: chance.email()
-  })
-})
-
-chance.mixin({
-  lineItem: () => ({
-    quantity: chance.natural({min: 1, max: 15}),
-    itemPrice: chance.natural({min: 4, max: 1688})
   })
 })
 
