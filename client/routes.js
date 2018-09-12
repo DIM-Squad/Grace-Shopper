@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserHome, ProductCollection} from './components'
 import {me} from './store'
 
 /**
@@ -14,7 +14,10 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    //short-circuiting the auth for now!
+    const isLoggedIn = true
+
+    //const {isLoggedIn} = this.props
 
     return (
       <Switch>
@@ -25,6 +28,11 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route
+              path="/products/category/:categoryId"
+              component={ProductCollection}
+            />
+            <Route exact path="/products" component={ProductCollection} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
