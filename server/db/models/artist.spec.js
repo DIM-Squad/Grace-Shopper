@@ -20,7 +20,7 @@ describe('Artist model', () => {
       }
     })
 
-    it.only('requires name to not be an empty string', async () => {
+    it('requires name to not be an empty string', async () => {
       const artist = Artist.build({
         name: ''
       })

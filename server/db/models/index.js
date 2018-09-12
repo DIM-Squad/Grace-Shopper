@@ -1,32 +1,36 @@
+const db = require('../db')
 const User = require('./user')
 const Category = require('./category')
 const Order = require('./order')
-//const Artist = require('./artist')
-//const Review = require('./review')
+const Artist = require('./artist')
 const Product = require('./product')
 const Review = require('./review')
 
-//Artist.hasMany(Product)
-//Product.belongsTo(Artist)
+//join table for many-to-many associations
+//http://docs.sequelizejs.com/class/lib/associations/belongs-to-many.js~BelongsToMany.html
 
-//Product.hasMany(Category)
-//Category.belongsToMany(Product)
+const ProductCategory = db.define('product_category')
 
-//Product.hasMany(Review)
-//Review.belongsTo(Product)
+Artist.hasMany(Product)
+Product.belongsTo(Artist)
 
-//User.hasMany(Review)
-//Review.belongsTo(User)
+Product.belongsToMany(Category, {through: ProductCategory})
+Category.belongsToMany(Product, {through: ProductCategory})
 
-//Artist.hasMany(Review)
-//Review.belongsTo(Artist)
+Product.hasMany(Review)
+Review.belongsTo(Product)
+
+User.hasMany(Review)
+Review.belongsTo(User)
+
+Artist.hasMany(Review)
+Review.belongsTo(Artist)
 
 module.exports = {
   User,
   Category,
   Product,
-  Order
-  //Artist,
-  //Review
+  Order,
+  Artist,
   Review
 }

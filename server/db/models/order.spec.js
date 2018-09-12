@@ -8,7 +8,7 @@ chai.use(require('chai-as-promised'))
 
 describe('Category model', () => {
   beforeEach(() => {
-    db.sync({force: true})
+    return db.sync({force: true})
   })
 
   it('appropriately fills in default price', async function() {

@@ -38,7 +38,7 @@ chance.mixin({
     description: chance.paragraph(),
     price: chance.natural({min: 4, max: 1688}),
     imageUrl: '/favicon.ico',
-    artistId: 1,
+    //artistId: 1,
     size: chance.weighted(['small', 'medium', 'large'], [8, 21, 15]),
     quantity: chance.weighted([chance.natural({min: 0, max: 750}), 0], [15, 70])
   })
@@ -46,7 +46,8 @@ chance.mixin({
 
 chance.mixin({
   artist: () => ({
-    name: chance.name()
+    name: chance.name(),
+    slug: 'slug'
   })
 })
 
@@ -56,18 +57,21 @@ chance.mixin({
 
 chance.mixin({
   review: () => ({
-    stars: chance.natural({min: 1, max: 5}),
-    text: chance.paragraph(),
-    title: chance.words(),
-    userId: 1,
-    artistId: 1,
-    productId: 1
+    rating: chance.natural({min: 1, max: 5}),
+    description: chance.paragraph(),
+    title: chance.words()
+    //userId: 1,
+    //artistId: 1,
+    //productId: 1
   })
 })
 
 chance.mixin({
   order: () => ({
-    status: chance.weighted(['shipped', 'cancelled', 'confirmed'], [4, 1, 0.5]),
+    status: chance.weighted(
+      ['complete', 'cancelled', 'confirmed'],
+      [4, 1, 0.5]
+    ),
     shippingAddress: chance.address(),
     shippingState: chance.state({territories: true}),
     shippingCost: chance.natural({min: 100, max: 4500}) / 100,
@@ -78,15 +82,15 @@ chance.mixin({
 
 async function seed() {
   await db.sync({force: true})
-  console.log('db synced!')
+  console.log(`db ${db.config.database} synced!`)
 
   await Promise.all([
     User.bulkCreate(chance.unique(chance.user, 400)),
     Product.bulkCreate(chance.unique(chance.product, 300)),
-    //Order.bulkCreate(chance.unique(chance.order, 30)),
-    Category.bulkCreate(chance.unique(chance.category, 30))
-    //Artist.bulkCreate(chance.unique(chance.artist, 30)),
-    //Review.bulkCreate(chance.unique(chance.review, 100))
+    Order.bulkCreate(chance.unique(chance.order, 30)),
+    Category.bulkCreate(chance.unique(chance.category, 30)),
+    Artist.bulkCreate(chance.unique(chance.artist, 30)),
+    Review.bulkCreate(chance.unique(chance.review, 100))
   ])
 
   console.log(`seeded successfully`)
