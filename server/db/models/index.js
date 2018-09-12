@@ -1,5 +1,4 @@
 const db = require('../db')
-const Sequelize = require('sequelize')
 const User = require('./user')
 const Category = require('./category')
 const Order = require('./order')

@@ -14,7 +14,10 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    //short-circuiting the auth for now!
+    const isLoggedIn = true
+
+    //const {isLoggedIn} = this.props
 
     return (
       <Switch>
@@ -25,6 +28,10 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route
+              path="/products/category/:categoryId"
+              component={ProductCollection}
+            />
             <Route exact path="/products" component={ProductCollection} />
           </Switch>
         )}
