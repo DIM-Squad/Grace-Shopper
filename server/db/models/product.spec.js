@@ -25,7 +25,7 @@ describe('Product model', () => {
       expect(newProduct.dataValues).to.have.ownProperty('price')
     })
     it('sets a default value for price', () => {
-      expect(parseFloat(newProduct.price)).to.be.equal(999999.99)
+      expect(parseFloat(newProduct.price)).to.equal(999999.99)
     })
   })
 })

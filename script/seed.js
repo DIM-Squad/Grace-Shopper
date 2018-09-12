@@ -82,7 +82,7 @@ chance.mixin({
 
 async function seed() {
   await db.sync({force: true})
-  console.log('db synced!')
+  console.log(`db ${db.config.database} synced!`)
 
   await Promise.all([
     User.bulkCreate(chance.unique(chance.user, 400)),
