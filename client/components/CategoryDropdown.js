@@ -2,27 +2,37 @@ import React, {Component} from 'react'
 import {Dropdown} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {fetchCategories} from '../store/category'
-import {Navlink, withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
 class CategoryDropdown extends Component {
+  constructor() {
+    super()
+    this.handleClick = this.handleClick.bind(this)
+  }
   componentDidMount() {
+    //console.log('did mount ')
     this.props.fetchCategories()
   }
 
+  handleClick(event) {
+    //console.dir(event.currentTarget.id)
+    this.props.history.push(`/products/category/${event.currentTarget.id}`)
+  }
+
   render() {
-    console.log('HELOOO', this.props)
+    console.log('PROPS', this.props)
     return (
       <Dropdown text="Find by Category">
         <Dropdown.Menu>
-          {this.props.categories[1] &&
-            this.props.categories.map(category => (
-              <Dropdown.Item
-                key={category.id}
-                as={Navlink}
-                to={`/products/category/${category.id}`}
-                text={category.name}
-              />
-            ))}
+          {this.props.categories.map(category => (
+            <Dropdown.Item
+              onClick={this.handleClick}
+              key={category.id}
+              id={category.id}
+              //to={`/products/category/${category.id}`}
+              text={category.name}
+            />
+          ))}
         </Dropdown.Menu>
       </Dropdown>
     )

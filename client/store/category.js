@@ -8,11 +8,9 @@ const categoryError = () => ({type: CATEGORY_ERROR})
 
 export const fetchCategories = () => {
   return async dispatch => {
-    //console.log('HEYYYYY')
     try {
       const categoriesData = await axios.get('/api/categories')
       const categories = categoriesData.data
-      //console.log('ARE YOU THERE')
       dispatch(gotCategories(categories))
     } catch (err) {
       dispatch(categoryError())
