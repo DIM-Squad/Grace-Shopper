@@ -1,4 +1,4 @@
-import {Item, Button} from 'semantic-ui-react'
+import {Card, Button, Image, Icon} from 'semantic-ui-react'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
@@ -12,32 +12,48 @@ class ProductCollection extends Component {
     )
   }
 
+  addToCart = () => {
+    console.log('should add to cart')
+  }
+
+  goToProduct = id => {
+    this.props.history.push(`/products/${id}`)
+  }
+
   render() {
     return (
-      <Item.Group divided>
+      <Card.Group stackable centered>
         {this.props.products.map(product => (
-          <Item key={product.id}>
-            <Item.Image size="tiny" src={product.imageUrl} />
-            <Item.Content>
-              <Item.Header>{product.name}</Item.Header>
-              <Item.Meta>{product.artist.name}</Item.Meta>
-              <Item.Description>{product.description}</Item.Description>
-              <Item.Extra>
-                <Button
-                  primary
-                  floated="left"
-                  disabled={product.quantity !== 0}
-                >
-                  {product.quantity === 0 ? 'Add to cart' : 'Out of stock'}
-                </Button>
-                <Button primary floated="right">
-                  See more details
-                </Button>
-              </Item.Extra>
-            </Item.Content>
-          </Item>
+          <Card key={product.id}>
+            <Card.Content>
+              <Image size="medium" src={product.imageUrl} />
+              <Card.Header>{product.name}</Card.Header>
+              <Card.Meta>{product.artist.name}</Card.Meta>
+            </Card.Content>
+            <Card.Content extra>
+              <Button
+                primary
+                floated="right"
+                onClick={() => this.goToProduct(product.id)}
+              >
+                More details
+              </Button>
+              <Button
+                primary
+                floated="left"
+                disabled={product.quantity === 0}
+                onClick={this.addToCart}
+              >
+                {product.quantity !== 0 ? (
+                  <Icon name="shopping cart" />
+                ) : (
+                  'Out of stock'
+                )}
+              </Button>
+            </Card.Content>
+          </Card>
         ))}
-      </Item.Group>
+      </Card.Group>
     )
   }
 }
