@@ -38,3 +38,9 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/search/:key', async (req, res, next) => {
+  try {
+    const matchingProducts = await Product.findAll(})
+  }
+})

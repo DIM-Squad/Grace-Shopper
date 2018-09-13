@@ -39,6 +39,14 @@ const Product = db.define('product', {
   featured: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  keywords: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return this.getDataValue('name')
+        .toLowerCase()
+        .split(' ')
+    }
   }
 })
 
