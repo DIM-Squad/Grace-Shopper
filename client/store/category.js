@@ -3,14 +3,16 @@ import axios from 'axios'
 const GOT_CATEGORIES = 'GOT_CATEGORIES'
 const CATEGORY_ERROR = 'CATEGORY_ERROR'
 
-const gotCategories = categorys => ({type: GOT_CATEGORIES, categorys})
+const gotCategories = categories => ({type: GOT_CATEGORIES, categories})
 const categoryError = () => ({type: CATEGORY_ERROR})
 
 export const fetchCategories = () => {
   return async dispatch => {
+    //console.log('HEYYYYY')
     try {
       const categoriesData = await axios.get('/api/categories')
       const categories = categoriesData.data
+      //console.log('ARE YOU THERE')
       dispatch(gotCategories(categories))
     } catch (err) {
       dispatch(categoryError())
