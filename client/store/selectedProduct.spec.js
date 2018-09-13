@@ -1,5 +1,9 @@
 import {expect} from 'chai'
-import {fetchSelectedProduct} from './selectedProduct'
+import reducer, {
+  fetchSelectedProduct,
+  gotSelecetedProductFromServer,
+  selectedProductError
+} from './selectedProduct'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import configureMockStore from 'redux-mock-store'
@@ -45,6 +49,35 @@ describe('thunk creators', () => {
       await store.dispatch(fetchSelectedProduct('milica'))
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal('SELECTED_PRODUCT_ERROR')
+    })
+  })
+
+  describe('selectedProduct reducer', () => {
+    it('should return initial state', () => {
+      expect(reducer(undefined, {})).to.be.deep.equal(
+        initialState.selectedProduct
+      )
+    })
+    it('should handle GOT_SELECTED_PRODUCT_FROM_SERVER', () => {
+      const fakeSelectedProduct = {
+        name: 'Hello World Art',
+        description: "Who says it isn't art?",
+        size: 'medium',
+        quantity: 0,
+        artistId: 1
+      }
+
+      expect(
+        reducer(
+          initialState.selectedProduct,
+          gotSelecetedProductFromServer(fakeSelectedProduct)
+        )
+      ).to.be.deep.equal(fakeSelectedProduct)
+    })
+    it('should handle SELECTED_PRODUCT_ERROR', () => {
+      expect(reducer(initialState, selectedProductError())).to.be.deep.equal(
+        initialState
+      )
     })
   })
 })

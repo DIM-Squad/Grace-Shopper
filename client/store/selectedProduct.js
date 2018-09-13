@@ -16,11 +16,11 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-const gotSelecetedProductFromServer = selectedProduct => ({
+export const gotSelecetedProductFromServer = selectedProduct => ({
   type: GOT_SELECTED_PRODUCT_FROM_SERVER,
   selectedProduct
 })
-const selectedProductError = () => ({type: SELECTED_PRODUCT_ERROR})
+export const selectedProductError = () => ({type: SELECTED_PRODUCT_ERROR})
 
 /**
  * THUNK CREATORS
@@ -35,3 +35,16 @@ export const fetchSelectedProduct = productId => {
     }
   }
 }
+
+const selectedProduct = (state = initialState.selectedProduct, action) => {
+  switch (action.type) {
+    case SELECTED_PRODUCT_ERROR:
+      return state
+    case GOT_SELECTED_PRODUCT_FROM_SERVER:
+      return action.selectedProduct
+    default:
+      return state
+  }
+}
+
+export default selectedProduct
