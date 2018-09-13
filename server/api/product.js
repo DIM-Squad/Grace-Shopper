@@ -13,3 +13,15 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('category/:categoryId', async (req, res, next) => {
+  try {
+    const productList = await Product.findAll({
+      include: [{model: Artist}],
+      where: {categotyId: req.params.categoryId}
+    })
+    res.json(productList)
+  } catch (err) {
+    next(err)
+  }
+})
