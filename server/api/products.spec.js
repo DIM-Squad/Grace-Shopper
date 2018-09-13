@@ -5,7 +5,7 @@ const app = require('../index')
 const Product = db.model('product')
 const Artist = db.model('artist')
 
-describe.only('Product routes', () => {
+describe('Product routes', () => {
   let milica, cantona, eminem, monalisa
   beforeEach(async () => {
     await db.sync({force: true})
