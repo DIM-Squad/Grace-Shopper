@@ -6,7 +6,13 @@ module.exports = router
 router.get(`/:productId`, async (req, res, next) => {
   const productId = Number(req.params.productId)
   try {
-    const product = await Product.findById(productId)
+    const product = await Product.findById(productId, {
+      include: [
+        {
+          all: true
+        }
+      ]
+    })
     if (!product || product === {}) {
       res.status(404).end()
     } else {
