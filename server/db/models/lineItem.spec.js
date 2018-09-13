@@ -1,6 +1,6 @@
 const {expect} = require('chai')
 const db = require('../index')
-const LineItem = db.model('lineItem')
+const LineItem = db.model('line_item')
 const Order = db.model('order')
 const Product = db.model('product')
 
