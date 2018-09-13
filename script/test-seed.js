@@ -1,3 +1,5 @@
+// BUILD THIS SEED FILE MANUALLY
+
 'use strict'
 
 const db = require('../server/db')
@@ -12,14 +14,14 @@ const {
   LineItem
 } = require('../server/db/models')
 const Chance = require('chance')
-const chance = new Chance(95698435)
+const chance = new Chance(9569)
 
-const numOfCategories = 22
-const numOfArtists = 17
-const numOfProducts = 60
-const numOfUsers = 999
-const numOfReviews = 670
-const numOfOrders = 3000
+const numOfCategories = 5
+const numOfArtists = 2
+const numOfProducts = 10
+const numOfUsers = 3
+const numOfReviews = 6
+const numOfOrders = 10
 
 chance.mixin({
   user: () => ({
@@ -27,8 +29,7 @@ chance.mixin({
     lastName: chance.last(),
     email: chance.email(),
     address: `${chance.address()}, ${chance.city()}, ${chance.state()} ${chance.zip()}`,
-    isAdmin: chance.bool({likelihood: 2}),
-    password: 'dimsquad'
+    isAdmin: chance.bool({likelihood: 2})
   })
 })
 
@@ -50,11 +51,7 @@ chance.mixin({
     imageUrl: '/favicon.ico',
     artistId: chance.natural({min: 1, max: numOfArtists}),
     size: chance.weighted(['small', 'medium', 'large'], [8, 21, 15]),
-    quantity: chance.weighted(
-      [chance.natural({min: 0, max: 750}), 0],
-      [80, 15]
-    ),
-    featured: chance.bool({likelihood: 5})
+    quantity: chance.weighted([chance.natural({min: 0, max: 750}), 0], [15, 70])
   })
 })
 
@@ -71,7 +68,6 @@ chance.mixin({
     description: chance.paragraph(),
     title: chance.words(),
     userId: chance.natural({min: 1, max: numOfUsers}),
-    //artistId: 1,
     productId: chance.natural({min: 1, max: numOfProducts})
   })
 })
@@ -125,20 +121,21 @@ async function seed() {
   await db.sync({force: true})
   console.log(`db ${db.config.database} synced!`)
 
-  await Category.bulkCreate(
+  const categories = await Category.bulkCreate(
     chance.unique(chance.word, numOfCategories).map(w => ({name: w}))
   )
-  await Artist.bulkCreate(chance.n(chance.artist, numOfArtists))
-  await Product.bulkCreate(chance.n(chance.product, numOfProducts))
-  await User.bulkCreate(chance.n(chance.user, numOfUsers), {
-    individualHooks: true
-  })
-  await Review.bulkCreate(chance.n(chance.review, numOfReviews))
-  await Order.bulkCreate(chance.n(chance.order, numOfOrders))
+  const artists = await Artist.bulkCreate(chance.n(chance.artist, numOfArtists))
+  const products = await Product.bulkCreate(
+    chance.n(chance.product, numOfProducts)
+  )
+  const users = await User.bulkCreate(chance.n(chance.user, numOfUsers))
+  const reviews = await Review.bulkCreate(chance.n(chance.review, numOfReviews))
+  const orders = await Order.bulkCreate(chance.n(chance.order, numOfOrders))
+  const lineItems = await LineItem.bulkCreate(lineItemAssociations)
   await ProductCategory.bulkCreate(productCategoryAssociations)
-  await LineItem.bulkCreate(lineItemAssociations)
 
   console.log(`seeded successfully`)
+  return [categories, artists, products, users, reviews, orders, lineItems]
 }
 
 // We've separated the `seed` function from the `runSeed` function.

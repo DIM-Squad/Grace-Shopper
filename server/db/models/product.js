@@ -35,6 +35,10 @@ const Product = db.define('product', {
   size: {
     type: Sequelize.ENUM('large', 'medium', 'small'),
     allowNull: false
+  },
+  featured: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
