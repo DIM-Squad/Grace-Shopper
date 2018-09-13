@@ -1,13 +1,17 @@
 // Product routes
 const router = require('express').Router()
-const {Product} = require('../db/models')
+const {Product, Category, Artist} = require('../db/models')
 module.exports = router
 
-router.get('/:id', async (req, res, next) => {
-  const productId = Number(req.params.id)
+router.get(`/:productId`, async (req, res, next) => {
+  const productId = Number(req.params.productId)
   try {
     const product = await Product.findById(productId)
-    res.status(200).join(product)
+    if (!product || product === {}) {
+      res.status(404).end()
+    } else {
+      res.status(200).json(product)
+    }
   } catch (err) {
     next(err)
   }
@@ -16,9 +20,13 @@ router.get('/:id', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const productList = await Product.findAll({
-      include: [{all: true}]
+      include: [{model: Category}, {model: Artist}]
     })
-    res.status(200).json(productList)
+    if (!productList.length) {
+      res.status(404).end()
+    } else {
+      res.status(200).json(productList)
+    }
   } catch (err) {
     next(err)
   }

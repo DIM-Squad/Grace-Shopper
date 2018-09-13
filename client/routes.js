@@ -14,10 +14,7 @@ class Routes extends Component {
   }
 
   render() {
-    //short-circuiting the auth for now!
-    const isLoggedIn = true
-
-    //const {isLoggedIn} = this.props
+    const {isLoggedIn} = this.props
 
     return (
       <Switch>

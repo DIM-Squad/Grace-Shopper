@@ -1,3 +1,5 @@
+// BUILD THIS SEED FILE MANUALLY
+
 'use strict'
 
 const db = require('../server/db')
