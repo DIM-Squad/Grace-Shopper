@@ -1,6 +1,7 @@
 // Product routes
 const router = require('express').Router()
 const {Product, Category, Artist, Review, User} = require('../db/models')
+const Op = require('sequelize').Op
 module.exports = router
 
 router.get(`/:productId`, async (req, res, next) => {
@@ -41,6 +42,12 @@ router.get('/', async (req, res, next) => {
 
 router.get('/search/:key', async (req, res, next) => {
   try {
-    const matchingProducts = await Product.findAll(})
+    const matchingProducts = await Product.findAll({
+      limit: 10,
+      where: {name: {[Op.iLike]: '%' + req.params.key + '%'}}
+    })
+    console.log(matchingProducts.map(p => p.dataValues.name))
+  } catch (err) {
+    next(err)
   }
 })
