@@ -3,6 +3,7 @@ import {Dropdown} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {fetchCategories} from '../store/category'
 import {withRouter} from 'react-router-dom'
+import {fetchProducts} from '../store/products'
 
 class CategoryDropdown extends Component {
   constructor() {
@@ -16,11 +17,13 @@ class CategoryDropdown extends Component {
 
   handleClick(event) {
     //console.dir(event.currentTarget.id)
-    this.props.history.push(`/products/category/${event.currentTarget.id}`)
+    const id = event.currentTarget.id
+    this.props.fetchProducts(id)
+    this.props.history.push(`/products/category/${id}`)
   }
 
   render() {
-    console.log('PROPS', this.props)
+    //console.log('PROPS', this.props)
     return (
       <Dropdown text="Find by Category">
         <Dropdown.Menu>
@@ -41,7 +44,8 @@ class CategoryDropdown extends Component {
 
 const mapStateToProps = state => ({categories: state.categories})
 const mapDispatchToProps = dispatch => ({
-  fetchCategories: () => dispatch(fetchCategories())
+  fetchCategories: () => dispatch(fetchCategories()),
+  fetchProducts: id => dispatch(fetchProducts('category', id))
 })
 
 export default withRouter(

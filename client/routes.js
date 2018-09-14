@@ -26,10 +26,9 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route
-              path="/products/category/:categoryId"
+              path="/products/:filterType?/:filterId?"
               component={ProductCollection}
             />
-            <Route exact path="/products" component={ProductCollection} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
