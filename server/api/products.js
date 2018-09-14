@@ -46,7 +46,11 @@ router.get('/search/:key', async (req, res, next) => {
       limit: 10,
       where: {name: {[Op.iLike]: '%' + req.params.key + '%'}}
     })
-    console.log(matchingProducts.map(p => p.dataValues.name))
+    if (matchingProducts) {
+      res.status(200).json(matchingProducts)
+    } else {
+      res.status(200).json([])
+    }
   } catch (err) {
     next(err)
   }

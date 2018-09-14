@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {SearchBar} from './'
+import CategoryDropdown from './CategoryDropdown'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
@@ -17,6 +18,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
             Logout
           </a>
           <SearchBar />
+          <CategoryDropdown />
         </div>
       ) : (
         <div>
