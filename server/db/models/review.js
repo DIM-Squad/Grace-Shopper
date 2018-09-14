@@ -26,4 +26,12 @@ const Review = db.define('review', {
   }
 })
 
+// // Class methods
+// Review.getAverageProductReview = function(productId) {
+//   return this.findAll({
+//     where: {productId},
+//     attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'ratingAvg']]
+//   })
+// }
+
 module.exports = Review
