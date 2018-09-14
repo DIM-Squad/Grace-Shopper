@@ -55,6 +55,10 @@ const User = db.define('user', {
       isEmail: true
     }
   },
+  // imageUrl: {
+  //   type: Sequelize.STRING,
+  //   defaultValue: 'https://semantic-ui.com/images/avatar2/large/elyse.png'
+  // },
 
   password: {
     type: Sequelize.STRING,
