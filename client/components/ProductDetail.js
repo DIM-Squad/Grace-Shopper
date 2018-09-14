@@ -17,7 +17,6 @@ class ProductDetail extends Component {
 
   render() {
     const selectedProduct = this.props.selectedProduct
-    console.log('REVIEWS', selectedProduct.reviews)
     return (
       <Container>
         <Grid container>
