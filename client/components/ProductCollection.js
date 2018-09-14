@@ -6,11 +6,9 @@ import {fetchProducts} from '../store/products'
 
 class ProductCollection extends Component {
   componentDidMount = () => {
-    console.log(this.props.match.params)
-    console.log(this.props.products)
     this.props.fetchProducts(
       this.props.match.params.filterType,
-      Number(this.props.match.params.filterId)
+      this.props.match.params.filterId
     )
   }
 

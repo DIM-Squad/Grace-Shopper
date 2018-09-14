@@ -43,8 +43,9 @@ router.get('/', async (req, res, next) => {
 router.get('/search/:key', async (req, res, next) => {
   try {
     const matchingProducts = await Product.findAll({
+      where: {name: {[Op.iLike]: '%' + req.params.key + '%'}},
       limit: 20,
-      where: {name: {[Op.iLike]: '%' + req.params.key + '%'}}
+      include: [{model: Artist}]
     })
     if (matchingProducts) {
       res.status(200).json(matchingProducts)
@@ -60,7 +61,7 @@ router.get('/category/:id', async (req, res, next) => {
   try {
     res.status(200).json(
       (await Category.findById(Number(req.params.id), {
-        include: [{model: Product}]
+        include: [{model: Product, include: [{model: Artist}]}]
       })).products
     )
   } catch (err) {

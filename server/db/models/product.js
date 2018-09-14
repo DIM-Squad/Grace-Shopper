@@ -47,6 +47,14 @@ const Product = db.define('product', {
         .toLowerCase()
         .split(' ')
     }
+  },
+  avgRating: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: 5
+    }
   }
 })
 

@@ -13,7 +13,7 @@ export const fetchProducts = (filterType, filterId) => {
       if (filterType) {
         result = await axios.get(`/api/products/${filterType}/${filterId}`)
       } else {
-        result = await axios.get(`api/products`)
+        result = await axios.get(`/api/products`)
       }
       dispatch(gotProducts(result.data))
     } catch (err) {

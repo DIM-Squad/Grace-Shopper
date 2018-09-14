@@ -15,6 +15,14 @@ const Artist = db.define('artist', {
     validate: {
       notEmpty: true
     }
+  },
+  avgRating: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: 5
+    }
   }
 })
 
