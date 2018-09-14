@@ -6,9 +6,11 @@ import {fetchProducts} from '../store/products'
 
 class ProductCollection extends Component {
   componentDidMount = () => {
+    console.log(this.props.match.params)
     console.log(this.props.products)
     this.props.fetchProducts(
-      this.props.match.params && Number(this.props.match.params.categoryId)
+      this.props.match.params.filterType,
+      Number(this.props.match.params.filterId)
     )
   }
 
@@ -60,7 +62,8 @@ class ProductCollection extends Component {
 
 const mapStateToProps = state => ({products: state.products})
 const mapDispatchToProps = dispatch => ({
-  fetchProducts: filter => dispatch(fetchProducts(0, filter))
+  fetchProducts: (filterType, filterId) =>
+    dispatch(fetchProducts(filterType, filterId))
 })
 
 export default withRouter(

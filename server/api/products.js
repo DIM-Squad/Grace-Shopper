@@ -4,7 +4,7 @@ const {Product, Category, Artist, Review, User} = require('../db/models')
 const Op = require('sequelize').Op
 module.exports = router
 
-router.get(`/:productId`, async (req, res, next) => {
+router.get('/:productId', async (req, res, next) => {
   const productId = Number(req.params.productId)
   try {
     const product = await Product.findById(productId, {
@@ -43,7 +43,7 @@ router.get('/', async (req, res, next) => {
 router.get('/search/:key', async (req, res, next) => {
   try {
     const matchingProducts = await Product.findAll({
-      limit: 10,
+      limit: 20,
       where: {name: {[Op.iLike]: '%' + req.params.key + '%'}}
     })
     if (matchingProducts) {
@@ -51,6 +51,18 @@ router.get('/search/:key', async (req, res, next) => {
     } else {
       res.status(200).json([])
     }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/category/:id', async (req, res, next) => {
+  try {
+    res.status(200).json(
+      (await Category.findById(Number(req.params.id), {
+        include: [{model: Product}]
+      })).products
+    )
   } catch (err) {
     next(err)
   }
