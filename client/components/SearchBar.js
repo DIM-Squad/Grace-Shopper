@@ -32,7 +32,8 @@ class SearchBar extends Component {
   } */
 
   handleSubmit = () => {
-    this.props.history.push(`products/search/${this.state.searchTerm}`)
+    this.props.fetchProducts(this.state.searchTerm)
+    this.props.history.push(`/products/search/${this.state.searchTerm}`)
   }
 
   render() {
