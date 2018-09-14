@@ -41,6 +41,15 @@ const User = db.define('user', {
     }
   },
 
+  avgRating: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: 5
+    }
+  },
+
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
