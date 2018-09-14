@@ -18,8 +18,8 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.DECIMAL(10, 2),
-    defaultValue: 999999.99
+    type: Sequelize.INTEGER,
+    defaultValue: 99999999
   },
   imageUrl: {
     type: Sequelize.STRING,
@@ -39,6 +39,22 @@ const Product = db.define('product', {
   featured: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  keywords: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return this.getDataValue('name')
+        .toLowerCase()
+        .split(' ')
+    }
+  },
+  avgRating: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: 5
+    }
   }
 })
 

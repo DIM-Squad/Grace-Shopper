@@ -7,4 +7,8 @@ export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
 export {default as ProductCollection} from './ProductCollection'
+<<<<<<< HEAD
 export {default as ProductDetail} from './ProductDetail'
+=======
+export {default as SearchBar} from './SearchBar'
+>>>>>>> 0e2f356751168ddc474b7c20440360beb942008f

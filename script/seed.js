@@ -46,7 +46,7 @@ chance.mixin({
   product: () => ({
     name: chance.words(),
     description: chance.paragraph(),
-    price: chance.natural({min: 4, max: 1688}),
+    price: chance.natural({min: 400, max: 168800}),
     imageUrl: '/favicon.ico',
     artistId: chance.natural({min: 1, max: numOfArtists}),
     size: chance.weighted(['small', 'medium', 'large'], [8, 21, 15]),
@@ -84,7 +84,7 @@ chance.mixin({
     ),
     shippingAddress: chance.address(),
     shippingState: chance.state({territories: true}),
-    shippingCost: chance.natural({min: 100, max: 4500}) / 100,
+    shippingCost: chance.natural({min: 100, max: 4500}),
     shippingZip: chance.zip(),
     email: chance.email()
   })
@@ -116,7 +116,7 @@ for (let i = 1; i <= numOfOrders; i++) {
       orderId: i,
       productId: assocs[j],
       quantity: chance.natural({min: 1, max: 15}),
-      itemPrice: chance.natural({min: 400, max: 150000}) / 100
+      itemPrice: chance.natural({min: 400, max: 150000})
     })
   }
 }

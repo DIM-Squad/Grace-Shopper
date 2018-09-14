@@ -3,7 +3,7 @@ const db = require('../db')
 
 const LineItem = db.define('line_item', {
   itemPrice: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       notEmpty: true
