@@ -6,7 +6,7 @@ import {fetchProducts} from '../store/products'
 
 class ProductCollection extends Component {
   componentDidMount = () => {
-    console.log(this.props.products)
+    // console.log(this.props.products)
     this.props.fetchProducts(
       this.props.match.params && Number(this.props.match.params.categoryId)
     )
