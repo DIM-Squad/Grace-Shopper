@@ -18,8 +18,8 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.DECIMAL(10, 2),
-    defaultValue: 999999.99
+    type: Sequelize.INTEGER,
+    defaultValue: 99999999
   },
   imageUrl: {
     type: Sequelize.STRING,
