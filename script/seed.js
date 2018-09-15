@@ -54,7 +54,7 @@ chance.mixin({
       [chance.natural({min: 0, max: 750}), 0],
       [80, 15]
     ),
-    featured: chance.bool({likelihood: 5})
+    featured: chance.bool({likelihood: 15})
   })
 })
 
