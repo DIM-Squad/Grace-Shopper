@@ -16,7 +16,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       </span>{' '}
       <span> Art</span>
     </Menu.Item>
-    <Menu.Item as={SearchBar} />
+    <Menu.Item as={SearchBar} type="products" />
     <Menu.Item as={CategoryDropdown} />
     <Menu.Menu position="right">
       {isLoggedIn ? (
