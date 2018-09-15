@@ -6,6 +6,22 @@ import {withRouter} from 'react-router-dom'
 import {fetchSelectedProduct} from '../store/selectedProduct'
 import Review from './Review'
 
+const AvgRating = props => {
+  if (!props.avgRating) {
+    return null
+  }
+  return (
+    <Item.Meta>
+      <Rating
+        icon="star"
+        defaultRating={props.avgRating}
+        maxRating={5}
+        disabled
+      />
+    </Item.Meta>
+  )
+}
+
 class ProductDetail extends Component {
   componentDidMount = () => {
     this.props.fetchSelectedProduct(Number(this.props.match.params.id))
@@ -31,17 +47,12 @@ class ProductDetail extends Component {
                 <Grid.Column>
                   <Item>
                     <Item.Content>
-                      <Rating
-                        icon="star"
-                        defaultRating={4}
-                        maxRating={4}
-                        disabled
-                      />
-                      <Divider hidden />
                       <Item.Header>
                         <strong>{selectedProduct.name}</strong>
                         <Divider hidden />
                       </Item.Header>
+                      <AvgRating avgRating={selectedProduct.avgRating} />
+                      <Divider hidden />
                       <Item.Meta>
                         <span className="price">${selectedProduct.price}</span>
                         <Divider hidden />
@@ -58,26 +69,6 @@ class ProductDetail extends Component {
             </Grid>
           </Grid.Row>
         </Grid>
-        {/* <Item.Group>
-          <Item>
-          <Image size="large" src={selectedProduct.imageUrl} />
-          <Item.Content>
-          <Item.Header>
-          <strong>{selectedProduct.name}</strong>
-          <Divider hidden />
-          </Item.Header>
-          <Item.Meta>
-          <span className="price">${selectedProduct.price}</span>
-          <Divider hidden />
-          </Item.Meta>
-          <Divider hidden />
-          <Item.Description>
-          {selectedProduct.description}
-          <Divider hidden />
-          </Item.Description>
-          </Item.Content>
-          </Item>
-        </Item.Group> */}
         <Divider />
         {selectedProduct.reviews &&
           selectedProduct.reviews.map(review => (

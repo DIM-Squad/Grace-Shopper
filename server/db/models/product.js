@@ -40,14 +40,7 @@ const Product = db.define('product', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
-  keywords: {
-    type: Sequelize.VIRTUAL,
-    get() {
-      return this.getDataValue('name')
-        .toLowerCase()
-        .split(' ')
-    }
-  },
+
   avgRating: {
     type: Sequelize.INTEGER,
     defaultValue: 0,

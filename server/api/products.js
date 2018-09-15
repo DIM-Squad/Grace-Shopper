@@ -15,12 +15,13 @@ router.get('/:productId', async (req, res, next) => {
         }
       ]
     })
-    console.log('Average Product Rating =>', avgProductRating.get('avgRating'))
-    const avgProductRating = await Review.getAverageProductRating(productId)
 
-    console.log('Magic Methods=>', Object.keys(product.__proto__))
-    const reviews = await product.getReviews()
-    console.log('Reviews from Magic Methods =>', reviews)
+    const avgProductRating = await Review.getAverageProductRating(productId)
+    // console.log('Average Product Rating =>', avgProductRating)
+
+    // console.log('Magic Methods=>', Object.keys(product.__proto__))
+    // const reviews = await product.getReviews()
+    // console.log('Reviews from Magic Methods =>', reviews)
     if (!product || product === {}) {
       res.status(404).end()
     } else {
