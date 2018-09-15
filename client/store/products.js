@@ -7,7 +7,6 @@ const gotProducts = products => ({type: GOT_PRODUCTS, products})
 const productsError = () => ({type: PRODUCTS_ERROR})
 
 export const fetchProducts = (filterType, filterId) => {
-  console.log(filterType, filterId)
   return async dispatch => {
     try {
       let result
