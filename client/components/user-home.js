@@ -1,17 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Container, Header} from 'semantic-ui-react'
+import ProductCollection from './ProductCollection'
 
 /**
  * COMPONENT
  */
 export const UserHome = props => {
-  const {email} = props
+  const {firstName} = props
 
   return (
-    <div>
-      <h3>Welcome, {email}</h3>
-    </div>
+    <Container>
+      <Header as="h1">Welcome, {firstName}</Header>
+      <Header as="h2">See our featured products!</Header>
+      <ProductCollection featured />
+    </Container>
   )
 }
 
@@ -20,7 +24,8 @@ export const UserHome = props => {
  */
 const mapState = state => {
   return {
-    email: state.user.email
+    email: state.user.email,
+    firstName: state.user.firstName
   }
 }
 

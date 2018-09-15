@@ -68,3 +68,18 @@ router.get('/category/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/featured/true', async (req, res, next) => {
+  try {
+    res
+      .status(200)
+      .json(
+        await Product.findAll({
+          where: {featured: true},
+          include: {model: Artist}
+        })
+      )
+  } catch (err) {
+    next(err)
+  }
+})

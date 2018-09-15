@@ -2,7 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {Form, Container, Header, Divider, Button} from 'semantic-ui-react'
+import {
+  Form,
+  Container,
+  Header,
+  Divider,
+  Button,
+  Message
+} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -10,7 +17,11 @@ import {Form, Container, Header, Divider, Button} from 'semantic-ui-react'
 class AuthForm extends Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    passwordDupe: '',
+    firstName: '',
+    lastName: '',
+    address: ''
   }
 
   render() {
@@ -18,7 +29,11 @@ class AuthForm extends Component {
     return (
       <Container>
         <Header as="h1">{displayName}</Header>
-        <Form onSubmit={() => handleSubmit(name, this.state)} name={name}>
+        <Form
+          onSubmit={() => handleSubmit(name, this.state)}
+          name={name}
+          className={error ? 'error' : ''}
+        >
           <Form.Group>
             <Form.Field width={4}>
               <label>email</label>
@@ -41,9 +56,69 @@ class AuthForm extends Component {
                 }}
               />
             </Form.Field>
+            {name === 'signup' && (
+              <Form.Field
+                className={
+                  this.state.password !== this.state.passwordDupe ? 'error' : ''
+                }
+              >
+                <label> repeat password</label>
+                <input
+                  placeholder="password"
+                  type="password"
+                  width={4}
+                  onChange={e => {
+                    this.setState({
+                      passwordDupe: e.currentTarget.value
+                    })
+                  }}
+                />
+              </Form.Field>
+            )}
           </Form.Group>
+          {name === 'signup' && (
+            <Form.Group>
+              <Form.Field width={6}>
+                <label>First Name</label>
+                <input
+                  placeholder="First Name"
+                  value={this.state.firstName}
+                  onChange={e => {
+                    this.setState({firstName: e.currentTarget.value})
+                  }}
+                />
+              </Form.Field>
+              <Form.Field width={6}>
+                <label>Last Name</label>
+                <input
+                  placeholder="Last Name"
+                  value={this.state.lastName}
+                  onChange={e => {
+                    this.setState({lastName: e.currentTarget.value})
+                  }}
+                />
+              </Form.Field>
+            </Form.Group>
+          )}
+          {name === 'signup' && (
+            <Form.Group>
+              <Form.Field width={12}>
+                <label>Street Address</label>
+                <input
+                  placeholder="34 Oz Blvd, Denver, CO 99459"
+                  value={this.state.address}
+                  onChange={e => {
+                    this.setState({address: e.currentTarget.value})
+                  }}
+                />
+              </Form.Field>
+            </Form.Group>
+          )}
+          {error &&
+            error.response && (
+              <Message error header="Fail" content={error.response.data} />
+            )}
           <Form.Button type="submit">{displayName}</Form.Button>
-          {error && error.response && <div> {error.response.data} </div>}
           <Divider>or</Divider>
           <Button as="a" href="/auth/google">
             {displayName} with Google
@@ -79,8 +154,8 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleSubmit(name, {email, password}) {
-      dispatch(auth(email, password, name))
+    handleSubmit(name, state) {
+      dispatch(auth(state, name))
     }
   }
 }

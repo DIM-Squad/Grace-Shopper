@@ -6,10 +6,14 @@ import {fetchProducts} from '../store/products'
 
 class ProductCollection extends Component {
   componentDidMount = () => {
-    this.props.fetchProducts(
-      this.props.match.params.filterType,
-      this.props.match.params.filterId
-    )
+    let filterType, filterId
+    if (this.props.featured) {
+      filterType = 'featured'
+      filterId = 'true'
+    } else {
+      ;({filterType, filterId} = this.props.match.params)
+    }
+    this.props.fetchProducts(filterType, filterId)
   }
 
   addToCart = () => {
