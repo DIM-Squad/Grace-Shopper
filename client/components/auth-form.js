@@ -1,37 +1,132 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {
+  Form,
+  Container,
+  Header,
+  Divider,
+  Button,
+  Message
+} from 'semantic-ui-react'
 
 /**
  * COMPONENT
  */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+class AuthForm extends Component {
+  state = {
+    email: '',
+    password: '',
+    passwordDupe: '',
+    firstName: '',
+    lastName: '',
+    address: ''
+  }
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
-  )
+  render() {
+    const {name, displayName, handleSubmit, error} = this.props
+    return (
+      <Container>
+        <Header as="h1">{displayName}</Header>
+        <Form
+          onSubmit={() => handleSubmit(name, this.state)}
+          name={name}
+          className={error ? 'error' : ''}
+        >
+          <Form.Group>
+            <Form.Field width={4}>
+              <label>email</label>
+              <input
+                placeholder="email"
+                value={this.state.email}
+                onChange={e => {
+                  this.setState({email: e.currentTarget.value})
+                }}
+              />
+            </Form.Field>
+            <Form.Field width={4}>
+              <label>password</label>
+              <input
+                placeholder="password"
+                value={this.state.password}
+                type="password"
+                onChange={e => {
+                  this.setState({password: e.currentTarget.value})
+                }}
+              />
+            </Form.Field>
+            {name === 'signup' && (
+              <Form.Field
+                className={
+                  this.state.password !== this.state.passwordDupe ? 'error' : ''
+                }
+              >
+                <label> repeat password</label>
+                <input
+                  placeholder="password"
+                  type="password"
+                  width={4}
+                  onChange={e => {
+                    this.setState({
+                      passwordDupe: e.currentTarget.value
+                    })
+                  }}
+                />
+              </Form.Field>
+            )}
+          </Form.Group>
+          {name === 'signup' && (
+            <Form.Group>
+              <Form.Field width={6}>
+                <label>First Name</label>
+                <input
+                  placeholder="First Name"
+                  value={this.state.firstName}
+                  onChange={e => {
+                    this.setState({firstName: e.currentTarget.value})
+                  }}
+                />
+              </Form.Field>
+              <Form.Field width={6}>
+                <label>Last Name</label>
+                <input
+                  placeholder="Last Name"
+                  value={this.state.lastName}
+                  onChange={e => {
+                    this.setState({lastName: e.currentTarget.value})
+                  }}
+                />
+              </Form.Field>
+            </Form.Group>
+          )}
+          {name === 'signup' && (
+            <Form.Group>
+              <Form.Field width={12}>
+                <label>Street Address</label>
+                <input
+                  placeholder="34 Oz Blvd, Denver, CO 99459"
+                  value={this.state.address}
+                  onChange={e => {
+                    this.setState({address: e.currentTarget.value})
+                  }}
+                />
+              </Form.Field>
+            </Form.Group>
+          )}
+          {error &&
+            error.response && (
+              <Message error header="Fail" content={error.response.data} />
+            )}
+          <Form.Button type="submit">{displayName}</Form.Button>
+          <Divider>or</Divider>
+          <Button as="a" href="/auth/google">
+            {displayName} with Google
+          </Button>
+        </Form>
+      </Container>
+    )
+  }
 }
 
 /**
@@ -59,12 +154,8 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+    handleSubmit(name, state) {
+      dispatch(auth(state, name))
     }
   }
 }
