@@ -1,9 +1,7 @@
 import React from 'react'
-import {Item} from 'semantic-ui-react'
-import {connect} from 'react-redux'
+import {Item, Rating} from 'semantic-ui-react'
 
 const Review = props => {
-  //console.log('PROPS', props)
   return (
     <Item.Group>
       <Item>
@@ -13,6 +11,14 @@ const Review = props => {
         />
         <Item.Content>
           <Item.Header>{props.review.title}</Item.Header>
+          <Item.Meta>
+            <Rating
+              icon="star"
+              defaultRating={props.review.rating}
+              maxRating={5}
+              disabled
+            />
+          </Item.Meta>
           <Item.Description>{props.review.description} </Item.Description>
         </Item.Content>
       </Item>
