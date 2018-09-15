@@ -24,6 +24,9 @@ Review.belongsTo(Product)
 User.hasMany(Review)
 Review.belongsTo(User)
 
+User.hasMany(Order)
+Order.belongsTo(User)
+
 //Not going to do this yet because it is complicated to seed.
 //Artist.hasMany(Review)
 //Review.belongsTo(Artist)

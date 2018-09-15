@@ -82,6 +82,7 @@ chance.mixin({
       ['complete', 'cancelled', 'confirmed'],
       [4, 1, 0.5]
     ),
+    userId: chance.natural({min: 1, max: numOfUsers}),
     shippingAddress: chance.address(),
     shippingState: chance.state({territories: true}),
     shippingCost: chance.natural({min: 100, max: 4500}),
