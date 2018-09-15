@@ -14,12 +14,12 @@ const {
 const Chance = require('chance')
 const chance = new Chance(95698435)
 
-const numOfCategories = 22
-const numOfArtists = 17
+const numOfCategories = 13
+const numOfArtists = 12
 const numOfProducts = 60
-const numOfUsers = 999
-const numOfReviews = 670
-const numOfOrders = 3000
+const numOfUsers = 200
+const numOfReviews = 230
+const numOfOrders = 1000
 
 chance.mixin({
   user: () => ({
@@ -93,7 +93,7 @@ chance.mixin({
 const productCategoryAssociations = []
 
 for (let i = 1; i <= numOfProducts; i++) {
-  const numOfAssocs = chance.natural({min: 1, max: 4})
+  const numOfAssocs = chance.natural({min: 1, max: 3})
   const assocs = chance.unique(
     () => chance.natural({min: 1, max: numOfCategories}),
     numOfAssocs
@@ -106,7 +106,7 @@ for (let i = 1; i <= numOfProducts; i++) {
 const lineItemAssociations = []
 
 for (let i = 1; i <= numOfOrders; i++) {
-  const numOfAssocs = chance.natural({min: 1, max: 10})
+  const numOfAssocs = chance.natural({min: 1, max: 5})
   const assocs = chance.unique(
     () => chance.natural({min: 1, max: numOfProducts}),
     numOfAssocs
