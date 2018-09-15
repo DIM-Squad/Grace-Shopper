@@ -133,7 +133,9 @@ async function seed() {
   await User.bulkCreate(chance.n(chance.user, numOfUsers), {
     individualHooks: true
   })
-  await Review.bulkCreate(chance.n(chance.review, numOfReviews))
+  await Review.bulkCreate(chance.n(chance.review, numOfReviews), {
+    individualHooks: true
+  })
   await Order.bulkCreate(chance.n(chance.order, numOfOrders))
   await ProductCategory.bulkCreate(productCategoryAssociations)
   await LineItem.bulkCreate(lineItemAssociations)

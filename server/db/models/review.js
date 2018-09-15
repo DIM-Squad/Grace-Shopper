@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Product = require('./product')
 
 const Review = db.define('review', {
   rating: {
@@ -26,12 +27,25 @@ const Review = db.define('review', {
   }
 })
 
-// // Class methods
-// Review.getAverageProductReview = function(productId) {
-//   return this.findAll({
-//     where: {productId},
-//     attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'ratingAvg']]
-//   })
-// }
+// Class Method
+Review.getAverageProductRating = async function(productId) {
+  const data = await this.findAll({
+    where: {productId},
+    attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'ratingAvg']]
+  })
+  return Math.floor(data[0].dataValues.ratingAvg)
+}
+
+Review.afterCreate(async (instance, options) => {
+  const avgRating = await Review.getAverageProductRating(instance.productId)
+  return Product.update(
+    {avgRating},
+    {
+      where: {
+        id: instance.productId
+      }
+    }
+  )
+})
 
 module.exports = Review
