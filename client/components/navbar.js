@@ -5,32 +5,43 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {SearchBar} from './'
 import CategoryDropdown from './CategoryDropdown'
+import {Menu, Icon} from 'semantic-ui-react'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>BOILERMAKER</h1>
-    <nav>
+  <Menu attached="top" stackable>
+    <Menu.Item as="h1">
+      <span>I </span>
+      <span>
+        <Icon name="heart" />
+      </span>{' '}
+      <span> Art</span>
+    </Menu.Item>
+    <Menu.Item as={SearchBar} />
+    <Menu.Item as={CategoryDropdown} />
+    <Menu.Menu position="right">
       {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
+        <React.Fragment>
+          <Menu.Item as={Link} to="/home">
+            {/* The navbar will show these links after you log in */}
+            Home
+          </Menu.Item>
+          <Menu.Item as="a" href="#" onClick={handleClick}>
             Logout
-          </a>
-          <SearchBar />
-          <CategoryDropdown />
-        </div>
+          </Menu.Item>
+        </React.Fragment>
       ) : (
-        <div>
+        <React.Fragment>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <SearchBar />
-        </div>
+          <Menu.Item as={Link} to="/login">
+            Login
+          </Menu.Item>
+          <Menu.Item as={Link} to="/signup">
+            Sign Up
+          </Menu.Item>
+        </React.Fragment>
       )}
-    </nav>
-    <hr />
-  </div>
+    </Menu.Menu>
+  </Menu>
 )
 
 /**

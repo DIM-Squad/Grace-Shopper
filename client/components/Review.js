@@ -1,9 +1,7 @@
 import React from 'react'
 import {Item, Rating} from 'semantic-ui-react'
-// import {connect} from 'react-redux'
 
 const Review = props => {
-  //console.log('PROPS', props)
   return (
     <Item.Group>
       <Item>

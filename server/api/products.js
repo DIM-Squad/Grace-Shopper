@@ -2,6 +2,7 @@
 const router = require('express').Router()
 const {Product, Category, Artist, Review, User} = require('../db/models')
 const Op = require('sequelize').Op
+
 module.exports = router
 
 router.get('/:productId', async (req, res, next) => {
@@ -15,13 +16,6 @@ router.get('/:productId', async (req, res, next) => {
         }
       ]
     })
-
-    const avgProductRating = await Review.getAverageProductRating(productId)
-    // console.log('Average Product Rating =>', avgProductRating)
-
-    // console.log('Magic Methods=>', Object.keys(product.__proto__))
-    // const reviews = await product.getReviews()
-    // console.log('Reviews from Magic Methods =>', reviews)
     if (!product || product === {}) {
       res.status(404).end()
     } else {
@@ -70,6 +64,19 @@ router.get('/category/:id', async (req, res, next) => {
       (await Category.findById(Number(req.params.id), {
         include: [{model: Product, include: [{model: Artist}]}]
       })).products
+    )
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/featured/true', async (req, res, next) => {
+  try {
+    res.status(200).json(
+      await Product.findAll({
+        where: {featured: true},
+        include: {model: Artist}
+      })
     )
   } catch (err) {
     next(err)
