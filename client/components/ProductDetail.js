@@ -54,7 +54,12 @@ class ProductDetail extends Component {
                       <AvgRating avgRating={selectedProduct.avgRating} />
                       <Divider hidden />
                       <Item.Meta>
-                        <span className="price">${selectedProduct.price}</span>
+                        <span className="price">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD'
+                          }).format(selectedProduct.price / 100)}
+                        </span>
                         <Divider hidden />
                       </Item.Meta>
                       <Divider hidden />
