@@ -1,37 +1,57 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {Form, Container, Header, Divider, Button} from 'semantic-ui-react'
 
 /**
  * COMPONENT
  */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+class AuthForm extends Component {
+  state = {
+    email: '',
+    password: ''
+  }
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
-  )
+  render() {
+    const {name, displayName, handleSubmit, error} = this.props
+    return (
+      <Container>
+        <Header as="h1">{displayName}</Header>
+        <Form onSubmit={() => handleSubmit(name, this.state)} name={name}>
+          <Form.Group>
+            <Form.Field width={4}>
+              <label>email</label>
+              <input
+                placeholder="email"
+                value={this.state.email}
+                onChange={e => {
+                  this.setState({email: e.currentTarget.value})
+                }}
+              />
+            </Form.Field>
+            <Form.Field width={4}>
+              <label>password</label>
+              <input
+                placeholder="password"
+                value={this.state.password}
+                type="password"
+                onChange={e => {
+                  this.setState({password: e.currentTarget.value})
+                }}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Button type="submit">{displayName}</Form.Button>
+          {error && error.response && <div> {error.response.data} </div>}
+          <Divider>or</Divider>
+          <Button as="a" href="/auth/google">
+            {displayName} with Google
+          </Button>
+        </Form>
+      </Container>
+    )
+  }
 }
 
 /**
@@ -59,12 +79,8 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+    handleSubmit(name, {email, password}) {
+      dispatch(auth(email, password, name))
     }
   }
 }
