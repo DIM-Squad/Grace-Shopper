@@ -24,6 +24,9 @@ Review.belongsTo(Product)
 User.hasMany(Review)
 Review.belongsTo(User)
 
+User.hasMany(Order)
+Order.belongsTo(User)
+
 //Not going to do this yet because it is complicated to seed.
 //Artist.hasMany(Review)
 //Review.belongsTo(Artist)
@@ -33,6 +36,14 @@ Order.belongsToMany(Product, {through: LineItem})
 
 User.hasMany(Order)
 Order.belongsTo(User)
+
+//TODO: why is this necessary; the association already exists
+// For EagerLoading ...
+Order.hasMany(LineItem)
+LineItem.belongsTo(Order)
+
+Product.hasMany(LineItem)
+LineItem.belongsTo(Product)
 
 module.exports = {
   User,
