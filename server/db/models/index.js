@@ -24,12 +24,18 @@ Review.belongsTo(Product)
 User.hasMany(Review)
 Review.belongsTo(User)
 
+User.hasMany(Order)
+Order.belongsTo(User)
+
 //Not going to do this yet because it is complicated to seed.
 //Artist.hasMany(Review)
 //Review.belongsTo(Artist)
 
 Product.belongsToMany(Order, {through: LineItem})
 Order.belongsToMany(Product, {through: LineItem})
+
+User.hasMany(Order)
+Order.belongsTo(User)
 
 module.exports = {
   User,
