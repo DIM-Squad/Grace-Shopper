@@ -8,6 +8,7 @@ import {
   UserHome,
   ProductCollection,
   ProductDetail,
+  OrderDetail,
   Cart
 } from './components'
 import {me} from './store'
@@ -33,6 +34,10 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route exact path="/products/:id" component={ProductDetail} />
+            <Route
+              path="/users/:userId?/orders/:orderId"
+              component={OrderDetail}
+            />
             <Route
               path="/products/:filterType?/:filterId?"
               component={ProductCollection}

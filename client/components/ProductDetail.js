@@ -1,35 +1,12 @@
-import {
-  Item,
-  Image,
-  Grid,
-  Divider,
-  Container,
-  Rating,
-  Button
-} from 'semantic-ui-react'
+import {Item, Image, Grid, Divider, Container, Button} from 'semantic-ui-react'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 // User defined imports
 import {fetchSelectedProduct} from '../store/selectedProduct'
 import Review from './Review'
-import {addToCartAction} from '../store/cart'
-
-const AvgRating = props => {
-  if (!props.avgRating) {
-    return null
-  }
-  return (
-    <Item.Meta>
-      <Rating
-        icon="star"
-        defaultRating={props.avgRating}
-        maxRating={5}
-        disabled
-      />
-    </Item.Meta>
-  )
-}
+import AverageRating from './AverageRating'
+import {formatPrice} from '../utils/formatPrice'
 
 class ProductDetail extends Component {
   componentDidMount = () => {
@@ -50,7 +27,6 @@ class ProductDetail extends Component {
 
   render() {
     const selectedProduct = this.props.selectedProduct
-    console.log('SELECTED PRODUCT', selectedProduct)
     return (
       <Container>
         <Grid container>
@@ -69,14 +45,11 @@ class ProductDetail extends Component {
                         <strong>{selectedProduct.name}</strong>
                         <Divider hidden />
                       </Item.Header>
-                      <AvgRating avgRating={selectedProduct.avgRating} />
+                      <AverageRating avgRating={selectedProduct.avgRating} />
                       <Divider hidden />
                       <Item.Meta>
                         <span className="price">
-                          {new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD'
-                          }).format(selectedProduct.price / 100)}
+                          {formatPrice(selectedProduct.price)}
                         </span>
                         <Divider hidden />
                       </Item.Meta>

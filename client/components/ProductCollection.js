@@ -1,8 +1,9 @@
-import {Card, Button, Image, Icon} from 'semantic-ui-react'
-import React, {Component} from 'react'
+import {Card, Button, Image, Icon, Divider} from 'semantic-ui-react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchProducts} from '../store/products'
+import {formatPrice} from '../utils/formatPrice'
 
 class ProductCollection extends Component {
   componentDidMount = () => {
@@ -26,44 +27,44 @@ class ProductCollection extends Component {
 
   render() {
     return (
-      <Card.Group stackable centered>
-        {this.props.products.map(product => (
-          <Card key={product.id}>
-            <Card.Content>
-              <Image size="medium" src={product.imageUrl} />
-              <Card.Header>{product.name}</Card.Header>
-              <Card.Meta>{product.artist.name}</Card.Meta>
-            </Card.Content>
-            <Card.Content extra>
-              <Card.Description>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(product.price / 100)}
-              </Card.Description>
-              <Button
-                primary
-                floated="right"
-                onClick={() => this.goToProduct(product.id)}
-              >
-                More details
-              </Button>
-              <Button
-                primary
-                floated="left"
-                disabled={product.quantity === 0}
-                onClick={this.addToCart}
-              >
-                {product.quantity !== 0 ? (
-                  <Icon name="shopping cart" />
-                ) : (
-                  'Out of stock'
-                )}
-              </Button>
-            </Card.Content>
-          </Card>
-        ))}
-      </Card.Group>
+      <Fragment>
+        <Divider hidden />
+        <Card.Group stackable centered>
+          {this.props.products.map(product => (
+            <Card key={product.id}>
+              <Card.Content>
+                <Image size="medium" src={product.imageUrl} />
+                <Card.Header>{product.name}</Card.Header>
+                <Card.Meta>{product.artist.name}</Card.Meta>
+              </Card.Content>
+              <Card.Content extra>
+                <Card.Description>
+                  {formatPrice(product.price)}
+                </Card.Description>
+                <Button
+                  primary
+                  floated="right"
+                  onClick={() => this.goToProduct(product.id)}
+                >
+                  More details
+                </Button>
+                <Button
+                  primary
+                  floated="left"
+                  disabled={product.quantity === 0}
+                  onClick={this.addToCart}
+                >
+                  {product.quantity !== 0 ? (
+                    <Icon name="shopping cart" />
+                  ) : (
+                    'Out of stock'
+                  )}
+                </Button>
+              </Card.Content>
+            </Card>
+          ))}
+        </Card.Group>
+      </Fragment>
     )
   }
 }
