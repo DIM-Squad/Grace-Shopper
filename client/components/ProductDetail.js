@@ -1,26 +1,11 @@
-import {Item, Image, Grid, Divider, Container, Rating} from 'semantic-ui-react'
+import {Item, Image, Grid, Divider, Container} from 'semantic-ui-react'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 // User defined imports
 import {fetchSelectedProduct} from '../store/selectedProduct'
 import Review from './Review'
-
-const AvgRating = props => {
-  if (!props.avgRating) {
-    return null
-  }
-  return (
-    <Item.Meta>
-      <Rating
-        icon="star"
-        defaultRating={props.avgRating}
-        maxRating={5}
-        disabled
-      />
-    </Item.Meta>
-  )
-}
+import AverageRating from './AverageRating'
 
 class ProductDetail extends Component {
   componentDidMount = () => {
@@ -51,7 +36,7 @@ class ProductDetail extends Component {
                         <strong>{selectedProduct.name}</strong>
                         <Divider hidden />
                       </Item.Header>
-                      <AvgRating avgRating={selectedProduct.avgRating} />
+                      <AverageRating avgRating={selectedProduct.avgRating} />
                       <Divider hidden />
                       <Item.Meta>
                         <span className="price">${selectedProduct.price}</span>
