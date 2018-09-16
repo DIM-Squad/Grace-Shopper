@@ -38,17 +38,19 @@ class ProductDetail extends Component {
 
   addToCart = event => {
     //console.log('clicked')
-    //console.log('EVENT', event.currentTarget.name)
+    console.log('EVENT', event.imageUrl)
     this.props.addToCartAction({
-      id: event.currentTarget.id,
-      name: event.currentTarget.name,
-      price: event.currentTarget.price,
-      quantity: event.currentTarget.quantity
+      id: event.id,
+      name: event.name,
+      price: event.price,
+      quantity: 1,
+      imageUrl: event.imageUrl
     })
   }
 
   render() {
     const selectedProduct = this.props.selectedProduct
+    console.log('SELECTED PRODUCT', selectedProduct)
     return (
       <Container>
         <Grid container>
@@ -80,11 +82,14 @@ class ProductDetail extends Component {
                       </Item.Description>
                       <Button
                         color="teal"
-                        onClick={this.addToCart}
-                        id={selectedProduct.id}
-                        name={selectedProduct.name}
-                        price={selectedProduct.price}
-                        quantity={selectedProduct.quantity}
+                        onClick={() =>
+                          this.addToCart({
+                            id: selectedProduct.id,
+                            name: selectedProduct.name,
+                            price: selectedProduct.price,
+                            imageUrl: selectedProduct.imageUrl
+                          })
+                        }
                       >
                         Add to Cart
                       </Button>

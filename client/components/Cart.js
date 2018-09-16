@@ -1,25 +1,22 @@
 import React, {Component} from 'react'
-import {List, Button} from 'semantic-ui-react'
+import {Table, Container} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import CartItem from './CartItem'
 
 class Cart extends Component {
   render() {
     //console.log('PROPS', this.props)
     return (
-      <List divided verticalAlign="middle">
-        {this.props.cart.map(item => (
-          <List.Item key={item.id}>
-            <List.Content floated="right">
-              <Button>Remove</Button>
-            </List.Content>
-            <List.Content>
-              {item.name} {item.price}
-            </List.Content>
-            <Button>+</Button>
-          </List.Item>
-        ))}
-      </List>
+      <Container>
+        <Table padded>
+          <Table.Body>
+            {this.props.cart.map(item => (
+              <CartItem key={item.id} item={item} />
+            ))}
+          </Table.Body>
+        </Table>
+      </Container>
     )
   }
 }
