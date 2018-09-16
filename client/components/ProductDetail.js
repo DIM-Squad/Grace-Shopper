@@ -6,6 +6,7 @@ import {withRouter} from 'react-router-dom'
 import {fetchSelectedProduct} from '../store/selectedProduct'
 import Review from './Review'
 import AverageRating from './AverageRating'
+import {formatPrice} from '../utils/formatPrice'
 
 class ProductDetail extends Component {
   componentDidMount = () => {
@@ -39,7 +40,9 @@ class ProductDetail extends Component {
                       <AverageRating avgRating={selectedProduct.avgRating} />
                       <Divider hidden />
                       <Item.Meta>
-                        <span className="price">${selectedProduct.price}</span>
+                        <span className="price">
+                          {formatPrice(selectedProduct.price)}
+                        </span>
                         <Divider hidden />
                       </Item.Meta>
                       <Divider hidden />

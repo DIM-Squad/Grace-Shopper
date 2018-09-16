@@ -3,6 +3,7 @@ import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchProducts} from '../store/products'
+import {formatPrice} from '../utils/formatPrice'
 
 class ProductCollection extends Component {
   componentDidMount = () => {
@@ -37,6 +38,9 @@ class ProductCollection extends Component {
                 <Card.Meta>{product.artist.name}</Card.Meta>
               </Card.Content>
               <Card.Content extra>
+                <Card.Description>
+                  {formatPrice(product.price)}
+                </Card.Description>
                 <Button
                   primary
                   floated="right"
