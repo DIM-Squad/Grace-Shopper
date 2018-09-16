@@ -2,7 +2,7 @@ const router = require('express').Router()
 const isAdmin = require('../auth/isAdmin')
 const isSelfOrAdmin = require('../auth/isSelfOrAdmin')
 const Op = require('sequelize').Op
-const {User, Order, Product, LineItem, Review} = require('../db/models')
+const {User, Order, Product, Review} = require('../db/models')
 
 module.exports = router
 
@@ -16,7 +16,7 @@ router.get(
     try {
       const order = await Order.findById(orderId, {
         where: {userId},
-        include: [{model: User}, {model: LineItem, include: [{model: Product}]}] // Eagerload everything since it's one single Order
+        include: [{model: User}, {model: Product}]}] // Eagerload everything since it's one single Order
       })
       if (!order || order === {}) {
         res.status(404).end()
