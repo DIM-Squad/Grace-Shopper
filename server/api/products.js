@@ -2,6 +2,7 @@
 const router = require('express').Router()
 const {Product, Category, Artist, Review, User} = require('../db/models')
 const Op = require('sequelize').Op
+const isAdmin = require('../auth/isAdmin')
 
 module.exports = router
 
@@ -86,6 +87,30 @@ router.get('/featured/true', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     res.status(201).json(await Product.create(req.body))
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:productId', isAdmin, async (req, res, next) => {
+  try {
+    const product = await Product.update(req.body.product, {
+      where: {id: Number(req.params.productId)},
+      returning: true,
+      plain: true
+    })
+    res.status(201).json(product)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:productId', isAdmin, async (req, res, next) => {
+  try {
+    await Product.destroy({
+      where: {id: Number(req.params.productId)}
+    })
+    res.status(202).send()
   } catch (err) {
     next(err)
   }

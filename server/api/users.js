@@ -115,14 +115,25 @@ router.get('/:userId', isSelfOrAdmin, async (req, res, next) => {
   }
 })
 
-router.put('/', isSelfOrAdmin, async (req, res, next) => {
+router.put('/:userId', isSelfOrAdmin, async (req, res, next) => {
   try {
     const user = await User.update(req.body.user, {
-      where: {id: Number(req.body.user.id)},
+      where: {id: Number(req.params.userId)},
       returning: true,
       plain: true
     })
     res.status(201).json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:userId', isSelfOrAdmin, async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {id: Number(req.params.userId)}
+    })
+    res.status(202).send()
   } catch (err) {
     next(err)
   }
