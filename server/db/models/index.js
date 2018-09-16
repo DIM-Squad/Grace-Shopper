@@ -34,12 +34,8 @@ Order.belongsTo(User)
 Product.belongsToMany(Order, {through: LineItem})
 Order.belongsToMany(Product, {through: LineItem})
 
-// For EagerLoading ...
-Order.hasMany(LineItem)
-LineItem.belongsTo(Order)
-
-Product.hasMany(LineItem)
-LineItem.belongsTo(Product)
+User.hasMany(Order)
+Order.belongsTo(User)
 
 module.exports = {
   User,

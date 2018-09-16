@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  req.user.isAdmin || req.user.id === req.params.userId
+  req.user.isAdmin || req.user.id === Number(req.params.userId)
     ? next()
-    : res.status(401).send()
+    : res.status(403).send()
 }
