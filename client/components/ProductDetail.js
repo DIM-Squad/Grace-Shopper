@@ -1,4 +1,4 @@
-import {Item, Image, Grid, Divider, Container} from 'semantic-ui-react'
+import {Item, Image, Grid, Divider, Container, Button} from 'semantic-ui-react'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
@@ -13,8 +13,16 @@ class ProductDetail extends Component {
     this.props.fetchSelectedProduct(Number(this.props.match.params.id))
   }
 
-  addToCart = () => {
-    console.log('Should add to cart')
+  addToCart = event => {
+    //console.log('clicked')
+    console.log('EVENT', event.imageUrl)
+    this.props.addToCartAction({
+      id: event.id,
+      name: event.name,
+      price: event.price,
+      quantity: 1,
+      imageUrl: event.imageUrl
+    })
   }
 
   render() {
@@ -50,6 +58,19 @@ class ProductDetail extends Component {
                         {selectedProduct.description}
                         <Divider hidden />
                       </Item.Description>
+                      <Button
+                        color="teal"
+                        onClick={() =>
+                          this.addToCart({
+                            id: selectedProduct.id,
+                            name: selectedProduct.name,
+                            price: selectedProduct.price,
+                            imageUrl: selectedProduct.imageUrl
+                          })
+                        }
+                      >
+                        Add to Cart
+                      </Button>
                     </Item.Content>
                   </Item>
                 </Grid.Column>
@@ -70,7 +91,8 @@ class ProductDetail extends Component {
 const mapStateToProps = state => ({selectedProduct: state.selectedProduct})
 
 const mapDispatchToProps = dispatch => ({
-  fetchSelectedProduct: id => dispatch(fetchSelectedProduct(id))
+  fetchSelectedProduct: id => dispatch(fetchSelectedProduct(id)),
+  addToCartAction: item => dispatch(addToCartAction(item))
 })
 
 export default withRouter(
