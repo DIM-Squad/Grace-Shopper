@@ -2,7 +2,7 @@ const router = require('express').Router()
 const isAdmin = require('../auth/isAdmin')
 const isSelfOrAdmin = require('../auth/isSelfOrAdmin')
 const Op = require('sequelize').Op
-const {User, Order, Product, LineItem, Review} = require('../db/models')
+const {User, Order, Product, Review} = require('../db/models')
 
 module.exports = router
 

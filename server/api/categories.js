@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Category} = require('../db/models')
+const isAdmin = require('../auth/isAdmin')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -27,6 +28,18 @@ router.put('/:categoryId', isAdmin, async (req, res, next) => {
       plain: true
     })
     res.status(201).json(category)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:categoryId', isAdmin, async (req, res, next) => {
+  //the way I understand it, deleting a category will also set all associations on other models to null
+  try {
+    await Category.destroy({
+      where: {id: Number(req.params.categoryId)}
+    })
+    res.status(202).send()
   } catch (err) {
     next(err)
   }
