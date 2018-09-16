@@ -53,3 +53,16 @@ router.get('/:userId', isSelfOrAdmin, async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/', isSelfOrAdmin, async (req, res, next) => {
+  try {
+    const user = await User.update(req.body.user, {
+      where: {id: Number(req.body.user.id)},
+      returning: true,
+      plain: true
+    })
+    res.status(201).json(user)
+  } catch (err) {
+    next(err)
+  }
+})
