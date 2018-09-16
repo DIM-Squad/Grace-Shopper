@@ -12,7 +12,7 @@ router.get(`/:userId/orders/`, isSelfOrAdmin, async (req, res, next) => {
   try {
     const orderList = await Order.findAll({
       where: {userId},
-      include: [{model: LineItem, include: [{model: Product}]}]
+      include: [{model: Product}]
     })
     if (!orderList.length) {
       res.status(404).end()
@@ -29,7 +29,7 @@ router.get(`/orders/:orderId`, isSelfOrAdmin, async (req, res, next) => {
   const orderId = Number(req.params.orderId)
   try {
     const order = await Order.findById(orderId, {
-      include: [{model: LineItem, include: [{model: Product}]}] // Eagerload everything since it's one single Order
+      include: [{model: Product}] // Eagerload everything since it's one single Order
     })
     if (!order || order === {}) {
       res.status(404).end()
@@ -45,7 +45,7 @@ router.get(`/orders/:orderId`, isSelfOrAdmin, async (req, res, next) => {
 router.get(`/orders`, isAdmin, async (req, res, next) => {
   try {
     const orderList = await Order.findAll({
-      include: [{model: LineItem, include: [{model: Product}]}]
+      include: [{model: Product}]
     })
     if (!orderList.length) {
       res.status(404).end()
