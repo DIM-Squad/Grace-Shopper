@@ -35,6 +35,12 @@ class ProductCollection extends Component {
               <Card.Meta>{product.artist.name}</Card.Meta>
             </Card.Content>
             <Card.Content extra>
+              <Card.Description>
+                {new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                }).format(product.price / 100)}
+              </Card.Description>
               <Button
                 primary
                 floated="right"
