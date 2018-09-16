@@ -9,4 +9,8 @@ export {Login, Signup} from './auth-form'
 export {default as ProductCollection} from './ProductCollection'
 export {default as ProductDetail} from './ProductDetail'
 export {default as SearchBar} from './SearchBar'
+<<<<<<< HEAD
+export {default as Cart} from './Cart'
+=======
 export {default as AdminHome} from './AdminHome'
+>>>>>>> 33381c67f4d65ade57167d03d58c24524436364f
