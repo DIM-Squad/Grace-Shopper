@@ -6,6 +6,29 @@ const {User, Order, Product, Review} = require('../db/models')
 
 module.exports = router
 
+// LoggedIn User route to GET a specific Order in their collection
+router.get(
+  `/:userId/orders/:orderId`,
+  isSelfOrAdmin,
+  async (req, res, next) => {
+    const userId = Number(req.params.userId)
+    const orderId = Number(req.params.orderId)
+    try {
+      const order = await Order.findById(orderId, {
+        where: {userId},
+        include: [{model: User}, {model: Product}]}] // Eagerload everything since it's one single Order
+      })
+      if (!order || order === {}) {
+        res.status(404).end()
+      } else {
+        res.status(200).json(order)
+      }
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
 // LoggedIn User route to GET all his Orders in the system
 router.get(`/:userId/orders/`, isSelfOrAdmin, async (req, res, next) => {
   const userId = Number(req.params.userId)
@@ -25,7 +48,7 @@ router.get(`/:userId/orders/`, isSelfOrAdmin, async (req, res, next) => {
 })
 
 // LoggedIn User or Admin route to GET specific Order in the system
-router.get(`/orders/:orderId`, isSelfOrAdmin, async (req, res, next) => {
+router.get(`/orders/:orderId`, isAdmin, async (req, res, next) => {
   const orderId = Number(req.params.orderId)
   try {
     const order = await Order.findById(orderId, {

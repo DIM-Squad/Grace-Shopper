@@ -39,9 +39,14 @@ const Order = db.define('order', {
     defaultValue: 'USA'
   },
   shippingCost: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DECIMAL(10, 2),
     allowNull: false,
-    defaultValue: 0
+    defaultValue: 0.0
+  },
+  totalCost: {
+    type: Sequelize.DECIMAL(10, 2),
+    allowNull: false,
+    defaultValue: 0.0
   }
 })
 

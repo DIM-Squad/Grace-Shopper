@@ -86,6 +86,7 @@ chance.mixin({
     shippingAddress: chance.address(),
     shippingState: chance.state({territories: true}),
     shippingCost: chance.natural({min: 100, max: 4500}),
+    totalCost: chance.natural({min: 100, max: 4500}),
     shippingZip: chance.zip(),
     email: chance.email()
   })
