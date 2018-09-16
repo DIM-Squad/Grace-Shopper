@@ -82,3 +82,11 @@ router.get('/featured/true', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/', async (req, res, next) => {
+  try {
+    res.status(201).json(await Product.create(req.body))
+  } catch (err) {
+    next(err)
+  }
+})

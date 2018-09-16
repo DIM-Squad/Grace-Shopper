@@ -1,7 +1,9 @@
 const router = require('express').Router()
-const {User, Order, Product, LineItem} = require('../db/models')
 const isAdmin = require('../auth/isAdmin')
 const isSelfOrAdmin = require('../auth/isSelfOrAdmin')
+const Op = require('sequelize').Op
+const {User, Order, Product, LineItem, Review} = require('../db/models')
+
 module.exports = router
 
 // LoggedIn User route to GET a specific Order in their collection
@@ -33,7 +35,7 @@ router.get(`/:userId/orders/`, isSelfOrAdmin, async (req, res, next) => {
   try {
     const orderList = await Order.findAll({
       where: {userId},
-      include: [{model: User}, {model: LineItem, include: [{model: Product}]}]
+      include: [{model: Product}]
     })
     if (!orderList.length) {
       res.status(404).end()
@@ -50,7 +52,7 @@ router.get(`/orders/:orderId`, isAdmin, async (req, res, next) => {
   const orderId = Number(req.params.orderId)
   try {
     const order = await Order.findById(orderId, {
-      include: [{model: User}, {model: LineItem, include: [{model: Product}]}] // Eagerload everything since it's one single Order
+      include: [{model: Product}] // Eagerload everything since it's one single Order
     })
     if (!order || order === {}) {
       res.status(404).end()
@@ -66,7 +68,7 @@ router.get(`/orders/:orderId`, isAdmin, async (req, res, next) => {
 router.get(`/orders`, isAdmin, async (req, res, next) => {
   try {
     const orderList = await Order.findAll({
-      include: [{model: User}, {model: LineItem, include: [{model: Product}]}]
+      include: [{model: Product}]
     })
     if (!orderList.length) {
       res.status(404).end()
@@ -98,6 +100,52 @@ router.get('/', isAdmin, async (req, res, next) => {
       // }
     })
     res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/search/:key', isAdmin, async (req, res, next) => {
+  try {
+    const terms = req.params.key.split(' ')
+    const users = await User.findAll({
+      attributes: ['id', 'email', 'firstName', 'lastName'],
+      where: {
+        [Op.or]: [
+          {
+            firstName: {[Op.iLike]: '%' + terms[0] + '%'}
+          },
+          {lastName: {[Op.iLike]: '%' + terms[0] + '%'}},
+          {lastName: {[Op.iLike]: '%' + terms[1] + '%'}}
+        ]
+      }
+    })
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:userId', isSelfOrAdmin, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId, {
+      attributes: ['id', 'email', 'firstName', 'lastName', 'isAdmin'],
+      include: [{model: Review}, {model: Order}]
+    })
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/', isSelfOrAdmin, async (req, res, next) => {
+  try {
+    const user = await User.update(req.body.user, {
+      where: {id: Number(req.body.user.id)},
+      returning: true,
+      plain: true
+    })
+    res.status(201).json(user)
   } catch (err) {
     next(err)
   }
