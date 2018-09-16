@@ -25,12 +25,17 @@ export const selectedOrderError = () => ({type: SELECTED_ORDER_ERROR})
 /**
  * THUNK CREATORS
  */
-export const fetchSelectedOrder = orderId => {
+export const fetchSelectedOrder = (userId, orderId) => {
   return async dispatch => {
     try {
-      let {data} = await axios.get(`/api/users/orders/${orderId}`)
-      console.log('Got Order Data', data)
-      dispatch(gotSelecetedOrderFromServer(data))
+      let result
+      if (userId) {
+        result = await axios.get(`/api/users/${userId}/orders/${orderId}`)
+      } else {
+        result = await axios.get(`/api/users/orders/${orderId}`)
+      }
+      console.log('Got Order Data', result.data)
+      dispatch(gotSelecetedOrderFromServer(result.data))
     } catch (err) {
       dispatch(selectedOrderError(err))
     }

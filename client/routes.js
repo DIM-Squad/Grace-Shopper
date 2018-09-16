@@ -34,8 +34,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/products/:id" component={ProductDetail} />
             <Route
-              exact
-              path="/users/orders/:orderId"
+              path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
             />
             <Route
