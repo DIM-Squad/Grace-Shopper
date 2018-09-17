@@ -1,6 +1,13 @@
 // Product routes
 const router = require('express').Router()
-const {Product, Category, Artist, Review, User} = require('../db/models')
+const {
+  Product,
+  Category,
+  Artist,
+  Review,
+  User,
+  ProductCategory
+} = require('../db/models')
 const Op = require('sequelize').Op
 const isAdmin = require('../auth/isAdmin')
 
@@ -75,7 +82,10 @@ router.get('/featured/true', async (req, res, next) => {
   try {
     res.status(200).json(
       await Product.findAll({
-        where: {featured: true},
+        where: {
+          featured: true,
+          quantity: {[Op.gt]: 0}
+        },
         include: {model: Artist}
       })
     )
@@ -84,16 +94,47 @@ router.get('/featured/true', async (req, res, next) => {
   }
 })
 
-//this expects a body that includes a product object && an artist object (with a name property)
 router.post('/', isAdmin, async (req, res, next) => {
   try {
-    const newProduct = await Product.create(req.body.product)
-    //theoretically this will associate the new product to the artist already in the artists table
-    //if it finds the name, or will create a new artist and associate that!
-    newProduct.setArtist(
-      Artist.findOrCreate({where: {name: req.body.artist.name}})
+    const {
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      artist,
+      size,
+      categories
+    } = req.body
+
+    const artistEntry = await Artist.findOrCreate({
+      where: {name: artist}
+    }).spread(a => a)
+
+    const newProduct = await Product.create({
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      size,
+      artistId: artistEntry.id
+    })
+
+    const categoryEntries = await Promise.all(
+      categories.map(c =>
+        Category.findOrCreate({where: {name: c}}).spread(a => a)
+      )
     )
-    res.status(201).json()
+    console.log(categoryEntries)
+
+    await Promise.all(
+      categoryEntries.map(c =>
+        ProductCategory.create({categoryId: c.id, productId: newProduct.id})
+      )
+    )
+
+    res.status(201).json(newProduct)
   } catch (err) {
     next(err)
   }
