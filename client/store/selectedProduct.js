@@ -37,6 +37,35 @@ export const fetchSelectedProduct = productId => {
   }
 }
 
+export const postReview = (userId, productId, title, description, rating) => {
+  return async dispatch => {
+    try {
+      console.log(userId, productId, title, description, rating)
+      await axios.post(`/api/reviews/${userId}`, {
+        userId,
+        productId,
+        title,
+        description,
+        rating
+      })
+      dispatch(fetchSelectedProduct(productId))
+    } catch (err) {
+      dispatch(selectedProductError())
+    }
+  }
+}
+
+export const deleteReview = (reviewId, productId) => {
+  return async dispatch => {
+    try {
+      await axios.delete(`/api/reviews/${reviewId}`)
+      dispatch(fetchSelectedProduct(productId))
+    } catch (err) {
+      dispatch(selectedProductError())
+    }
+  }
+}
+
 const selectedProduct = (state = initialState.selectedProduct, action) => {
   switch (action.type) {
     case SELECTED_PRODUCT_ERROR:
