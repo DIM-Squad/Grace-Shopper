@@ -5,7 +5,6 @@ import {formatPrice} from '../utils/formatPrice'
 import AverageRating from './AverageRating'
 
 const LineItem = props => {
-  console.log('Line Item Props =>', props)
   return (
     <Table.Row>
       <Table.Cell>
