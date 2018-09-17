@@ -9,10 +9,12 @@ const initialState = {
 }
 
 export const gotOrders = orders => ({type: GOT_ORDERS, orders})
+
 export const gotFilteredOrders = filterKey => ({
   type: GOT_FILTERED_ORDERS,
   filterKey
 })
+
 export const ordersError = () => ({type: ORDER_ERROR})
 
 export const fetchOrders = userId => {
