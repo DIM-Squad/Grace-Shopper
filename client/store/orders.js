@@ -40,7 +40,7 @@ const orders = (state = initialState.orders, action) => {
     case GOT_ORDERS:
       return action.orders
     case GOT_FILTERED_ORDERS:
-      return state.filter(order => order.status === action.filterKey)
+      return [...state].filter(order => order.status === action.filterKey)
     default:
       return state
   }
