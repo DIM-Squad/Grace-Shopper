@@ -138,20 +138,14 @@ router.get(`/orders`, isAdmin, async (req, res, next) => {
     const orderList = await Order.findAll({
       // where: {status},
       limit: 25,
-<<<<<<< HEAD
-      include: [{model: User}, {model: Product}]
-||||||| merged common ancestors
-      include: [{model: Product}]
-=======
-      include: [{model: Product}],
+      include: [{model: User}, {model: Product}],
       order: [['createdAt', 'DESC']]
->>>>>>> e82f78044d92cc0358afc81564b7c199e18f3a07
     })
-    if (!orderList.length) {
-      res.status(404).end()
-    } else {
-      res.status(200).json(orderList)
-    }
+    // if (!orderList.length) {
+    //   res.status(404).end()
+    // } else {
+    res.status(200).json(orderList)
+    // }
   } catch (err) {
     next(err)
   }
