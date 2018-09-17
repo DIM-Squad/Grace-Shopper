@@ -25,7 +25,7 @@ class CategoryDropdown extends Component {
   render() {
     //console.log('PROPS', this.props)
     return (
-      <Dropdown text="Find by Category" style={styles.searchBar}>
+      <Dropdown text="Find by Category" style={styles.category}>
         <Dropdown.Menu>
           {this.props.categories.map(category => (
             <Dropdown.Item
@@ -49,7 +49,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const styles = {
-  searchBar: {
+  category: {
     marginLeft: 20,
     marginTop: 10
   }
