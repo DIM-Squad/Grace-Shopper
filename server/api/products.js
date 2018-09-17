@@ -75,7 +75,10 @@ router.get('/featured/true', async (req, res, next) => {
   try {
     res.status(200).json(
       await Product.findAll({
-        where: {featured: true},
+        where: {
+          featured: true,
+          quantity: {[Op.gt]: 0}
+        },
         include: {model: Artist}
       })
     )
