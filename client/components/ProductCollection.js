@@ -40,7 +40,11 @@ class ProductCollection extends Component {
           {this.props.products.map(product => (
             <Card key={product.id}>
               <Card.Content>
-                <Image size="medium" src={product.imageUrl} />
+                <Image
+                  size="medium"
+                  src={product.imageUrl}
+                  style={styles.image}
+                />
                 <Card.Header>{product.name}</Card.Header>
                 <Card.Meta>{product.artist.name}</Card.Meta>
               </Card.Content>
@@ -89,6 +93,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchProducts(filterType, filterId)),
   addToCartAction: item => dispatch(addToCartAction(item))
 })
+
+const styles = {
+  image: {
+    marginBottom: 20
+  }
+}
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProductCollection)

@@ -10,7 +10,8 @@ import {
   ProductDetail,
   OrderCollection,
   OrderDetail,
-  Cart
+  Cart,
+  AddProductForm
 } from './components'
 import {me} from './store'
 
@@ -34,6 +35,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/add/product" component={AddProductForm} />
             <Route exact path="/products/:id" component={ProductDetail} />
             <Route
               exact

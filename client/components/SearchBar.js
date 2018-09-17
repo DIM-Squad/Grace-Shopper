@@ -25,6 +25,7 @@ class SearchBar extends Component {
         <Form.Group style={styles.searchBar}>
           <Form.Field>
             <input
+              label={this.props.label}
               placeholder={`search ${this.props.type}`}
               name="search"
               value={this.state.searchTerm}
@@ -47,7 +48,7 @@ const mapDispatchToProps = dispatch => ({
 const styles = {
   searchBar: {
     marginLeft: 20,
-    marginTop: 10
+    marginTop: 30
   }
 }
 

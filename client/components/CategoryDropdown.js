@@ -50,8 +50,8 @@ const mapDispatchToProps = dispatch => ({
 
 const styles = {
   category: {
-    marginLeft: 20,
-    marginTop: 10
+    marginLeft: 60,
+    marginTop: 30
   }
 }
 
