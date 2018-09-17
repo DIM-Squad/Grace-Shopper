@@ -113,7 +113,7 @@ router.post('/', isAdmin, async (req, res, next) => {
 
     const newProduct = await Product.create({
       name,
-      price,
+      price: price * 100,
       featured,
       quantity,
       description,
@@ -126,7 +126,6 @@ router.post('/', isAdmin, async (req, res, next) => {
         Category.findOrCreate({where: {name: c}}).spread(a => a)
       )
     )
-    console.log(categoryEntries)
 
     await Promise.all(
       categoryEntries.map(c =>

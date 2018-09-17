@@ -14,7 +14,6 @@ class UserCollection extends Component {
   }
 
   render() {
-    console.log(this.props.users)
     return (
       <Fragment>
         <Divider hidden />
