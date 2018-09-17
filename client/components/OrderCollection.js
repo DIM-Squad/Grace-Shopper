@@ -45,7 +45,7 @@ class OrderCollection extends Component {
           <Menu pointing secondary>
             <Menu.Item
               name="all"
-              active={this.activeItem === 'all'}
+              active={activeItem === 'all'}
               onClick={this.handleMenuItemClick}
             />
             <Menu.Item
