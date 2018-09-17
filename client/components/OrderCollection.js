@@ -1,42 +1,54 @@
-import {
-  Menu,
-  Button,
-  Image,
-  Icon,
-  Table,
-  Divider,
-  Container,
-  Header
-} from 'semantic-ui-react'
+import {Table, Divider, Container, Header} from 'semantic-ui-react'
 import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, NavLink} from 'react-router-dom'
-import {fetchOrders, gotFilteredOrders} from '../store/orders'
-import {formatPrice} from '../utils/formatPrice'
+import {withRouter} from 'react-router-dom'
+import {
+  fetchOrders,
+  fetchFilteredOrders,
+  fetchOrdersByUserName
+} from '../store/orders'
 import OrderCollectionSubMenu from './OrderCollectionSubMenu'
+import OrderRow from './OrderRow'
+import SearchBar from './SearchBar'
 
 class OrderCollection extends Component {
   componentDidMount = () => {
-    let userId
-    if (this.props.match.params.userId) {
-      userId = Number(this.props.match.params.userId)
+    if (this.props.match.params.username) {
+      console.log('I am running .... with Username')
+      this.props.fetchOrdersByUserName(this.props.match.params.username)
+    } else {
+      this.getFilteredOrders('all')
     }
-    this.props.fetchOrders(userId)
   }
 
-  getFilteredOrders = filterKey => gotFilteredOrders(filterKey)
+  getFilteredOrders = filterKey => {
+    if (filterKey === 'all') {
+      this.props.fetchOrders(Number(this.props.match.params.userId))
+    } else {
+      this.props.fetchFilteredOrders(
+        Number(this.props.match.params.userId),
+        filterKey
+      )
+    }
+  }
 
   render() {
     const orders = this.props.orders
+    console.log('Orders by a single User =>', orders)
     const userId = Number(this.props.match.params.userId) || ''
-    // console.log('This is the list of orders =>', orders)
+    let userRoute
+    if (userId) userRoute = `/users/${userId}/orders`
+    else userRoute = `/users/orders`
 
     return (
       <Fragment>
         <Container>
           <Divider hidden />
-          <Header as="h1" textAlign="left">
+          <Header as="h1" floated="left">
             Order List
+          </Header>
+          <Header as="h1" floated="right">
+            <SearchBar type="orders" />
           </Header>
           <Divider horizontal />
           <OrderCollectionSubMenu getFilteredOrders={this.getFilteredOrders} />
@@ -48,37 +60,17 @@ class OrderCollection extends Component {
                 <Table.HeaderCell>Customer</Table.HeaderCell>
                 <Table.HeaderCell>Quantity</Table.HeaderCell>
                 <Table.HeaderCell>Total Cost</Table.HeaderCell>
+                {/* <Table.HeaderCell>Action</Table.HeaderCell> */}
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {orders &&
                 orders.map(order => (
-                  <Table.Row key={order.id}>
-                    <Table.Cell>{order.updatedAt}</Table.Cell>
-                    <Table.Cell>
-                      <NavLink to={`/users/orders/${order.id}`}>
-                        {`${order.shippingZip}${order.shippingState}${
-                          order.id
-                        }`}
-                      </NavLink>
-                    </Table.Cell>
-                    <Table.Cell>{order.userId}</Table.Cell>
-                    <Table.Cell>
-                      {order.products.reduce(
-                        (acc, curr) => acc + curr.line_item.quantity,
-                        0
-                      )}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {formatPrice(
-                        order.totalCost +
-                          order.products.reduce(
-                            (acc, curr) => acc + curr.line_item.itemPrice,
-                            0
-                          )
-                      )}
-                    </Table.Cell>
-                  </Table.Row>
+                  <OrderRow
+                    key={order.id}
+                    order={order}
+                    userRoute={userRoute}
+                  />
                 ))}
             </Table.Body>
           </Table>
@@ -91,9 +83,10 @@ class OrderCollection extends Component {
 const mapStateToProps = state => ({orders: state.orders})
 
 const mapDispatchToProps = dispatch => ({
-  fetchOrders: (filterType, filterId) =>
-    dispatch(fetchOrders(filterType, filterId)),
-  fetchFilteredOrders: filterKey => dispatch(gotFilteredOrders(filterKey))
+  fetchOrders: userId => dispatch(fetchOrders(userId)),
+  fetchFilteredOrders: (userId, filterKey) =>
+    dispatch(fetchFilteredOrders(userId, filterKey)),
+  fetchOrdersByUserName: username => dispatch(fetchOrdersByUserName(username))
 })
 
 export default withRouter(

@@ -29,20 +29,41 @@ router.get(
   }
 )
 
+// LoggedIn User route to GET all his Orders in the system with a give status
+router.get(
+  `/:userId/orders/status/:filterKey`,
+  isSelfOrAdmin,
+  async (req, res, next) => {
+    const userId = Number(req.params.userId)
+    const status = req.params.filterKey
+    try {
+      const orderList = await Order.findAll({
+        where: {userId, status},
+        limit: 25,
+        include: [{model: User}, {model: Product}]
+      })
+      // if (!orderList.length) {
+      //   res.status(404).end()
+      // } else {
+      //   res.status(200).json(orderList)
+      // }
+      res.status(200).json(orderList)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
 // LoggedIn User route to GET all his Orders in the system
-router.get(`/:userId/orders/`, isSelfOrAdmin, async (req, res, next) => {
+router.get(`/:userId/orders`, isSelfOrAdmin, async (req, res, next) => {
   const userId = Number(req.params.userId)
   try {
     const orderList = await Order.findAll({
       where: {userId},
       limit: 25,
-      include: [{model: Product}]
+      include: [{model: User}, {model: Product}]
     })
-    if (!orderList.length) {
-      res.status(404).end()
-    } else {
-      res.status(200).json(orderList)
-    }
+    res.status(200).json(orderList)
   } catch (err) {
     next(err)
   }
@@ -66,11 +87,57 @@ router.get(`/orders/:orderId`, isAdmin, async (req, res, next) => {
 })
 
 // Admin route to GET all Orders in the system
+router.get(`/orders/status/:filterKey`, isAdmin, async (req, res, next) => {
+  try {
+    const status = req.params.filterKey
+    const orderList = await Order.findAll({
+      where: {status},
+      limit: 25,
+      include: [{model: User}, {model: Product}]
+    })
+    res.status(200).json(orderList)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// Admin route to search for all Orders by user name
+router.get(`/orders/search/:username`, isAdmin, async (req, res, next) => {
+  try {
+    const username = req.params.username
+    const user = await User.findOne({
+      attributes: ['id', 'firstName', 'lastName'],
+      where: {
+        [Op.or]: [
+          {firstName: {[Op.iLike]: '%' + username + '%'}},
+          {lastName: {[Op.iLike]: '%' + username + '%'}}
+        ]
+      }
+    })
+    // console.log('User to get by Username search =>', user)
+    // const orderListforUser = await Order.findAll({
+    //   where: {userId: user.dataValues.id},
+    //   limit: 25,
+    //   include: [{model: User}, {model: Product}]
+    // })
+    const orderListforUser = await user.getOrders({
+      include: [{model: User}, {model: Product}]
+    })
+    console.log('Searching By Username =>', orderListforUser)
+    res.status(200).json(orderListforUser)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// Admin route to GET all Orders in the system
 router.get(`/orders`, isAdmin, async (req, res, next) => {
   try {
+    // const status = req.params.filterKey
     const orderList = await Order.findAll({
+      // where: {status},
       limit: 25,
-      include: [{model: Product}]
+      include: [{model: User}, {model: Product}]
     })
     if (!orderList.length) {
       res.status(404).end()
