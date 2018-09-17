@@ -42,7 +42,7 @@ class ProductDetail extends Component {
   }
 
   handleRate = (e, {rating}) => {
-    this.setState(rating)
+    this.setState({rating})
   }
 
   render() {
@@ -128,6 +128,7 @@ class ProductDetail extends Component {
                 maxRating={5}
                 name="rating"
                 onRate={this.handleRate}
+                value={this.state.rating}
               />
               <Form.TextArea
                 width={16}
