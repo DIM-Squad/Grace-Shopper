@@ -126,7 +126,6 @@ router.post('/', isAdmin, async (req, res, next) => {
         Category.findOrCreate({where: {name: c}}).spread(a => a)
       )
     )
-    console.log(categoryEntries)
 
     await Promise.all(
       categoryEntries.map(c =>
