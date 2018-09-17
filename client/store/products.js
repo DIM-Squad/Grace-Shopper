@@ -27,9 +27,7 @@ export const fetchProducts = (filterType, filterId) => {
 export const addProduct = product => {
   return async dispatch => {
     try {
-      console.log(product)
       const result = await axios.post('/api/products', product)
-      console.log(result.data)
       dispatch(addedProduct(result.data))
     } catch (err) {
       dispatch(productsError())

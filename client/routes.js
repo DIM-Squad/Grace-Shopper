@@ -31,14 +31,18 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/signup" component={Signup} />{' '}
+        <Route exact path="/products/:id" component={ProductDetail} />
+        <Route
+          path="/products/:filterType?/:filterId?"
+          component={ProductCollection}
+        />
+        <Route path="/home" component={UserHome} />
+        <Route path="/cart" component={Cart} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
             <Route path="/add/product" component={AddProductForm} />
-            <Route exact path="/products/:id" component={ProductDetail} />
-            <Route exact path="/users" component={UserCollection} />
             <Route
               exact
               path="/users/:userId?/orders/:orderId"
@@ -46,6 +50,7 @@ class Routes extends Component {
             />
             <Route path="/users/:userId/orders/" component={OrderCollection} />
             <Route path="/users/orders/" component={OrderCollection} />
+            <Route exact path="/users" component={UserCollection} />
             <Route
               path="/products/:filterType?/:filterId?"
               component={ProductCollection}
