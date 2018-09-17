@@ -15,8 +15,8 @@ router.get(
     const orderId = Number(req.params.orderId)
     try {
       const order = await Order.findOne({
-        where: { userId , id: orderId},
-        include: [{ model: User }, { model: Product }] // Eagerload everything since it's one single Order
+        where: {userId, id: orderId},
+        include: [{model: User}, {model: Product}] // Eagerload everything since it's one single Order
       })
       if (!order || order === {}) {
         res.status(404).end()
