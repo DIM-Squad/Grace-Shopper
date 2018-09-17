@@ -10,7 +10,8 @@ import {
   ProductDetail,
   OrderDetail,
   Cart,
-  AddProductForm
+  AddProductForm,
+  UserCollection
 } from './components'
 import {me} from './store'
 
@@ -36,6 +37,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/add/product" component={AddProductForm} />
             <Route exact path="/products/:id" component={ProductDetail} />
+            <Route path="/users/search/:filterId" component={UserCollection} />
             <Route
               path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
