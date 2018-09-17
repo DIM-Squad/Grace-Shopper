@@ -54,7 +54,6 @@ router.get('/search/:key', async (req, res, next) => {
   try {
     const matchingProducts = await Product.findAll({
       where: {name: {[Op.iLike]: '%' + req.params.key + '%'}},
-      limit: 20,
       include: [{model: Artist}],
       order: [['name', 'ASC']]
     })
