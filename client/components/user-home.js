@@ -13,7 +13,7 @@ export const UserHome = props => {
   console.log(props)
   return (
     <Container>
-      <Header as="h1">Welcome, {firstName}</Header>
+      <Header as="h1">Welcome, {firstName || 'Guest'}</Header>
 
       {isAdmin ? (
         <AdminHome />
