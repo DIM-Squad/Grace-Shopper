@@ -22,7 +22,7 @@ class SearchBar extends Component {
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Group>
+        <Form.Group style={styles.searchBar}>
           <Form.Field>
             <input
               label={this.props.label}
@@ -44,5 +44,12 @@ class SearchBar extends Component {
 const mapDispatchToProps = dispatch => ({
   fetchProducts: term => dispatch(fetchProducts('search', term))
 })
+
+const styles = {
+  searchBar: {
+    marginLeft: 20,
+    marginTop: 10
+  }
+}
 
 export default withRouter(connect(null, mapDispatchToProps)(SearchBar))
