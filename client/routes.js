@@ -31,8 +31,9 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />{' '}
+        <Route path="/signup" component={Signup} />
         <Route exact path="/products/:id" component={ProductDetail} />
+        <Route path="/cart" component={Cart} />
         <Route
           path="/products/:filterType?/:filterId?"
           component={ProductCollection}
@@ -45,6 +46,10 @@ class Routes extends Component {
             <Route path="/add/product" component={AddProductForm} />
             <Route
               exact
+              path="/users/orders/search/:username"
+              component={OrderCollection}
+            />
+            <Route
               path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
             />

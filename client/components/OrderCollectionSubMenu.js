@@ -7,7 +7,6 @@ class OrderCollectionSubMenu extends Component {
   handleMenuItemClick = (e, {name}) => {
     this.setState({activeItem: name})
     this.props.getFilteredOrders(name)
-    console.log('Hey Ike, I am executing ...', this.props)
   }
 
   render() {
