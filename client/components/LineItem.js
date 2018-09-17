@@ -10,18 +10,18 @@ const LineItem = props => {
     <Table.Row>
       <Table.Cell>
         <Item>
-          <Image size="tiny" src={props.lineItem.product.imageUrl} />
+          <Image size="tiny" src={props.product.imageUrl} />
         </Item>
       </Table.Cell>
       <Table.Cell selectable>
-        <NavLink to={`/products/${props.lineItem.productId}`}>
-          {props.lineItem.product.name}
+        <NavLink to={`/products/${props.product.id}`}>
+          {props.product.name}
         </NavLink>
       </Table.Cell>
-      <Table.Cell>{props.lineItem.quantity}</Table.Cell>
-      <Table.Cell>{formatPrice(props.lineItem.itemPrice)}</Table.Cell>
+      <Table.Cell>{props.product.line_item.quantity}</Table.Cell>
+      <Table.Cell>{formatPrice(props.product.line_item.itemPrice)}</Table.Cell>
       <Table.Cell>
-        <AverageRating avgRating={props.lineItem.product.avgRating} />
+        <AverageRating avgRating={props.product.avgRating} />
       </Table.Cell>
     </Table.Row>
   )
