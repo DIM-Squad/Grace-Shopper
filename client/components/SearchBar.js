@@ -48,7 +48,7 @@ const mapDispatchToProps = dispatch => ({
 const styles = {
   searchBar: {
     marginLeft: 20,
-    marginTop: 10
+    marginTop: 30
   }
 }
 
