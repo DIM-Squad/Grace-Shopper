@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchProducts} from '../store/products'
 import {formatPrice} from '../utils/formatPrice'
+import {addToCartAction} from '../store/cart'
 
 class ProductCollection extends Component {
   componentDidMount = () => {
@@ -17,8 +18,14 @@ class ProductCollection extends Component {
     this.props.fetchProducts(filterType, filterId)
   }
 
-  addToCart = () => {
-    console.log('should add to cart')
+  addToCart = event => {
+    this.props.addToCartAction({
+      id: event.id,
+      name: event.name,
+      price: event.price,
+      quantity: 1,
+      imageUrl: event.imageUrl
+    })
   }
 
   goToProduct = id => {
@@ -52,7 +59,14 @@ class ProductCollection extends Component {
                   primary
                   floated="left"
                   disabled={product.quantity === 0}
-                  onClick={this.addToCart}
+                  onClick={() =>
+                    this.addToCart({
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      imageUrl: product.imageUrl
+                    })
+                  }
                 >
                   {product.quantity !== 0 ? (
                     <Icon name="shopping cart" />
@@ -72,7 +86,8 @@ class ProductCollection extends Component {
 const mapStateToProps = state => ({products: state.products})
 const mapDispatchToProps = dispatch => ({
   fetchProducts: (filterType, filterId) =>
-    dispatch(fetchProducts(filterType, filterId))
+    dispatch(fetchProducts(filterType, filterId)),
+  addToCartAction: item => dispatch(addToCartAction(item))
 })
 
 export default withRouter(

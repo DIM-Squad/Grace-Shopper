@@ -2,84 +2,91 @@ const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const User = db.define('user', {
-  firstName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
+const User = db.define(
+  'user',
+  {
+    firstName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+
+    lastName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+
+    fullName: {
+      type: Sequelize.VIRTUAL,
+      get() {
+        return (
+          this.getDataValue('firstName') + ' ' + this.getDataValue('lastName')
+        )
+      }
+    },
+
+    /**
+     * TODO: Break up the address information into
+     * address, city, state, zip eventually.
+     */
+
+    address: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+
+    isAdmin: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+
+    email: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isEmail: true
+      }
+    },
+    // imageUrl: {
+    //   type: Sequelize.STRING,
+    //   defaultValue: 'https://semantic-ui.com/images/avatar2/large/elyse.png'
+    // },
+
+    password: {
+      type: Sequelize.STRING,
+      // Making `.password` act like a func hides it when serializing to JSON.
+      // This is a hack to get around Sequelize's lack of a "private" option.
+      get() {
+        return () => this.getDataValue('password')
+      }
+    },
+    salt: {
+      type: Sequelize.STRING,
+      // Making `.salt` act like a function hides it when serializing to JSON.
+      // This is a hack to get around Sequelize's lack of a "private" option.
+      get() {
+        return () => this.getDataValue('salt')
+      }
+    },
+    googleId: {
+      type: Sequelize.STRING
     }
   },
-
-  lastName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-
-  fullName: {
-    type: Sequelize.VIRTUAL,
-    get() {
-      return (
-        this.getDataValue('firstName') + ' ' + this.getDataValue('lastName')
-      )
-    }
-  },
-
-  /**
-   * TODO: Break up the address information into
-   * address, city, state, zip eventually.
-   */
-
-  address: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-
-  isAdmin: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
-  },
-
-  email: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      isEmail: true
-    }
-  },
-  // imageUrl: {
-  //   type: Sequelize.STRING,
-  //   defaultValue: 'https://semantic-ui.com/images/avatar2/large/elyse.png'
-  // },
-
-  password: {
-    type: Sequelize.STRING,
-    // Making `.password` act like a func hides it when serializing to JSON.
-    // This is a hack to get around Sequelize's lack of a "private" option.
-    get() {
-      return () => this.getDataValue('password')
-    }
-  },
-  salt: {
-    type: Sequelize.STRING,
-    // Making `.salt` act like a function hides it when serializing to JSON.
-    // This is a hack to get around Sequelize's lack of a "private" option.
-    get() {
-      return () => this.getDataValue('salt')
-    }
-  },
-  googleId: {
-    type: Sequelize.STRING
+  {
+    //users can't truly be deleted as their order history etc. must be saved!
+    paranoid: true
   }
-})
+)
 
 module.exports = User
 
