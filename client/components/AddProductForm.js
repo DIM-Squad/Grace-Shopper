@@ -13,8 +13,7 @@ class AddProductForm extends Component {
     description: '',
     featured: false,
     quantity: 0,
-    size: '',
-    search: true
+    size: ''
   }
 
   handleSubmit = () => {
@@ -33,10 +32,22 @@ class AddProductForm extends Component {
   }
 
   handleCategoryChange = (e, {value}) => {
-    this.setState({categories: value})
+    this.setState({
+      categories: value
+    })
+  }
+
+  handleAddition = (e, {value}) => {
+    this.props.categories.push({
+      name: value,
+      text: value,
+      key: value
+    })
   }
 
   render() {
+    const chosenCategories = this.state.categories
+    const options = this.props.categories
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
@@ -65,18 +76,18 @@ class AddProductForm extends Component {
               label="Categories"
               control={Dropdown}
               placeholder="product categories"
-              options={this.props.categories.map(cat => ({
-                id: cat.id,
-                name: cat.name,
+              options={options.map(cat => ({
                 text: cat.name,
                 key: cat.id,
-                value: cat
+                value: cat.name
               }))}
               multiple
               selection
               onChange={this.handleCategoryChange}
               allowAdditions
-              search={this.state.search}
+              onAddItem={this.handleAddition}
+              value={chosenCategories}
+              search={true}
             />
           </Form.Group>
           <Form.Group>

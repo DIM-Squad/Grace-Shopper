@@ -109,7 +109,7 @@ router.post('/', isAdmin, async (req, res, next) => {
 
     const artistEntry = await Artist.findOrCreate({
       where: {name: artist}
-    }).spread((a, c) => a)
+    }).spread(a => a)
 
     const newProduct = await Product.create({
       name,
@@ -122,11 +122,11 @@ router.post('/', isAdmin, async (req, res, next) => {
     })
 
     const categoryEntries = await Promise.all(
-      categories.map(c => {
-        if (c.id) return Promise.resolve(c)
-        else return Category.findOrCreate({name: c.name})
-      })
+      categories.map(c =>
+        Category.findOrCreate({where: {name: c}}).spread(a => a)
+      )
     )
+    console.log(categoryEntries)
 
     await Promise.all(
       categoryEntries.map(c =>
