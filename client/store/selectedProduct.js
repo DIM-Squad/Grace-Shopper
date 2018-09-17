@@ -29,7 +29,6 @@ export const fetchSelectedProduct = productId => {
   return async dispatch => {
     try {
       let {data} = await axios.get(`/api/products/${productId}`)
-      console.log('Got Product Data', data)
       dispatch(gotSelecetedProductFromServer(data))
     } catch (err) {
       dispatch(selectedProductError(err))
