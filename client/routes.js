@@ -8,6 +8,7 @@ import {
   UserHome,
   ProductCollection,
   ProductDetail,
+  OrderCollection,
   OrderDetail,
   Cart,
   AddProductForm,
@@ -39,9 +40,11 @@ class Routes extends Component {
             <Route exact path="/products/:id" component={ProductDetail} />
             <Route path="/users/search/:filterId" component={UserCollection} />
             <Route
+              exact
               path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
             />
+            <Route path="/users/:userId?/orders/" component={OrderCollection} />
             <Route
               path="/products/:filterType?/:filterId?"
               component={ProductCollection}

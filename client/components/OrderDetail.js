@@ -21,7 +21,7 @@ class OrderDetail extends Component {
 
   render() {
     const selectedOrder = this.props.selectedOrder
-    console.log('SelectedOrder =>', selectedOrder)
+    // console.log('SelectedOrder =>', selectedOrder)
     if (!selectedOrder || selectedOrder === {}) {
       return null
     } else {
