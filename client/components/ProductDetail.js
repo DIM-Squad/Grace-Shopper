@@ -7,6 +7,7 @@ import {fetchSelectedProduct} from '../store/selectedProduct'
 import Review from './Review'
 import AverageRating from './AverageRating'
 import {formatPrice} from '../utils/formatPrice'
+import {addToCartAction} from '../store/cart'
 
 class ProductDetail extends Component {
   componentDidMount = () => {

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {SearchBar} from './'
 import CategoryDropdown from './CategoryDropdown'
-import {Menu, Icon} from 'semantic-ui-react'
+import {Menu, Icon, Button} from 'semantic-ui-react'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <Menu attached="top" stackable>
@@ -27,6 +27,13 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           </Menu.Item>
           <Menu.Item as="a" href="#" onClick={handleClick}>
             Logout
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/cart">
+              <Button color="pink">
+                <Icon name="shopping cart" />
+              </Button>
+            </Link>
           </Menu.Item>
         </React.Fragment>
       ) : (
