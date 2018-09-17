@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Table, Header, Button, Image} from 'semantic-ui-react'
-import {removeFromCartAction} from '../store/cart'
+import {removeFromCartAction, updateQuantityAction} from '../store/cart'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
@@ -8,9 +8,12 @@ class CartItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      quantity: 1
+      id: this.props.item.id,
+      name: this.props.item.name,
+      price: this.props.item.price,
+      imageUrl: this.props.item.imageUrl,
+      quantity: this.props.item.quantity
     }
-    //console.log('PROPS111', props)
     this.removeFromCart = this.removeFromCart.bind(this)
     this.addToQuantity = this.addToQuantity.bind(this)
     this.changeQuantity = this.changeQuantity.bind(this)
@@ -24,8 +27,8 @@ class CartItem extends Component {
       quantity: event.target.value
     })
   }
-  changeQuantity(event) {
-    this.props.item.quantity = event.target.value
+  changeQuantity() {
+    this.props.updateQuantityAction(this.state)
   }
   render() {
     const {item} = this.props
@@ -40,13 +43,6 @@ class CartItem extends Component {
           </Header>
         </Table.Cell>
         <Table.Cell singleLine>${item.price}</Table.Cell>
-        {/* <Table.Cell>
-          <Header floated="right">
-            <Button color="teal" size="small" onClick={this.addToQuantity}>
-              +
-            </Button>
-          </Header>
-        </Table.Cell> */}
         <Table.Cell>
           <form onSubmit={this.changeQuantity}>
             <input
@@ -58,20 +54,7 @@ class CartItem extends Component {
             />
             <input type="submit" value="Update" />
           </form>
-
-          {/* <Segment>
-            <Header as="h5" textAlign="center">
-              {item.quantity}
-            </Header>
-          </Segment> */}
         </Table.Cell>
-        {/* <Table.Cell>
-          <Header>
-            <Button color="teal" size="small" floated="right">
-              -
-            </Button>
-          </Header>
-        </Table.Cell> */}
         <Table.Cell>
           <Button
             color="red"
@@ -87,7 +70,8 @@ class CartItem extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  removeFromCartAction: itemId => dispatch(removeFromCartAction(itemId))
+  removeFromCartAction: itemId => dispatch(removeFromCartAction(itemId)),
+  updateQuantityAction: item => dispatch(updateQuantityAction(item))
 })
 
 export default connect(null, mapDispatchToProps)(CartItem)

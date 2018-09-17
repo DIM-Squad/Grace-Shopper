@@ -7,6 +7,7 @@ import {fetchSelectedProduct} from '../store/selectedProduct'
 import Review from './Review'
 import AverageRating from './AverageRating'
 import {formatPrice} from '../utils/formatPrice'
+import {addToCartAction} from '../store/cart'
 
 class ProductDetail extends Component {
   componentDidMount = () => {
@@ -14,8 +15,6 @@ class ProductDetail extends Component {
   }
 
   addToCart = event => {
-    //console.log('clicked')
-    console.log('EVENT', event.imageUrl)
     this.props.addToCartAction({
       id: event.id,
       name: event.name,
