@@ -78,6 +78,7 @@ class ProductDetail extends Component {
           </Grid.Row>
         </Grid>
         <Divider />
+        <h4>Reviews</h4>
         {selectedProduct.reviews &&
           selectedProduct.reviews.map(review => (
             <Review key={review.id} review={review} />
