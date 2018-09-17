@@ -23,12 +23,11 @@ class AddProductForm extends Component {
 
   handleChange = e => {
     const target = e.currentTarget
-    console.log(target)
     this.setState({[target.name]: target.value})
   }
 
-  handleSizeChoice = e => {
-    this.setState({size: e.currentTarget.id})
+  handleSizeChange = (e, {value}) => {
+    this.setState({size: value})
   }
 
   handleCategoryChange = (e, {value}) => {
@@ -120,19 +119,17 @@ class AddProductForm extends Component {
               value={this.state.quantity}
               onChange={this.handleChange}
             />
-            <Dropdown text={this.state.size || 'size'}>
-              <Dropdown.Menu>
-                {['small', 'medium', 'large'].map(size => (
-                  <Dropdown.Item
-                    onClick={this.handleSizeChoice}
-                    key={size}
-                    name={size}
-                    text={size}
-                    id={size}
-                  />
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
+            <Form.Field
+              control={Dropdown}
+              placeholder="size"
+              options={['small', 'medium', 'large'].map(s => ({
+                key: s,
+                text: s,
+                value: s
+              }))}
+              onChange={this.handleSizeChange}
+              name="size"
+            />
             <Form.Field
               label="featured"
               control="input"
@@ -143,7 +140,15 @@ class AddProductForm extends Component {
                 }))
               }
             />
-            <Form.Button type="submit">
+            <Form.Button
+              type="submit"
+              disabled={
+                !this.state.name ||
+                !this.state.artist ||
+                !this.state.description ||
+                !this.state.size
+              }
+            >
               <Icon name="plus" />
             </Form.Button>
           </Form.Group>

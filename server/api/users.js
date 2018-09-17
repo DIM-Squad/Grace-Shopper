@@ -36,7 +36,8 @@ router.get(`/:userId/orders/`, isSelfOrAdmin, async (req, res, next) => {
     const orderList = await Order.findAll({
       where: {userId},
       limit: 25,
-      include: [{model: Product}]
+      include: [{model: Product}],
+      order: [['createdAt', 'DESC']]
     })
     if (!orderList.length) {
       res.status(404).end()
@@ -70,7 +71,8 @@ router.get(`/orders`, isAdmin, async (req, res, next) => {
   try {
     const orderList = await Order.findAll({
       limit: 25,
-      include: [{model: Product}]
+      include: [{model: Product}],
+      order: [['createdAt', 'DESC']]
     })
     if (!orderList.length) {
       res.status(404).end()
@@ -96,7 +98,8 @@ router.get('/', isAdmin, async (req, res, next) => {
         'lastName',
         'email',
         'address'
-      ]
+      ],
+      order: [['lastName', 'ASC'], ['firstName', 'ASC']]
       // attributes: {
       //   exclude: ['isAdmin', 'password', 'googleId', 'avgRating']
       // }
@@ -120,7 +123,9 @@ router.get('/search/:key', isAdmin, async (req, res, next) => {
           {lastName: {[Op.iLike]: '%' + terms[0] + '%'}},
           {lastName: {[Op.iLike]: '%' + terms[1] + '%'}}
         ]
-      }
+      },
+      include: [{model: Order}],
+      order: [['lastName', 'ASC'], ['firstName', 'ASC']]
     })
     res.json(users)
   } catch (err) {
