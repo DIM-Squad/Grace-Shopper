@@ -49,14 +49,14 @@ class ProductCollection extends Component {
                   {formatPrice(product.price)}
                 </Card.Description>
                 <Button
-                  primary
+                  color="teal"
                   floated="right"
                   onClick={() => this.goToProduct(product.id)}
                 >
                   More details
                 </Button>
                 <Button
-                  primary
+                  color="teal"
                   floated="left"
                   disabled={product.quantity === 0}
                   onClick={() =>

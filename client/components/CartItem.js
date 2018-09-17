@@ -51,6 +51,7 @@ class CartItem extends Component {
               min="1"
               value={this.state.quantity}
               onChange={this.addToQuantity}
+              style={styles.input}
             />
             <input type="submit" value="Update" />
           </form>
@@ -73,5 +74,11 @@ const mapDispatchToProps = dispatch => ({
   removeFromCartAction: itemId => dispatch(removeFromCartAction(itemId)),
   updateQuantityAction: item => dispatch(updateQuantityAction(item))
 })
+
+const styles = {
+  input: {
+    width: 60
+  }
+}
 
 export default connect(null, mapDispatchToProps)(CartItem)
