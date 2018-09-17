@@ -37,7 +37,8 @@ router.get('/:productId', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const productList = await Product.findAll({
-      include: [{model: Category}, {model: Artist}]
+      include: [{model: Category}, {model: Artist}],
+      order: [['name', 'ASC']]
     })
     if (!productList.length) {
       res.status(404).end()
@@ -54,7 +55,8 @@ router.get('/search/:key', async (req, res, next) => {
     const matchingProducts = await Product.findAll({
       where: {name: {[Op.iLike]: '%' + req.params.key + '%'}},
       limit: 20,
-      include: [{model: Artist}]
+      include: [{model: Artist}],
+      order: [['name', 'ASC']]
     })
     if (matchingProducts) {
       res.status(200).json(matchingProducts)
@@ -70,7 +72,9 @@ router.get('/category/:id', async (req, res, next) => {
   try {
     res.status(200).json(
       (await Category.findById(Number(req.params.id), {
-        include: [{model: Product, include: [{model: Artist}]}]
+        include: [
+          {model: Product, include: [{model: Artist}], order: [['name', 'ASC']]}
+        ]
       })).products
     )
   } catch (err) {
@@ -86,7 +90,8 @@ router.get('/featured/true', async (req, res, next) => {
           featured: true,
           quantity: {[Op.gt]: 0}
         },
-        include: {model: Artist}
+        include: {model: Artist},
+        order: [['name', 'ASC']]
       })
     )
   } catch (err) {
