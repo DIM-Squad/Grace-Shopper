@@ -139,7 +139,16 @@ class ProductDetail extends Component {
           )}
         {selectedProduct.reviews &&
           selectedProduct.reviews.map(review => (
-            <Review key={review.id} review={review} />
+            <Review
+              key={review.id}
+              review={review}
+              isSelfOrAdmin={
+                this.props.user.isAdmin || this.props.user.id === review.userId
+              }
+              deleteReview={() =>
+                this.props.deleteReview(review.id, selectedProduct.id)
+              }
+            />
           ))}
       </Container>
     )
@@ -155,7 +164,9 @@ const mapDispatchToProps = dispatch => ({
   fetchSelectedProduct: id => dispatch(fetchSelectedProduct(id)),
   addToCartAction: item => dispatch(addToCartAction(item)),
   postReview: (user, review, title, description, rating) =>
-    dispatch(postReview(user, review, title, description, rating))
+    dispatch(postReview(user, review, title, description, rating)),
+  deleteReview: (reviewId, productId) =>
+    dispatch(deleteReview(reviewId, productId))
 })
 
 export default withRouter(
