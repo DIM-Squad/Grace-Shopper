@@ -11,7 +11,8 @@ import {
   OrderCollection,
   OrderDetail,
   Cart,
-  AddProductForm
+  AddProductForm,
+  UserCollection
 } from './components'
 import {me} from './store'
 
@@ -32,16 +33,18 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products/:id" component={ProductDetail} />
+        <Route path="/cart" component={Cart} />
         <Route
           path="/products/:filterType?/:filterId?"
           component={ProductCollection}
         />
+        <Route path="/home" component={UserHome} />
         <Route path="/cart" component={Cart} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
             <Route path="/add/product" component={AddProductForm} />
+            <Route path="/users/search/:filterId" component={UserCollection} />
             <Route
               exact
               path="/users/orders/search/:username"

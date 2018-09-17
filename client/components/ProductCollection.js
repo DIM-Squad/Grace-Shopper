@@ -37,50 +37,51 @@ class ProductCollection extends Component {
       <Fragment>
         <Divider hidden />
         <Card.Group stackable centered>
-          {this.props.products.map(product => (
-            <Card key={product.id}>
-              <Card.Content>
-                <Image
-                  size="medium"
-                  src={product.imageUrl}
-                  style={styles.image}
-                />
-                <Card.Header>{product.name}</Card.Header>
-                <Card.Meta>{product.artist.name}</Card.Meta>
-              </Card.Content>
-              <Card.Content extra>
-                <Card.Description>
-                  {formatPrice(product.price)}
-                </Card.Description>
-                <Button
-                  color="teal"
-                  floated="right"
-                  onClick={() => this.goToProduct(product.id)}
-                >
-                  More details
-                </Button>
-                <Button
-                  color="teal"
-                  floated="left"
-                  disabled={product.quantity === 0}
-                  onClick={() =>
-                    this.addToCart({
-                      id: product.id,
-                      name: product.name,
-                      price: product.price,
-                      imageUrl: product.imageUrl
-                    })
-                  }
-                >
-                  {product.quantity !== 0 ? (
-                    <Icon name="shopping cart" />
-                  ) : (
-                    'Out of stock'
-                  )}
-                </Button>
-              </Card.Content>
-            </Card>
-          ))}
+          {this.props.products &&
+            this.props.products.map(product => (
+              <Card key={product.id}>
+                <Card.Content>
+                  <Image
+                    size="medium"
+                    src={product.imageUrl}
+                    style={styles.image}
+                  />
+                  <Card.Header>{product.name}</Card.Header>
+                  <Card.Meta>{product.artist.name}</Card.Meta>
+                </Card.Content>
+                <Card.Content extra>
+                  <Card.Description>
+                    {formatPrice(product.price)}
+                  </Card.Description>
+                  <Button
+                    color="teal"
+                    floated="right"
+                    onClick={() => this.goToProduct(product.id)}
+                  >
+                    More details
+                  </Button>
+                  <Button
+                    color="teal"
+                    floated="left"
+                    disabled={product.quantity === 0}
+                    onClick={() =>
+                      this.addToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        imageUrl: product.imageUrl
+                      })
+                    }
+                  >
+                    {product.quantity !== 0 ? (
+                      <Icon name="shopping cart" />
+                    ) : (
+                      'Out of stock'
+                    )}
+                  </Button>
+                </Card.Content>
+              </Card>
+            ))}
         </Card.Group>
       </Fragment>
     )

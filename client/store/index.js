@@ -11,6 +11,7 @@ import orders from './orders'
 import selectedOrder from './selectedOrder'
 import categories from './category'
 import cart from './cart'
+import users from './users'
 
 const reducer = combineReducers({
   user,
@@ -19,7 +20,8 @@ const reducer = combineReducers({
   categories,
   orders,
   selectedOrder,
-  cart
+  cart,
+  users
 })
 
 const persistConfig = {
