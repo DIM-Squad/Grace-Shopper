@@ -16,7 +16,7 @@ class AddProductForm extends Component {
     featured: false,
     quantity: 0,
     size: '',
-    search: ''
+    search: true
   }
 
   handleSubmit = () => {
