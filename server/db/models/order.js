@@ -10,7 +10,7 @@ const Order = db.define('order', {
     }
   },
   status: {
-    type: Sequelize.ENUM('confirmed', 'complete', 'cancelled')
+    type: Sequelize.ENUM('confirmed', 'complete', 'cancelled', 'pending')
   },
   shippingAddress: {
     type: Sequelize.STRING,
