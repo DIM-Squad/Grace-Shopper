@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchUsers} from '../store/users'
 
-class ProductCollection extends Component {
+class UserCollection extends Component {
   componentDidMount = () => {
     this.props.fetchUsers('search', this.props.match.params.filterId)
   }
@@ -14,6 +14,7 @@ class ProductCollection extends Component {
   }
 
   render() {
+    console.log(this.props.users)
     return (
       <Fragment>
         <Divider hidden />
@@ -22,7 +23,7 @@ class ProductCollection extends Component {
             <Card key={user.id}>
               <Card.Content>
                 <Image size="medium" src={user.imageUrl} style={styles.image} />
-                <Card.Header>{user.name}</Card.Header>
+                <Card.Header>{user.fullName}</Card.Header>
               </Card.Content>
               <Card.Content extra>
                 <Button
@@ -54,5 +55,5 @@ const styles = {
 }
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductCollection)
+  connect(mapStateToProps, mapDispatchToProps)(UserCollection)
 )
