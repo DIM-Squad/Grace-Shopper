@@ -87,16 +87,29 @@ router.get('/featured/true', async (req, res, next) => {
   }
 })
 
-//this expects a body that includes a product object && an artist object (with a name property)
 router.post('/', isAdmin, async (req, res, next) => {
   try {
-    const newProduct = await Product.create(req.body.product)
+    const {
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      artist,
+      size
+    } = req.body
+    const newProduct = await Product.create({
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      size
+    })
     //theoretically this will associate the new product to the artist already in the artists table
     //if it finds the name, or will create a new artist and associate that!
-    newProduct.setArtist(
-      Artist.findOrCreate({where: {name: req.body.artist.name}})
-    )
-    res.status(201).json()
+    newProduct.setArtist(Artist.findOrCreate({where: {name: artist}}))
+    res.status(201).json(newProduct)
   } catch (err) {
     next(err)
   }

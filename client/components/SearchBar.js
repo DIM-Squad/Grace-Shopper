@@ -25,6 +25,7 @@ class SearchBar extends Component {
         <Form.Group>
           <Form.Field>
             <input
+              label={this.props.label}
               placeholder={`search ${this.props.type}`}
               name="search"
               value={this.state.searchTerm}
