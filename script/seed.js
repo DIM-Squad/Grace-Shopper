@@ -79,8 +79,8 @@ chance.mixin({
 chance.mixin({
   order: () => ({
     status: chance.weighted(
-      ['complete', 'cancelled', 'confirmed'],
-      [4, 1, 0.5]
+      ['complete', 'cancelled', 'confirmed', 'pending'],
+      [6, 2.87, 1, 0.5]
     ),
     userId: chance.natural({min: 1, max: numOfUsers}),
     shippingAddress: chance.address(),

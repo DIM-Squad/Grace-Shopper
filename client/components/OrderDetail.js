@@ -89,9 +89,9 @@ class OrderDetail extends Component {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {selectedOrder.line_items &&
-                    selectedOrder.line_items.map(lineItem => (
-                      <LineItem key={lineItem.productId} lineItem={lineItem} />
+                  {selectedOrder.products &&
+                    selectedOrder.products.map(product => (
+                      <LineItem key={product.id} product={product} />
                     ))}
                 </Table.Body>
               </Table>
