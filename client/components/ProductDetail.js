@@ -100,39 +100,43 @@ class ProductDetail extends Component {
         </Grid>
         <Divider />
         <h4>Reviews</h4>
-        {this.props.user && (
-          <Form
-            onSubmit={e => {
-              e.persist()
-              const target = e.currentTarget
-              this.props.postReview(
-                this.props.user.id,
-                this.props.selectedProduct.id,
-                target.title.value,
-                target.description.value,
-                this.state.rating
-              )
-            }}
-          >
-            <Form.Input
-              placeholder="Summarize your experience..."
-              name="title"
-            />
-            <Rating
-              icon="star"
-              defaultRating={3}
-              maxRating={5}
-              name="rating"
-              onRate={this.handleRate}
-            />
-            <Form.TextArea
-              width={16}
-              placeholder="Tell us your thoughts..."
-              name="description"
-            />
-            <Form.Button type="submit">Submit Review</Form.Button>
-          </Form>
-        )}
+        {this.props.user &&
+          selectedProduct.reviews &&
+          selectedProduct.reviews.findIndex(
+            r => r.userId === this.props.user.id
+          ) === -1 && (
+            <Form
+              onSubmit={e => {
+                e.persist()
+                const target = e.currentTarget
+                this.props.postReview(
+                  this.props.user.id,
+                  this.props.selectedProduct.id,
+                  target.title.value,
+                  target.description.value,
+                  this.state.rating
+                )
+              }}
+            >
+              <Form.Input
+                placeholder="Summarize your experience..."
+                name="title"
+              />
+              <Rating
+                icon="star"
+                defaultRating={3}
+                maxRating={5}
+                name="rating"
+                onRate={this.handleRate}
+              />
+              <Form.TextArea
+                width={16}
+                placeholder="Tell us your thoughts..."
+                name="description"
+              />
+              <Form.Button type="submit">Submit Review</Form.Button>
+            </Form>
+          )}
         {selectedProduct.reviews &&
           selectedProduct.reviews.map(review => (
             <Review key={review.id} review={review} />

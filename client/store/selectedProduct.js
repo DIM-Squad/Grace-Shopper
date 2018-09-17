@@ -40,7 +40,6 @@ export const fetchSelectedProduct = productId => {
 export const postReview = (userId, productId, title, description, rating) => {
   return async dispatch => {
     try {
-      console.log(userId, productId, title, description, rating)
       await axios.post(`/api/reviews/${userId}`, {
         userId,
         productId,
