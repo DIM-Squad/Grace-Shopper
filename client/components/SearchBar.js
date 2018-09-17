@@ -12,9 +12,11 @@ class SearchBar extends Component {
   }
 
   handleSubmit = () => {
-    const type = this.props.type
+    let type = this.props.type
     if (type === 'products') {
       this.props.fetchProducts(this.state.searchTerm)
+    } else if (type === 'orders') {
+      type = `users/${type}`
     }
     this.props.history.push(`/${type}/search/${this.state.searchTerm}`)
   }
