@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-//import {Dropdown, Button} from 'semantic-ui-react'
 import {Form, Container, Icon, Dropdown} from 'semantic-ui-react'
-//import axios from 'axios'
 import {withRouter} from 'react-router-dom'
 import {addProduct} from '../store/products'
 import {connect} from 'react-redux'
