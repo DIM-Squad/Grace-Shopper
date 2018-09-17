@@ -34,8 +34,8 @@ class AddProductForm extends Component {
     this.setState({size: e.currentTarget.id})
   }
 
-  handleCategoryChange = e => {
-    console.log(e.target)
+  handleCategoryChange = (e, {value}) => {
+    this.setState({categories: value})
   }
 
   render() {
@@ -72,7 +72,7 @@ class AddProductForm extends Component {
                 name: cat.name,
                 text: cat.name,
                 key: cat.id,
-                value: cat.id
+                value: cat
               }))}
               multiple
               selection
