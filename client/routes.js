@@ -38,16 +38,21 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/add/product" component={AddProductForm} />
             <Route exact path="/products/:id" component={ProductDetail} />
-            <Route path="/users/search/:filterId" component={UserCollection} />
+            <Route exact path="/users" component={UserCollection} />
             <Route
               exact
               path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
             />
-            <Route path="/users/:userId?/orders/" component={OrderCollection} />
+            <Route path="/users/:userId/orders/" component={OrderCollection} />
+            <Route path="/users/orders/" component={OrderCollection} />
             <Route
               path="/products/:filterType?/:filterId?"
               component={ProductCollection}
+            />
+            <Route
+              path="/users/:filterType/:filterId"
+              component={UserCollection}
             />
             <Route path="/cart" component={Cart} />
           </Switch>
