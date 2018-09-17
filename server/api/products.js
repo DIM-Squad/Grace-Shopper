@@ -1,6 +1,13 @@
 // Product routes
 const router = require('express').Router()
-const {Product, Category, Artist, Review, User} = require('../db/models')
+const {
+  Product,
+  Category,
+  Artist,
+  Review,
+  User,
+  ProductCategory
+} = require('../db/models')
 const Op = require('sequelize').Op
 const isAdmin = require('../auth/isAdmin')
 
@@ -96,19 +103,37 @@ router.post('/', isAdmin, async (req, res, next) => {
       quantity,
       description,
       artist,
-      size
+      size,
+      categories
     } = req.body
+
+    const artistEntry = await Artist.findOrCreate({
+      where: {name: artist}
+    }).spread((a, c) => a)
+
     const newProduct = await Product.create({
       name,
       price,
       featured,
       quantity,
       description,
-      size
+      size,
+      artistId: artistEntry.id
     })
-    //theoretically this will associate the new product to the artist already in the artists table
-    //if it finds the name, or will create a new artist and associate that!
-    newProduct.setArtist(Artist.findOrCreate({where: {name: artist}}))
+
+    const categoryEntries = await Promise.all(
+      categories.map(c => {
+        if (c.id) return Promise.resolve(c)
+        else return Category.findOrCreate({name: c.name})
+      })
+    )
+
+    await Promise.all(
+      categoryEntries.map(c =>
+        ProductCategory.create({categoryId: c.id, productId: newProduct.id})
+      )
+    )
+
     res.status(201).json(newProduct)
   } catch (err) {
     next(err)

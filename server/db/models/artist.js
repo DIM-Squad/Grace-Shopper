@@ -10,11 +10,7 @@ const Artist = db.define('artist', {
     }
   },
   slug: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: Sequelize.STRING
   },
   avgRating: {
     type: Sequelize.INTEGER,
