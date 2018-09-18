@@ -17,7 +17,8 @@ import {
   fetchSelectedProduct,
   postReview,
   deleteReview,
-  editProduct
+  editProduct,
+  deleteProduct
 } from '../store/selectedProduct'
 import Review from './Review'
 import AverageRating from './AverageRating'
@@ -66,6 +67,11 @@ class ProductDetail extends Component {
     }))
   }
 
+  deleteProduct = () => {
+    this.props.deleteProduct(this.props.selectedProduct.id)
+    this.props.history.push('/home')
+  }
+
   render() {
     const selectedProduct = this.props.selectedProduct
     const isAdmin = this.props.user.isAdmin
@@ -85,12 +91,20 @@ class ProductDetail extends Component {
                     <Item.Content>
                       {isAdmin &&
                         !this.state.editing && (
-                          <Button
-                            primary
-                            type="submit"
-                            content="edit info"
-                            onClick={this.beginEdit}
-                          />
+                          <React.Fragment>
+                            <Button
+                              primary
+                              type="submit"
+                              content="edit info"
+                              onClick={this.beginEdit}
+                            />
+                            <Button
+                              negative
+                              type="submit"
+                              content="remove this product"
+                              onClick={this.deleteProduct}
+                            />
+                          </React.Fragment>
                         )}
                       {this.state.editing ? (
                         <AddProductForm
@@ -101,6 +115,20 @@ class ProductDetail extends Component {
                       ) : (
                         <React.Fragment>
                           <Item.Header as="h1" content={selectedProduct.name} />
+                          <Item.Meta
+                            content={
+                              selectedProduct.artist &&
+                              selectedProduct.artist.name
+                            }
+                          />
+                          <Item.Meta
+                            content={
+                              selectedProduct.categories &&
+                              selectedProduct.categories
+                                .map(c => c.name)
+                                .join(', ')
+                            }
+                          />
                           <Divider hidden />
                           <AverageRating
                             avgRating={selectedProduct.avgRating}
@@ -209,7 +237,8 @@ const mapDispatchToProps = {
   addToCartAction,
   postReview,
   deleteReview,
-  editProduct
+  editProduct,
+  deleteProduct
 }
 
 export default withRouter(

@@ -162,7 +162,7 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
       where: {name: artist}
     }).spread(a => a)
 
-    const product = await Product.update(
+    await Product.update(
       {
         name,
         price: price * 100,
@@ -178,7 +178,36 @@ router.put('/:productId', isAdmin, async (req, res, next) => {
         plain: true
       }
     )
-    res.status(201).json(product)
+
+    await ProductCategory.destroy({where: {productId: req.params.productId}})
+
+    const categoryEntries = await Promise.all(
+      categories.map(c =>
+        Category.findOrCreate({where: {name: c}}).spread(a => a)
+      )
+    )
+
+    await Promise.all(
+      categoryEntries.map(c =>
+        ProductCategory.create({
+          categoryId: c.id,
+          productId: req.params.productId
+        })
+      )
+    )
+
+    const result = await Product.findById(req.params.productId, {
+      include: [
+        {
+          model: Review,
+          include: [{model: User}]
+        },
+        {model: Artist},
+        {model: Category}
+      ]
+    })
+
+    res.status(201).json(result)
   } catch (err) {
     next(err)
   }
