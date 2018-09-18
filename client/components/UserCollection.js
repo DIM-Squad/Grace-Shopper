@@ -6,7 +6,11 @@ import {fetchUsers} from '../store/users'
 
 class UserCollection extends Component {
   componentDidMount = () => {
-    this.props.fetchUsers('search', this.props.match.params.filterId)
+    if (!this.props.match.params.filterId) {
+      this.props.fetchUsers()
+    } else {
+      this.props.fetchUsers('search', this.props.match.params.filterId)
+    }
   }
 
   goToUser = id => {

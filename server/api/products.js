@@ -21,7 +21,9 @@ router.get('/:productId', async (req, res, next) => {
         {
           model: Review,
           include: [{model: User}]
-        }
+        },
+        {model: Artist},
+        {model: Category}
       ]
     })
     if (!product || product === {}) {
@@ -145,11 +147,37 @@ router.post('/', isAdmin, async (req, res, next) => {
 
 router.put('/:productId', isAdmin, async (req, res, next) => {
   try {
-    const product = await Product.update(req.body.product, {
-      where: {id: Number(req.params.productId)},
-      returning: true,
-      plain: true
-    })
+    const {
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      artist,
+      size,
+      categories
+    } = req.body
+
+    const artistEntry = await Artist.findOrCreate({
+      where: {name: artist}
+    }).spread(a => a)
+
+    const product = await Product.update(
+      {
+        name,
+        price: price * 100,
+        featured,
+        quantity,
+        description,
+        size,
+        artistId: artistEntry.id
+      },
+      {
+        where: {id: Number(req.params.productId)},
+        returning: true,
+        plain: true
+      }
+    )
     res.status(201).json(product)
   } catch (err) {
     next(err)

@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import {
   Item,
   Image,
@@ -15,20 +16,28 @@ import {withRouter} from 'react-router-dom'
 import {
   fetchSelectedProduct,
   postReview,
-  deleteReview
+  deleteReview,
+  editProduct
 } from '../store/selectedProduct'
 import Review from './Review'
 import AverageRating from './AverageRating'
 import {formatPrice} from '../utils/formatPrice'
 import {addToCartAction} from '../store/cart'
+import {AddProductForm} from './'
 
 class ProductDetail extends Component {
   state = {
-    rating: 3
+    rating: 3,
+    editing: false
   }
 
   componentDidMount = () => {
     this.props.fetchSelectedProduct(Number(this.props.match.params.id))
+  }
+
+  refreshProductPage = editedProduct => {
+    this.setState({editing: false})
+    this.props.editProduct(editedProduct)
   }
 
   addToCart = event => {
@@ -45,8 +54,21 @@ class ProductDetail extends Component {
     this.setState({rating})
   }
 
+  beginEdit = () => {
+    const {name, description, price} = this.props.selectedProduct
+    this.setState({editing: true, productChange: {name, description, price}})
+  }
+
+  handleChange = e => {
+    const target = e.currentTarget
+    this.setState(prevState => ({
+      productChange: {...prevState.productChange, [target.name]: target.value}
+    }))
+  }
+
   render() {
     const selectedProduct = this.props.selectedProduct
+    const isAdmin = this.props.user.isAdmin
     return (
       <Container>
         <Grid container>
@@ -61,36 +83,55 @@ class ProductDetail extends Component {
                 <Grid.Column>
                   <Item>
                     <Item.Content>
-                      <Item.Header>
-                        <strong>{selectedProduct.name}</strong>
-                        <Divider hidden />
-                      </Item.Header>
-                      <AverageRating avgRating={selectedProduct.avgRating} />
-                      <Divider hidden />
-                      <Item.Meta>
-                        <span className="price">
-                          {formatPrice(selectedProduct.price)}
-                        </span>
-                        <Divider hidden />
-                      </Item.Meta>
-                      <Divider hidden />
-                      <Item.Description>
-                        {selectedProduct.description}
-                        <Divider hidden />
-                      </Item.Description>
-                      <Button
-                        color="teal"
-                        onClick={() =>
-                          this.addToCart({
-                            id: selectedProduct.id,
-                            name: selectedProduct.name,
-                            price: selectedProduct.price,
-                            imageUrl: selectedProduct.imageUrl
-                          })
-                        }
-                      >
-                        Add to Cart
-                      </Button>
+                      {isAdmin &&
+                        !this.state.editing && (
+                          <Button
+                            primary
+                            type="submit"
+                            content="edit info"
+                            onClick={this.beginEdit}
+                          />
+                        )}
+                      {this.state.editing ? (
+                        <AddProductForm
+                          product={selectedProduct}
+                          refreshProductPage={this.refreshProductPage}
+                          editProduct={this.props.editProduct}
+                        />
+                      ) : (
+                        <React.Fragment>
+                          <Item.Header as="h1" content={selectedProduct.name} />
+                          <Divider hidden />
+                          <AverageRating
+                            avgRating={selectedProduct.avgRating}
+                          />
+                          <Divider hidden />
+                          <Item.Meta>
+                            <span className="price">
+                              {formatPrice(selectedProduct.price)}
+                            </span>
+                            <Divider hidden />
+                          </Item.Meta>
+                          <Divider hidden />
+                          <Item.Description>
+                            {selectedProduct.description}
+                            <Divider hidden />
+                          </Item.Description>
+                          <Button
+                            color="teal"
+                            onClick={() =>
+                              this.addToCart({
+                                id: selectedProduct.id,
+                                name: selectedProduct.name,
+                                price: selectedProduct.price,
+                                imageUrl: selectedProduct.imageUrl
+                              })
+                            }
+                          >
+                            Add to Cart
+                          </Button>
+                        </React.Fragment>
+                      )}
                     </Item.Content>
                   </Item>
                 </Grid.Column>
@@ -101,6 +142,8 @@ class ProductDetail extends Component {
         <Divider />
         <h4>Reviews</h4>
         {this.props.user &&
+          //admins should not leave reviews while on their admin accounts
+          !isAdmin &&
           selectedProduct.reviews &&
           selectedProduct.reviews.findIndex(
             r => r.userId === this.props.user.id
@@ -161,14 +204,13 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchSelectedProduct: id => dispatch(fetchSelectedProduct(id)),
-  addToCartAction: item => dispatch(addToCartAction(item)),
-  postReview: (user, review, title, description, rating) =>
-    dispatch(postReview(user, review, title, description, rating)),
-  deleteReview: (reviewId, productId) =>
-    dispatch(deleteReview(reviewId, productId))
-})
+const mapDispatchToProps = {
+  fetchSelectedProduct,
+  addToCartAction,
+  postReview,
+  deleteReview,
+  editProduct
+}
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ProductDetail)

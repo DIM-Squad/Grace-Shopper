@@ -64,6 +64,17 @@ export const deleteReview = (reviewId, productId) => {
   }
 }
 
+export const editProduct = product => {
+  return async dispatch => {
+    try {
+      const result = await axios.put(`/api/products/${product.id}`, product)
+      dispatch(gotSelectedProductFromServer(result.data[1]))
+    } catch (err) {
+      dispatch(selectedProductError())
+    }
+  }
+}
+
 const selectedProduct = (state = initialState.selectedProduct, action) => {
   switch (action.type) {
     case SELECTED_PRODUCT_ERROR:

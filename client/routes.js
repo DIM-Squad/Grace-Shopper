@@ -38,6 +38,7 @@ class Routes extends Component {
           path="/products/:filterType?/:filterId?"
           component={ProductCollection}
         />
+        <Route exact path="/users" component={UserCollection} />
         <Route path="/home" component={UserHome} />
         <Route path="/cart" component={Cart} />
         {isLoggedIn && (
