@@ -34,7 +34,6 @@ export const fetchSelectedOrder = (userId, orderId) => {
       } else {
         result = await axios.get(`/api/users/orders/${orderId}`)
       }
-      console.log('Got Order Data', result.data)
       dispatch(gotSelecetedOrderFromServer(result.data))
     } catch (err) {
       dispatch(selectedOrderError(err))
