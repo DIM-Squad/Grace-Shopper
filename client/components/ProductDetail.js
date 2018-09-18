@@ -11,7 +11,7 @@ import {
 } from 'semantic-ui-react'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {withRouter, NavLink} from 'react-router-dom'
 // User defined imports
 import {
   fetchSelectedProduct,
@@ -123,10 +123,21 @@ class ProductDetail extends Component {
                           />
                           <Item.Meta
                             content={
-                              selectedProduct.categories &&
-                              selectedProduct.categories
-                                .map(c => c.name)
-                                .join(', ')
+                              selectedProduct.categories && (
+                                <div>
+                                  <span>In</span>
+                                  <span>
+                                    {selectedProduct.categories.map(c => (
+                                      <NavLink
+                                        to={`/categories/${c.id}`}
+                                        key={c.id}
+                                      >
+                                        {'  ' + c.name}
+                                      </NavLink>
+                                    ))}
+                                  </span>
+                                </div>
+                              )
                             }
                           />
                           <Divider hidden />
