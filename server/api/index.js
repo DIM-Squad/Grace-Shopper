@@ -1,7 +1,6 @@
 const router = require('express').Router()
 
 // User defined imports
-const {Order} = require('../db/models')
 module.exports = router
 
 router.use('/users', require('./users'))
@@ -13,6 +12,8 @@ router.use('/cart', require('./cart'))
 router.post(`/orders`, async (req, res, next) => {
   // TODO
 })
+router.use('/orders', require('./orders'))
+router.use('/reviews', require('./reviews'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

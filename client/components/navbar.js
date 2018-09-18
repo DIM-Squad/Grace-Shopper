@@ -65,6 +65,61 @@ class Navbar extends Component {
     )
   }
 }
+// const Navbar = ({handleClick, isLoggedIn, userId}) => (
+//   <Menu attached="top" stackable>
+//     <Menu.Item as="h1">
+//       <span>I </span>
+//       <span>
+//         <Link to="/products">
+//           {' '}
+//           <Icon name="heart" />
+//         </Link>
+//       </span>{' '}
+//       <span> Art</span>
+//     </Menu.Item>
+//     <Menu.Item as={SearchBar} type="products" />
+//     <Menu.Item as={CategoryDropdown} />
+//     <Menu.Menu position="right">
+//       <Menu.Item as={Link} to="/home">
+//         Home
+//       </Menu.Item>
+//       {isLoggedIn ? (
+//         <React.Fragment>
+//           <Menu.Item as={Link} to={`/users/${userId}`}>
+//             My Account
+//           </Menu.Item>
+//           <Menu.Item as="a" href="#" onClick={handleClick}>
+//             Logout
+//           </Menu.Item>
+//           <Menu.Item>
+//             <Link to="/cart">
+//               <Button color="pink">
+//                 <Icon name="shopping cart" />
+//               </Button>
+//             </Link>
+//           </Menu.Item>
+//         </React.Fragment>
+//       ) : (
+//         <React.Fragment>
+//           {/* The navbar will show these links before you log in */}
+//           <Menu.Item as={Link} to="/login">
+//             Login
+//           </Menu.Item>
+//           <Menu.Item as={Link} to="/signup">
+//             Sign Up
+//           </Menu.Item>
+//           <Menu.Item>
+//             <Link to="/cart">
+//               <Button color="pink">
+//                 <Icon name="shopping cart" />
+//               </Button>
+//             </Link>
+//           </Menu.Item>
+//         </React.Fragment>
+//       )}
+//     </Menu.Menu>
+//   </Menu>
+// )
 
 /**
  * CONTAINER
@@ -72,7 +127,8 @@ class Navbar extends Component {
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
   cart: state.cart,
-  user: state.user
+  user: state.user,
+  userId: state.user.id
 })
 
 const mapDispatch = dispatch => ({

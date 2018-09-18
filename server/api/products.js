@@ -1,6 +1,13 @@
 // Product routes
 const router = require('express').Router()
-const {Product, Category, Artist, Review, User} = require('../db/models')
+const {
+  Product,
+  Category,
+  Artist,
+  Review,
+  User,
+  ProductCategory
+} = require('../db/models')
 const Op = require('sequelize').Op
 const isAdmin = require('../auth/isAdmin')
 
@@ -14,7 +21,9 @@ router.get('/:productId', async (req, res, next) => {
         {
           model: Review,
           include: [{model: User}]
-        }
+        },
+        {model: Artist},
+        {model: Category}
       ]
     })
     if (!product || product === {}) {
@@ -30,7 +39,8 @@ router.get('/:productId', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const productList = await Product.findAll({
-      include: [{model: Category}, {model: Artist}]
+      include: [{model: Category}, {model: Artist}],
+      order: [['name', 'ASC']]
     })
     if (!productList.length) {
       res.status(404).end()
@@ -46,8 +56,8 @@ router.get('/search/:key', async (req, res, next) => {
   try {
     const matchingProducts = await Product.findAll({
       where: {name: {[Op.iLike]: '%' + req.params.key + '%'}},
-      limit: 20,
-      include: [{model: Artist}]
+      include: [{model: Artist}],
+      order: [['name', 'ASC']]
     })
     if (matchingProducts) {
       res.status(200).json(matchingProducts)
@@ -63,7 +73,9 @@ router.get('/category/:id', async (req, res, next) => {
   try {
     res.status(200).json(
       (await Category.findById(Number(req.params.id), {
-        include: [{model: Product, include: [{model: Artist}]}]
+        include: [
+          {model: Product, include: [{model: Artist}], order: [['name', 'ASC']]}
+        ]
       })).products
     )
   } catch (err) {
@@ -75,8 +87,12 @@ router.get('/featured/true', async (req, res, next) => {
   try {
     res.status(200).json(
       await Product.findAll({
-        where: {featured: true},
-        include: {model: Artist}
+        where: {
+          featured: true,
+          quantity: {[Op.gt]: 0}
+        },
+        include: {model: Artist},
+        order: [['name', 'ASC']]
       })
     )
   } catch (err) {
@@ -84,16 +100,46 @@ router.get('/featured/true', async (req, res, next) => {
   }
 })
 
-//this expects a body that includes a product object && an artist object (with a name property)
 router.post('/', isAdmin, async (req, res, next) => {
   try {
-    const newProduct = await Product.create(req.body.product)
-    //theoretically this will associate the new product to the artist already in the artists table
-    //if it finds the name, or will create a new artist and associate that!
-    newProduct.setArtist(
-      Artist.findOrCreate({where: {name: req.body.artist.name}})
+    const {
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      artist,
+      size,
+      categories
+    } = req.body
+
+    const artistEntry = await Artist.findOrCreate({
+      where: {name: artist}
+    }).spread(a => a)
+
+    const newProduct = await Product.create({
+      name,
+      price: price * 100,
+      featured,
+      quantity,
+      description,
+      size,
+      artistId: artistEntry.id
+    })
+
+    const categoryEntries = await Promise.all(
+      categories.map(c =>
+        Category.findOrCreate({where: {name: c}}).spread(a => a)
+      )
     )
-    res.status(201).json()
+
+    await Promise.all(
+      categoryEntries.map(c =>
+        ProductCategory.create({categoryId: c.id, productId: newProduct.id})
+      )
+    )
+
+    res.status(201).json(newProduct)
   } catch (err) {
     next(err)
   }
@@ -101,12 +147,67 @@ router.post('/', isAdmin, async (req, res, next) => {
 
 router.put('/:productId', isAdmin, async (req, res, next) => {
   try {
-    const product = await Product.update(req.body.product, {
-      where: {id: Number(req.params.productId)},
-      returning: true,
-      plain: true
+    const {
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      artist,
+      size,
+      categories
+    } = req.body
+
+    const artistEntry = await Artist.findOrCreate({
+      where: {name: artist}
+    }).spread(a => a)
+
+    await Product.update(
+      {
+        name,
+        price: price * 100,
+        featured,
+        quantity,
+        description,
+        size,
+        artistId: artistEntry.id
+      },
+      {
+        where: {id: Number(req.params.productId)},
+        returning: true,
+        plain: true
+      }
+    )
+
+    await ProductCategory.destroy({where: {productId: req.params.productId}})
+
+    const categoryEntries = await Promise.all(
+      categories.map(c =>
+        Category.findOrCreate({where: {name: c}}).spread(a => a)
+      )
+    )
+
+    await Promise.all(
+      categoryEntries.map(c =>
+        ProductCategory.create({
+          categoryId: c.id,
+          productId: req.params.productId
+        })
+      )
+    )
+
+    const result = await Product.findById(req.params.productId, {
+      include: [
+        {
+          model: Review,
+          include: [{model: User}]
+        },
+        {model: Artist},
+        {model: Category}
+      ]
     })
-    res.status(201).json(product)
+
+    res.status(201).json(result)
   } catch (err) {
     next(err)
   }

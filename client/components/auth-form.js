@@ -28,6 +28,7 @@ class AuthForm extends Component {
     const {name, displayName, handleSubmit, error} = this.props
     return (
       <Container>
+        <Divider hidden />
         <Header as="h1">{displayName}</Header>
         <Form
           onSubmit={() => handleSubmit(name, this.state)}

@@ -8,8 +8,12 @@ import {
   UserHome,
   ProductCollection,
   ProductDetail,
+  OrderCollection,
   OrderDetail,
-  Cart
+  Cart,
+  AddProductForm,
+  UserCollection,
+  UserProfile
 } from './components'
 import {me} from './store'
 //import postCart from './store/cart'
@@ -40,20 +44,37 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route exact path="/products/:id" component={ProductDetail} />
+        <Route path="/cart" component={Cart} />
+        <Route
+          path="/products/:filterType?/:filterId?"
+          component={ProductCollection}
+        />
+        <Route exact path="/users" component={UserCollection} />
+        <Route path="/cart" component={Cart} />
+        <Route path="/" component={UserHome} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-            <Route exact path="/products/:id" component={ProductDetail} />
+
+            <Route exact path="/users/:userId" component={UserProfile} />
+            <Route path="/add/product" component={AddProductForm} />
+            <Route
+              exact
+              path="/users/orders/search/:username"
+              component={OrderCollection}
+            />
             <Route
               path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
             />
+            <Route path="/users/:userId?/orders" component={OrderCollection} />
+            <Route path="/users/orders/" component={OrderCollection} />
+            <Route exact path="/users" component={UserCollection} />
             <Route
-              path="/products/:filterType?/:filterId?"
-              component={ProductCollection}
+              path="/users/:filterType/:filterId"
+              component={UserCollection}
             />
-            <Route path="/cart" component={Cart} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

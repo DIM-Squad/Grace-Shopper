@@ -1,5 +1,5 @@
 import React from 'react'
-import {Item, Rating} from 'semantic-ui-react'
+import {Item, Rating, Button} from 'semantic-ui-react'
 
 const Review = props => {
   return (
@@ -11,6 +11,11 @@ const Review = props => {
         />
         <Item.Content>
           <Item.Header>{props.review.title}</Item.Header>
+          {props.isSelfOrAdmin && (
+            <Button onClick={props.deleteReview} negative>
+              Delete Review
+            </Button>
+          )}
           <Item.Meta>
             <Rating
               icon="star"

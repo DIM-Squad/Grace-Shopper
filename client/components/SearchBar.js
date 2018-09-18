@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-//import {Dropdown, Button} from 'semantic-ui-react'
+
 import {Form, Icon} from 'semantic-ui-react'
-//import axios from 'axios'
 import {withRouter} from 'react-router-dom'
 import {fetchProducts} from '../store/products'
+import {fetchOrdersByUserName} from '../store/orders'
 import {connect} from 'react-redux'
 
 class SearchBar extends Component {
@@ -12,11 +12,19 @@ class SearchBar extends Component {
   }
 
   handleSubmit = () => {
-    const type = this.props.type
+    // The stuff happening here is a delicate mess, thread carefully alright.
+    let type = this.props.type
     if (type === 'products') {
       this.props.fetchProducts(this.state.searchTerm)
+      this.props.history.push(`/${type}/search/${this.state.searchTerm}`)
+    } else if (type === 'orders') {
+      this.props.fetchOrdersByUserName(this.state.searchTerm)
+    } else if (type === 'order') {
+      type = `users/${type}s`
+      this.props.history.push(`/${type}/search/${this.state.searchTerm}`)
+    } else {
+      this.props.history.push(`/${type}/search/${this.state.searchTerm}`)
     }
-    this.props.history.push(`/${type}/search/${this.state.searchTerm}`)
   }
 
   render() {
@@ -25,6 +33,7 @@ class SearchBar extends Component {
         <Form.Group style={styles.searchBar}>
           <Form.Field>
             <input
+              label={this.props.label}
               placeholder={`search ${this.props.type}`}
               name="search"
               value={this.state.searchTerm}
@@ -41,7 +50,8 @@ class SearchBar extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchProducts: term => dispatch(fetchProducts('search', term))
+  fetchProducts: term => dispatch(fetchProducts('search', term)),
+  fetchOrdersByUserName: name => dispatch(fetchOrdersByUserName(name))
 })
 
 const styles = {
