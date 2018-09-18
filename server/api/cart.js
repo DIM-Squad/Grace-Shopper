@@ -1,13 +1,16 @@
 const router = require('express').Router()
-const {Cart} = require('../db/models')
+const {User} = require('../db/models')
 // const isAdmin = require('../auth/isAdmin')
 module.exports = router
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const cart = await Cart.findOne({where: {userId: req.params.id}})
-    console.log('Fetching cart on log in =>', cart.dataValues)
-    res.status(200).json(JSON.parse(cart))
+    const cart = (await User.findById(req.params.id, {attributes: ['cart']}))
+      .cart
+    //console.log('Fetching cart on log in =>', cart.dataValues)
+    console.log(JSON.parse(cart))
+    if (cart) res.status(200).json(JSON.parse(cart))
+    else res.status(200).send()
   } catch (err) {
     next(err)
   }
@@ -17,12 +20,13 @@ router.post('/:id', async (req, res, next) => {
   // console.log('SESSION', req.params.id)
   try {
     const jsonCart = JSON.stringify(req.body)
-    console.log('JSON CART', jsonCart)
     // const [cart] = await Cart.findOrCreate({where: {userId: req.params.id}
     // })
     // await cart.update({ cart: jsonCart })
-    const cart = await Cart.upsert(jsonCart, {where: {userId: req.params.id}})
-    res.json(cart)
+    const updatedUser = await (await User.findById(req.params.id)).update({
+      cart: jsonCart
+    })
+    res.json(updatedUser.cart)
   } catch (err) {
     next(err)
   }

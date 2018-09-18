@@ -38,9 +38,6 @@ Order.belongsToMany(Product, {through: LineItem})
 User.hasMany(Order)
 Order.belongsTo(User)
 
-User.hasOne(Cart)
-Cart.belongsTo(User)
-
 module.exports = {
   User,
   Category,

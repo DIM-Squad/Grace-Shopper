@@ -54,7 +54,7 @@ const cart = (state = [], action) => {
     case EMPTY_CART_ON_CHECKOUT:
       return state
     case GOT_CART_FROM_SERVER:
-      return action.cart.cart
+      return action.cart
     case SAVE_CART:
       return state
     default:
