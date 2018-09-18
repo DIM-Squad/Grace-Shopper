@@ -7,7 +7,7 @@ export default () => {
   return (
     <Container>
       <SearchBar type="users" label="Search users by name" />
-      <SearchBar type="orders" label="Search users by order#" />
+      <SearchBar type="order" label="Search users by order#" />
       <NavLink to="/add/product">Add a new product</NavLink>
     </Container>
   )

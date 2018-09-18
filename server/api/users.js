@@ -115,7 +115,6 @@ router.get(`/orders/search/:username`, isAdmin, async (req, res, next) => {
         ]
       }
     })
-    // console.log('User to get by Username search =>', user)
     // const orderListforUser = await Order.findAll({
     //   where: {userId: user.dataValues.id},
     //   limit: 25,
@@ -124,7 +123,6 @@ router.get(`/orders/search/:username`, isAdmin, async (req, res, next) => {
     const orderListforUser = await user.getOrders({
       include: [{model: User}, {model: Product}]
     })
-    console.log('Searching By Username =>', orderListforUser)
     res.status(200).json(orderListforUser)
   } catch (err) {
     next(err)

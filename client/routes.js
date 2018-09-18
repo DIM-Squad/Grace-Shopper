@@ -12,7 +12,8 @@ import {
   OrderDetail,
   Cart,
   AddProductForm,
-  UserCollection
+  UserCollection,
+  UserProfile
 } from './components'
 import {me} from './store'
 
@@ -38,11 +39,12 @@ class Routes extends Component {
           path="/products/:filterType?/:filterId?"
           component={ProductCollection}
         />
-        <Route path="/home" component={UserHome} />
         <Route path="/cart" component={Cart} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route path="/home" component={UserHome} />
+            <Route exact path="/users/:userId" component={UserProfile} />
             <Route path="/add/product" component={AddProductForm} />
             <Route path="/users/search/:filterId" component={UserCollection} />
             <Route
@@ -54,7 +56,7 @@ class Routes extends Component {
               path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
             />
-            <Route path="/users/:userId?/orders/" component={OrderCollection} />
+            <Route path="/users/:userId?/orders" component={OrderCollection} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
