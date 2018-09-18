@@ -20,22 +20,22 @@ class OrderCollectionSubMenu extends Component {
         />
         <Menu.Item
           name="confirmed"
-          active={this.activeItem === 'confirmed'}
+          active={activeItem === 'confirmed'}
           onClick={this.handleMenuItemClick}
         />
         <Menu.Item
           name="complete"
-          active={this.activeItem === 'complete'}
+          active={activeItem === 'complete'}
           onClick={this.handleMenuItemClick}
         />
         <Menu.Item
           name="cancelled"
-          active={this.activeItem === 'cancelled'}
+          active={activeItem === 'cancelled'}
           onClick={this.handleMenuItemClick}
         />
         <Menu.Item
           name="pending"
-          active={this.activeItem === 'pending'}
+          active={activeItem === 'pending'}
           onClick={this.handleMenuItemClick}
         />
       </Menu>
