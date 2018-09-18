@@ -1,10 +1,11 @@
 import axios from 'axios'
 import history from '../history'
+import {mergeCarts} from './cart'
 
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER'
+export const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
 /**
@@ -15,7 +16,7 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+export const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 
 /**
@@ -31,7 +32,6 @@ export const me = () => async dispatch => {
 }
 
 export const auth = (state, method) => async dispatch => {
-  console.log(state, method)
   let res
   try {
     res = await axios.post(`/auth/${method}`, state)
@@ -41,6 +41,7 @@ export const auth = (state, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
+    dispatch(mergeCarts(res.data.cart ? JSON.parse(res.data.cart) : []))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)

@@ -6,7 +6,6 @@ import CartItem from './CartItem'
 
 class Cart extends Component {
   render() {
-    //console.log('PROPS', this.props)
     return (
       <Container>
         <Table padded>

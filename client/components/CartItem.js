@@ -3,6 +3,7 @@ import {Table, Header, Button, Image} from 'semantic-ui-react'
 import {removeFromCartAction, updateQuantityAction} from '../store/cart'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {formatPrice} from '../utils/formatPrice'
 
 class CartItem extends Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class CartItem extends Component {
   }
   render() {
     const {item} = this.props
+    //console.log('ITEM', item)
     return (
       <Table.Row>
         <Table.Cell>
@@ -42,7 +44,7 @@ class CartItem extends Component {
             </Header.Content>
           </Header>
         </Table.Cell>
-        <Table.Cell singleLine>${item.price}</Table.Cell>
+        <Table.Cell singleLine>{formatPrice(item.price)}</Table.Cell>
         <Table.Cell>
           <form onSubmit={this.changeQuantity}>
             <input
@@ -82,3 +84,8 @@ const styles = {
 }
 
 export default connect(null, mapDispatchToProps)(CartItem)
+
+// flower pizza http://www.chattanoogasciencefair.org/wp-content/uploads/flower-art-prints-floral-pizza-art-print-paulfuentes-society6.jpg
+// ananas http://www.chattanoogasciencefair.org/wp-content/uploads/food-art-prints-food-art-prints-society6.jpg
+//beach http://www.chattanoogasciencefair.org/wp-content/uploads/art-prints-com-photography-art-prints-society6.jpg
+// https://images-na.ssl-images-amazon.com/images/I/81oxnWrMihL._SY500_.jpg

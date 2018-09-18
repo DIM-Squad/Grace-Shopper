@@ -10,7 +10,6 @@ import {ProductCollection, AdminHome} from './'
 export const UserHome = props => {
   const {firstName, isAdmin} = props
 
-  console.log(props)
   return (
     <Container>
       <Divider hidden />

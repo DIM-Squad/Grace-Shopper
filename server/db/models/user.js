@@ -78,6 +78,9 @@ const User = db.define(
         return () => this.getDataValue('salt')
       }
     },
+    cart: {
+      type: Sequelize.TEXT
+    },
     googleId: {
       type: Sequelize.STRING
     }

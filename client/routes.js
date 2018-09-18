@@ -16,17 +16,28 @@ import {
   UserProfile
 } from './components'
 import {me} from './store'
+//import postCart from './store/cart'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
+    // console.log('CART', this.props.cart)
     this.props.loadInitialData()
   }
 
+  // componentWillUnmount() {
+  //   this.props.postCart(this.props.cart)
+  // }
+
   render() {
     const {isLoggedIn} = this.props
+    // console.log('CART', this.props.cart)
+    // console.log('LOGED IN', this.props.isLoggedIn)
+    // if (isLoggedIn) {
+    //   this.props.postCart(this.props.cart)
+    // }
 
     return (
       <Switch>
@@ -41,7 +52,7 @@ class Routes extends Component {
         />
         <Route exact path="/users" component={UserCollection} />
         <Route path="/cart" component={Cart} />
-        <Route path="/" component={UserHome} />
+        <Route exact path="/" component={UserHome} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -80,7 +91,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    cart: state.cart
   }
 }
 
@@ -89,6 +101,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     }
+    // postCart: cartItems => dispatch(postCart(cartItems))
   }
 }
 
