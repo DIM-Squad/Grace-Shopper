@@ -3,6 +3,7 @@ import {Table, Container} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import CartItem from './CartItem'
+import TakeMoney from './TakeMoney'
 
 class Cart extends Component {
   render() {
@@ -16,6 +17,7 @@ class Cart extends Component {
             ))}
           </Table.Body>
         </Table>
+        <TakeMoney />
       </Container>
     )
   }
