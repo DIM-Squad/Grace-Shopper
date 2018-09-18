@@ -22,13 +22,6 @@ const Navbar = ({handleClick, isLoggedIn, userId}) => (
     <Menu.Item as={SearchBar} type="products" />
     <Menu.Item as={CategoryDropdown} />
     <Menu.Menu position="right">
-      <Menu.Item>
-        <Link to="/cart">
-          <Button color="pink">
-            <Icon name="shopping cart" />
-          </Button>
-        </Link>
-      </Menu.Item>
       <Menu.Item as={Link} to="/home">
         Home
       </Menu.Item>
@@ -36,10 +29,6 @@ const Navbar = ({handleClick, isLoggedIn, userId}) => (
         <React.Fragment>
           <Menu.Item as={Link} to={`/users/${userId}`}>
             My Account
-          </Menu.Item>
-          <Menu.Item as={Link} to="/home">
-            {/* The navbar will show these links after you log in */}
-            Home
           </Menu.Item>
           <Menu.Item as="a" href="#" onClick={handleClick}>
             Logout
@@ -60,6 +49,13 @@ const Navbar = ({handleClick, isLoggedIn, userId}) => (
           </Menu.Item>
           <Menu.Item as={Link} to="/signup">
             Sign Up
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/cart">
+              <Button color="pink">
+                <Icon name="shopping cart" />
+              </Button>
+            </Link>
           </Menu.Item>
         </React.Fragment>
       )}
