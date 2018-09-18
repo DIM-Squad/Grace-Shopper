@@ -32,6 +32,7 @@ class CartItem extends Component {
   }
   render() {
     const {item} = this.props
+    //console.log('ITEM', item)
     return (
       <Table.Row>
         <Table.Cell>
@@ -82,3 +83,8 @@ const styles = {
 }
 
 export default connect(null, mapDispatchToProps)(CartItem)
+
+// flower pizza http://www.chattanoogasciencefair.org/wp-content/uploads/flower-art-prints-floral-pizza-art-print-paulfuentes-society6.jpg
+// ananas http://www.chattanoogasciencefair.org/wp-content/uploads/food-art-prints-food-art-prints-society6.jpg
+//beach http://www.chattanoogasciencefair.org/wp-content/uploads/art-prints-com-photography-art-prints-society6.jpg
+// https://images-na.ssl-images-amazon.com/images/I/81oxnWrMihL._SY500_.jpg
