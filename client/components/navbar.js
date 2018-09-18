@@ -7,7 +7,7 @@ import {SearchBar} from './'
 import CategoryDropdown from './CategoryDropdown'
 import {Menu, Icon, Button} from 'semantic-ui-react'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, userId}) => (
   <Menu attached="top" stackable>
     <Menu.Item as="h1">
       <span>I </span>
@@ -21,6 +21,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <Menu.Menu position="right">
       {isLoggedIn ? (
         <React.Fragment>
+          <Menu.Item as={Link} to={`/users/${userId}`}>
+            My Account
+          </Menu.Item>
           <Menu.Item as={Link} to="/home">
             {/* The navbar will show these links after you log in */}
             Home
@@ -56,7 +59,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    userId: state.user.id
   }
 }
 

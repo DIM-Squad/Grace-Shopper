@@ -1,23 +1,49 @@
-import {Table, Divider, Container, Header} from 'semantic-ui-react'
+import {Table, Divider, Container, Header, Pagination} from 'semantic-ui-react'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, NavLink} from 'react-router-dom'
 import {fetchUsers} from '../store/users'
 
 class UserCollection extends Component {
+  state = {
+    offset: 0,
+    limit: 20,
+    activePage: 1
+  }
+
   componentDidMount = () => {
     if (!this.props.match.params.filterId) {
-      this.props.fetchUsers()
+      this.props.fetchUsers(this.state.offset, this.state.limit)
     } else {
       this.props.fetchUsers('search', this.props.match.params.filterId)
     }
+    this.props.fetchUsers(
+      this.state.offset,
+      this.state.limit,
+      this.props.match.params.filterType,
+      this.props.match.params.filterId
+    )
   }
 
   goToUser = id => {
     this.props.history.push(`/users/${id}`)
   }
 
+  handlePageChange = (e, {activePage}) => {
+    this.props.fetchUsers(
+      this.state.limit * (activePage - 1),
+      this.state.limit,
+      this.props.match.params.filterType,
+      this.props.match.params.filterId
+    )
+    this.setState(prevState => ({
+      activePage,
+      offset: prevState.limit * (activePage - 1)
+    }))
+  }
+
   render() {
+    const {users, numOfUsers} = this.props.users
     return (
       <Container>
         <Divider hidden />
@@ -34,7 +60,7 @@ class UserCollection extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {this.props.users.map(user => {
+            {users.map(user => {
               return (
                 <Table.Row key={user.id}>
                   <Table.Cell>
@@ -47,15 +73,23 @@ class UserCollection extends Component {
             })}
           </Table.Body>
         </Table>
+        <Pagination
+          activePage={this.state.activePage}
+          onPageChange={this.handlePageChange}
+          totalPages={numOfUsers / this.state.limit}
+        />
       </Container>
     )
   }
 }
 
-const mapStateToProps = state => ({users: state.users})
+const mapStateToProps = state => ({
+  users: state.users,
+  numOfUsers: state.numOfUsers
+})
 const mapDispatchToProps = dispatch => ({
-  fetchUsers: (filterType, filterId) =>
-    dispatch(fetchUsers(filterType, filterId))
+  fetchUsers: (offset, limit, filterType, filterId) =>
+    dispatch(fetchUsers(offset, limit, filterType, filterId))
 })
 
 export default withRouter(

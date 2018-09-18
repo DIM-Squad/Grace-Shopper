@@ -14,7 +14,6 @@ import SearchBar from './SearchBar'
 class OrderCollection extends Component {
   componentDidMount = () => {
     if (this.props.match.params.username) {
-      console.log('I am running .... with Username')
       this.props.fetchOrdersByUserName(this.props.match.params.username)
     } else {
       this.getFilteredOrders('all')
@@ -34,7 +33,6 @@ class OrderCollection extends Component {
 
   render() {
     const orders = this.props.orders
-    console.log('Orders by a single User =>', orders)
     const userId = Number(this.props.match.params.userId) || ''
     let userRoute
     if (userId) userRoute = `/users/${userId}/orders`
@@ -45,12 +43,19 @@ class OrderCollection extends Component {
         <Container>
           <Divider hidden />
           <Header as="h1" floated="left">
-            Order List
+            Order History:
           </Header>
-          <Header as="h1" floated="right">
-            <SearchBar type="orders" />
-          </Header>
-          <Divider horizontal />
+          <Divider hidden />
+          {this.props.isAdmin ? (
+            <Fragment>
+              <Header as="h1" floated="right">
+                <SearchBar type="orders" />
+              </Header>
+              <Divider horizontal />
+            </Fragment>
+          ) : (
+            <Divider horizontal />
+          )}
           <OrderCollectionSubMenu getFilteredOrders={this.getFilteredOrders} />
           <Table celled>
             <Table.Header>

@@ -115,7 +115,6 @@ router.get(`/orders/search/:username`, isAdmin, async (req, res, next) => {
         ]
       }
     })
-    // console.log('User to get by Username search =>', user)
     // const orderListforUser = await Order.findAll({
     //   where: {userId: user.dataValues.id},
     //   limit: 25,
@@ -124,7 +123,6 @@ router.get(`/orders/search/:username`, isAdmin, async (req, res, next) => {
     const orderListforUser = await user.getOrders({
       include: [{model: User}, {model: Product}]
     })
-    console.log('Searching By Username =>', orderListforUser)
     res.status(200).json(orderListforUser)
   } catch (err) {
     next(err)
@@ -152,7 +150,7 @@ router.get(`/orders`, isAdmin, async (req, res, next) => {
 })
 
 // Admin route to GET all users in the system
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/offset/:offset/limit/:limit', isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -166,39 +164,60 @@ router.get('/', isAdmin, async (req, res, next) => {
         'email',
         'address'
       ],
-      order: [['lastName', 'ASC'], ['firstName', 'ASC']]
+      order: [['lastName', 'ASC'], ['firstName', 'ASC']],
+      offset: req.params.offset,
+      limit: req.params.limit
+
       // attributes: {
       //   exclude: ['isAdmin', 'password', 'googleId', 'avgRating']
       // }
     })
-    res.json(users)
+    const numOfUsers = await User.count()
+    res.json({users, numOfUsers})
   } catch (err) {
     next(err)
   }
 })
 
-router.get('/search/:key', isAdmin, async (req, res, next) => {
-  try {
-    const terms = req.params.key.split(' ')
-    const users = await User.findAll({
-      attributes: ['id', 'email', 'firstName', 'lastName'],
-      where: {
-        [Op.or]: [
-          {
-            firstName: {[Op.iLike]: '%' + terms[0] + '%'}
-          },
-          {lastName: {[Op.iLike]: '%' + terms[0] + '%'}},
-          {lastName: {[Op.iLike]: '%' + terms[1] + '%'}}
-        ]
-      },
-      include: [{model: Order}],
-      order: [['lastName', 'ASC'], ['firstName', 'ASC']]
-    })
-    res.json(users)
-  } catch (err) {
-    next(err)
+router.get(
+  '/offset/:offset/limit/:limit/search/:key',
+  isAdmin,
+  async (req, res, next) => {
+    try {
+      const terms = req.params.key.split(' ')
+      const users = await User.findAll({
+        attributes: ['id', 'email', 'firstName', 'lastName'],
+        where: {
+          [Op.or]: [
+            {
+              firstName: {[Op.iLike]: '%' + terms[0] + '%'}
+            },
+            {lastName: {[Op.iLike]: '%' + terms[0] + '%'}},
+            {lastName: {[Op.iLike]: '%' + terms[1] + '%'}}
+          ]
+        },
+        include: [{model: Order}],
+        order: [['lastName', 'ASC'], ['firstName', 'ASC']],
+        offset: req.params.offset,
+        limit: req.params.limit
+      })
+      const numOfUsers = await User.count({
+        where: {
+          [Op.or]: [
+            {
+              firstName: {[Op.iLike]: '%' + terms[0] + '%'}
+            },
+            {lastName: {[Op.iLike]: '%' + terms[0] + '%'}},
+            {lastName: {[Op.iLike]: '%' + terms[1] + '%'}}
+          ]
+        }
+      })
+      res.json({users, numOfUsers})
+    } catch (err) {
+      next(err)
+    }
   }
-})
+)
 
 router.get('/:userId', isSelfOrAdmin, async (req, res, next) => {
   try {
