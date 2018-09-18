@@ -16,6 +16,7 @@ class SearchBar extends Component {
     let type = this.props.type
     if (type === 'products') {
       this.props.fetchProducts(this.state.searchTerm)
+      this.props.history.push(`/${type}/search/${this.state.searchTerm}`)
     } else if (type === 'orders') {
       this.props.fetchOrdersByUserName(this.state.searchTerm)
     } else if (type === 'order') {
