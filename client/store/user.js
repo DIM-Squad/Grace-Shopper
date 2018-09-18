@@ -1,6 +1,6 @@
 import axios from 'axios'
 import history from '../history'
-import {setCart} from './cart'
+import {mergeCarts} from './cart'
 
 /**
  * ACTION TYPES
@@ -41,7 +41,7 @@ export const auth = (state, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    dispatch(setCart(res.data.cart ? JSON.parse(res.data.cart) : []))
+    dispatch(mergeCarts(res.data.cart ? JSON.parse(res.data.cart) : []))
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)

@@ -58,6 +58,13 @@ class Navbar extends Component {
               <Menu.Item as={Link} to="/signup">
                 Sign Up
               </Menu.Item>
+              <Menu.Item>
+                <Link to="/cart">
+                  <Button color="pink">
+                    <Icon name="shopping cart" />
+                  </Button>
+                </Link>
+              </Menu.Item>
             </React.Fragment>
           )}
         </Menu.Menu>
