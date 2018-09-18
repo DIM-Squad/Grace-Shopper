@@ -44,7 +44,6 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/add/product" component={AddProductForm} />
-            <Route path="/users/search/:filterId" component={UserCollection} />
             <Route
               exact
               path="/users/orders/search/:username"
@@ -54,7 +53,18 @@ class Routes extends Component {
               path="/users/:userId?/orders/:orderId"
               component={OrderDetail}
             />
-            <Route path="/users/:userId?/orders/" component={OrderCollection} />
+            <Route path="/users/:userId/orders/" component={OrderCollection} />
+            <Route path="/users/orders/" component={OrderCollection} />
+            <Route exact path="/users" component={UserCollection} />
+            <Route
+              path="/products/:filterType?/:filterId?"
+              component={ProductCollection}
+            />
+            <Route
+              path="/users/:filterType/:filterId"
+              component={UserCollection}
+            />
+            <Route path="/cart" component={Cart} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

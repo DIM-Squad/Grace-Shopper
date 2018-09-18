@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const db = require('../db')
 const Product = require('./product')
 
@@ -22,7 +23,8 @@ const Review = db.define('review', {
     type: Sequelize.TEXT,
     allowNull: false,
     validate: {
-      notEmpty: true
+      notEmpty: true,
+      len: {[Op.gt]: 40}
     }
   }
 })
