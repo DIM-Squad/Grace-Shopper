@@ -12,7 +12,10 @@ const Navbar = ({handleClick, isLoggedIn, userId}) => (
     <Menu.Item as="h1">
       <span>I </span>
       <span>
-        <Icon name="heart" />
+        <Link to="/products">
+          {' '}
+          <Icon name="heart" />
+        </Link>
       </span>{' '}
       <span> Art</span>
     </Menu.Item>
