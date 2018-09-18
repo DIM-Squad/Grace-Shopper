@@ -19,7 +19,7 @@ import OrderCollection from './OrderCollection'
  * COMPONENT
  */
 export const UserProfile = props => {
-  const {fullName, isAdmin, firstName, lastName, email, address} = props
+  const {fullName, isAdmin, firstName, lastName, email, address, userId} = props
   const city = address
     .trim()
     .split(' ')[3]
@@ -76,7 +76,9 @@ export const UserProfile = props => {
               </Table.Row>
             </Table.Body>
           </Table>
-          <Button primary>Update</Button>
+          <Button color="teal" onClick={() => props.goToEditUser(userId)}>
+            Update
+          </Button>
         </Grid.Column>
       </Grid>
       <Divider hidden />
@@ -90,6 +92,7 @@ export const UserProfile = props => {
  */
 const mapState = state => {
   return {
+    userId: state.user.id,
     fullName: state.user.fullName,
     firstName: state.user.firstName,
     lastName: state.user.lastName,
