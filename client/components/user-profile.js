@@ -28,7 +28,9 @@ export const UserProfile = props => {
   return (
     <Container>
       <Divider hidden />
-      <Header as="h1">Hello {fullName}, I think I do like Mary</Header>
+      <Header as="h1">
+        Hello {fullName}, I think I do like {firstName}
+      </Header>
       <Divider hidden />
       <Grid stackable columns={3}>
         <Grid.Column>
