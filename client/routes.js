@@ -46,7 +46,6 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route exact path="/users/:userId" component={UserProfile} />
             <Route path="/add/product" component={AddProductForm} />
-            <Route path="/users/search/:filterId" component={UserCollection} />
             <Route
               exact
               path="/users/orders/search/:username"
@@ -57,6 +56,12 @@ class Routes extends Component {
               component={OrderDetail}
             />
             <Route path="/users/:userId?/orders" component={OrderCollection} />
+            <Route path="/users/orders/" component={OrderCollection} />
+            <Route exact path="/users" component={UserCollection} />
+            <Route
+              path="/users/:filterType/:filterId"
+              component={UserCollection}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
