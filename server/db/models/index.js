@@ -6,7 +6,6 @@ const Artist = require('./artist')
 const Product = require('./product')
 const Review = require('./review')
 const LineItem = require('./lineItem')
-const Cart = require('./cart')
 
 //join table for many-to-many associations
 //http://docs.sequelizejs.com/class/lib/associations/belongs-to-many.js~BelongsToMany.html
@@ -46,6 +45,5 @@ module.exports = {
   Artist,
   Review,
   LineItem,
-  ProductCategory,
-  Cart
+  ProductCategory
 }
