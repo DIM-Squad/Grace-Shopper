@@ -39,7 +39,7 @@ class Routes extends Component {
           path="/products/:filterType?/:filterId?"
           component={ProductCollection}
         />
-        <Router exact path="/users" component={UserCollection} />
+        <Route exact path="/users" component={UserCollection} />
         <Route path="/cart" component={Cart} />
         {isLoggedIn && (
           <Switch>
