@@ -70,7 +70,7 @@ router.get(`/:userId/orders`, isSelfOrAdmin, async (req, res, next) => {
   }
 })
 
-// LoggedIn User or Admin route to GET specific Order in the system
+// Admin route to GET specific Order in the system
 router.get(`/orders/:orderId`, isAdmin, async (req, res, next) => {
   const orderId = Number(req.params.orderId)
   try {
@@ -222,7 +222,15 @@ router.get(
 router.get('/:userId', isSelfOrAdmin, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId, {
-      attributes: ['id', 'email', 'firstName', 'lastName', 'isAdmin'],
+      attributes: [
+        'id',
+        'email',
+        'firstName',
+        'lastName',
+        'isAdmin',
+        'address',
+        'updatedAt'
+      ],
       include: [{model: Review}, {model: Order}]
     })
     res.json(user)
