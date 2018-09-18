@@ -5,20 +5,28 @@ import {addProduct} from '../store/products'
 import {connect} from 'react-redux'
 
 class AddProductForm extends Component {
+  //if it's a product edit form, the product to edit is passed in through props
   state = {
-    name: '',
-    artist: '',
-    categories: [],
-    price: 0,
-    description: '',
-    featured: false,
-    quantity: 0,
-    size: ''
+    name: (this.props.product && this.props.product.name) || '',
+    artist: (this.props.product && this.props.product.artist.name) || '',
+    categories:
+      (this.props.product && this.props.product.categories.map(c => c.name)) ||
+      [],
+    price: (this.props.product && this.props.product.price / 100) || 0,
+    description: (this.props.product && this.props.product.description) || '',
+    featured: (this.props.product && this.props.product.featured) || false,
+    quantity: (this.props.product && this.props.product.quantity) || 0,
+    size: (this.props.product && this.props.product.size) || '',
+    id: this.props.product && this.props.product.id
   }
 
-  handleSubmit = () => {
+  handleNewProduct = () => {
     this.props.addProduct(this.state)
     this.props.history.push('/home')
+  }
+
+  handleEditProduct = () => {
+    this.props.refreshProductPage(this.state)
   }
 
   handleChange = e => {
@@ -49,7 +57,11 @@ class AddProductForm extends Component {
     const options = this.props.categories
     return (
       <Container>
-        <Form onSubmit={this.handleSubmit}>
+        <Form
+          onSubmit={
+            this.state.id ? this.handleEditProduct : this.handleNewProduct
+          }
+        >
           <Form.Group>
             <Form.Field
               label="Product name"
@@ -128,6 +140,7 @@ class AddProductForm extends Component {
                 value: s
               }))}
               onChange={this.handleSizeChange}
+              value={this.state.size}
               name="size"
             />
             <Form.Field
@@ -149,7 +162,7 @@ class AddProductForm extends Component {
                 !this.state.size
               }
             >
-              <Icon name="plus" />
+              <Icon name={this.state.id ? 'edit' : 'plus'} />
             </Form.Button>
           </Form.Group>
         </Form>

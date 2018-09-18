@@ -12,6 +12,11 @@ class UserCollection extends Component {
   }
 
   componentDidMount = () => {
+    if (!this.props.match.params.filterId) {
+      this.props.fetchUsers(this.state.offset, this.state.limit)
+    } else {
+      this.props.fetchUsers('search', this.props.match.params.filterId)
+    }
     this.props.fetchUsers(
       this.state.offset,
       this.state.limit,

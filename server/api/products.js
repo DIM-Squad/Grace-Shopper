@@ -21,7 +21,9 @@ router.get('/:productId', async (req, res, next) => {
         {
           model: Review,
           include: [{model: User}]
-        }
+        },
+        {model: Artist},
+        {model: Category}
       ]
     })
     if (!product || product === {}) {
@@ -145,12 +147,67 @@ router.post('/', isAdmin, async (req, res, next) => {
 
 router.put('/:productId', isAdmin, async (req, res, next) => {
   try {
-    const product = await Product.update(req.body.product, {
-      where: {id: Number(req.params.productId)},
-      returning: true,
-      plain: true
+    const {
+      name,
+      price,
+      featured,
+      quantity,
+      description,
+      artist,
+      size,
+      categories
+    } = req.body
+
+    const artistEntry = await Artist.findOrCreate({
+      where: {name: artist}
+    }).spread(a => a)
+
+    await Product.update(
+      {
+        name,
+        price: price * 100,
+        featured,
+        quantity,
+        description,
+        size,
+        artistId: artistEntry.id
+      },
+      {
+        where: {id: Number(req.params.productId)},
+        returning: true,
+        plain: true
+      }
+    )
+
+    await ProductCategory.destroy({where: {productId: req.params.productId}})
+
+    const categoryEntries = await Promise.all(
+      categories.map(c =>
+        Category.findOrCreate({where: {name: c}}).spread(a => a)
+      )
+    )
+
+    await Promise.all(
+      categoryEntries.map(c =>
+        ProductCategory.create({
+          categoryId: c.id,
+          productId: req.params.productId
+        })
+      )
+    )
+
+    const result = await Product.findById(req.params.productId, {
+      include: [
+        {
+          model: Review,
+          include: [{model: User}]
+        },
+        {model: Artist},
+        {model: Category}
+      ]
     })
-    res.status(201).json(product)
+
+    res.status(201).json(result)
   } catch (err) {
     next(err)
   }
