@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Container, Header} from 'semantic-ui-react'
+import {Container, Header, Divider} from 'semantic-ui-react'
 import {ProductCollection, AdminHome} from './'
 
 /**
@@ -13,6 +13,7 @@ export const UserHome = props => {
   console.log(props)
   return (
     <Container>
+      <Divider hidden />
       <Header as="h1">Welcome, {firstName || 'Guest'}</Header>
 
       {isAdmin ? (
