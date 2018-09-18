@@ -22,6 +22,16 @@ const Navbar = ({handleClick, isLoggedIn, userId}) => (
     <Menu.Item as={SearchBar} type="products" />
     <Menu.Item as={CategoryDropdown} />
     <Menu.Menu position="right">
+      <Menu.Item>
+        <Link to="/cart">
+          <Button color="pink">
+            <Icon name="shopping cart" />
+          </Button>
+        </Link>
+      </Menu.Item>
+      <Menu.Item as={Link} to="/home">
+        Home
+      </Menu.Item>
       {isLoggedIn ? (
         <React.Fragment>
           <Menu.Item as={Link} to={`/users/${userId}`}>
