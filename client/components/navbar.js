@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 //import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import store, {logout, postCart} from '../store'
+import store, {logout, postCart, setCart} from '../store'
 import {SearchBar} from './'
 import CategoryDropdown from './CategoryDropdown'
 import {Menu, Icon, Button} from 'semantic-ui-react'
@@ -15,9 +15,9 @@ class Navbar extends Component {
   }
 
   handleClick() {
-    console.log('PROPS', this.props.user)
     this.props.logout()
     this.props.postCart(this.props.cart, this.props.user.id)
+    this.props.setCart([])
   }
   render() {
     return (
@@ -133,7 +133,8 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   logout: () => dispatch(logout()),
-  postCart: (cartItems, userId) => dispatch(postCart(cartItems, userId))
+  postCart: (cartItems, userId) => dispatch(postCart(cartItems, userId)),
+  setCart: cart => dispatch(setCart(cart))
   // dispatch(postCart(cartItems))
   //dispatch(logout())
 })

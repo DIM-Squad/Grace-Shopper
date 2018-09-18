@@ -8,7 +8,7 @@ router.get('/:id', async (req, res, next) => {
     const cart = (await User.findById(req.params.id, {attributes: ['cart']}))
       .cart
     if (cart) res.status(200).json(JSON.parse(cart))
-    else res.status(200).send()
+    else res.status(200).send([])
   } catch (err) {
     next(err)
   }

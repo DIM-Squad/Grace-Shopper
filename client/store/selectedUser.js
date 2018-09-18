@@ -3,10 +3,6 @@ import axios from 'axios'
 const GET_SELECTED_USER = 'GET_SELECTED_USER'
 const GET_SELECTED_USER_ERROR = 'GET_SELECTED_USER_ERROR'
 
-const initialState = {
-  selectedUser: {}
-}
-
 const getSelectedUser = user => ({type: GET_SELECTED_USER, user})
 const getSelectedUserError = () => ({type: GET_SELECTED_USER_ERROR})
 
@@ -19,7 +15,7 @@ export const fetchSelectedUser = userId => async dispatch => {
   }
 }
 
-const selectedUser = (state = initialState.selectedUser, action) => {
+const selectedUser = (state = {}, action) => {
   switch (action.type) {
     case GET_SELECTED_USER_ERROR:
       return state
