@@ -37,9 +37,7 @@ const cart = (state = [], action) => {
       //if duplicate item has been added to cart while logged out, the new number in cart overwrites the old number
       newCart = state
       action.cart.forEach(item => {
-        if (newCart.find(i => i.id === item.id))
-          newCart.find(i => i.id === item.id).quantity = item.quantity
-        else newCart.push(item)
+        if (!newCart.find(i => i.id === item.id)) newCart.push(item)
       })
       return newCart
     case ADD_TO_CART:
