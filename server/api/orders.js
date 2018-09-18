@@ -19,3 +19,5 @@ router.get('/search/:key', isAdmin, async (req, res, next) => {
 router.post(`/orders`, async (req, res, next) => {
   // TODO
 })
+
+router.post(`/save-stripe-token`)

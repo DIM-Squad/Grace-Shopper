@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 //import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import store, {logout, postCart} from '../store'
+import store, {logout, postCart, emptyCart} from '../store'
 import {SearchBar} from './'
 import CategoryDropdown from './CategoryDropdown'
 import {Menu, Icon, Button} from 'semantic-ui-react'
@@ -15,9 +15,9 @@ class Navbar extends Component {
   }
 
   handleClick() {
-    console.log('PROPS', this.props.user)
     this.props.logout()
     this.props.postCart(this.props.cart, this.props.user.id)
+    this.props.emptyCart()
   }
   render() {
     return (
@@ -38,6 +38,9 @@ class Navbar extends Component {
                 {/* The navbar will show these links after you log in */}
                 Home
               </Menu.Item>
+              <Menu.Item as={Link} to={`/users/${this.props.user.id}`}>
+                My Account
+              </Menu.Item>
               <Menu.Item as="a" href="#" onClick={this.handleClick}>
                 Logout
               </Menu.Item>
@@ -57,6 +60,13 @@ class Navbar extends Component {
               </Menu.Item>
               <Menu.Item as={Link} to="/signup">
                 Sign Up
+              </Menu.Item>
+              <Menu.Item>
+                <Link to="/cart">
+                  <Button color="pink">
+                    <Icon name="shopping cart" />
+                  </Button>
+                </Link>
               </Menu.Item>
             </React.Fragment>
           )}
@@ -133,7 +143,8 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   logout: () => dispatch(logout()),
-  postCart: (cartItems, userId) => dispatch(postCart(cartItems, userId))
+  postCart: (cartItems, userId) => dispatch(postCart(cartItems, userId)),
+  emptyCart: () => dispatch(emptyCart())
   // dispatch(postCart(cartItems))
   //dispatch(logout())
 })

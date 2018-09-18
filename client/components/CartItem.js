@@ -3,6 +3,7 @@ import {Table, Header, Button, Image} from 'semantic-ui-react'
 import {removeFromCartAction, updateQuantityAction} from '../store/cart'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {formatPrice} from '../utils/formatPrice'
 
 class CartItem extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class CartItem extends Component {
             </Header.Content>
           </Header>
         </Table.Cell>
-        <Table.Cell singleLine>${item.price}</Table.Cell>
+        <Table.Cell singleLine>{formatPrice(item.price)}</Table.Cell>
         <Table.Cell>
           <form onSubmit={this.changeQuantity}>
             <input
