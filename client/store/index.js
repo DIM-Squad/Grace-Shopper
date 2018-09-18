@@ -39,3 +39,4 @@ export default store
 export const persistor = persistStore(store)
 
 export * from './user'
+export * from './cart'

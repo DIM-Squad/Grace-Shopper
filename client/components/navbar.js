@@ -15,9 +15,9 @@ class Navbar extends Component {
   }
 
   handleClick() {
-    //console.log('PROPS', this.props.cart)
+    console.log('PROPS', this.props.user)
     this.props.logout()
-    this.props.postCart(this.props.cart)
+    this.props.postCart(this.props.cart, this.props.user.id)
   }
   render() {
     return (
@@ -71,12 +71,13 @@ class Navbar extends Component {
  */
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
-  cart: state.cart
+  cart: state.cart,
+  user: state.user
 })
 
 const mapDispatch = dispatch => ({
   logout: () => dispatch(logout()),
-  postCart: cartItems => dispatch(postCart(cartItems))
+  postCart: (cartItems, userId) => dispatch(postCart(cartItems, userId))
   // dispatch(postCart(cartItems))
   //dispatch(logout())
 })

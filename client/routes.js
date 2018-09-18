@@ -12,14 +12,14 @@ import {
   Cart
 } from './components'
 import {me} from './store'
-// import postCart from './store/cart'
+//import postCart from './store/cart'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    console.log('CART', this.props.cart)
+    // console.log('CART', this.props.cart)
     this.props.loadInitialData()
   }
 
