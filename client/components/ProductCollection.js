@@ -16,7 +16,7 @@ class ProductCollection extends Component {
 
     this.timeout = setTimeout(() => {
       this.setState({isOpen: false})
-    }, 250)
+    }, 200)
   }
 
   handleClose = () => {
