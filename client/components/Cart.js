@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import {Table, Container, Divider, Header, Button} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
-import CartItem from './CartItem'
 import TakeMoney from './TakeMoney'
 import {withRouter, NavLink} from 'react-router-dom'
 import {CartItem, CheckoutForm} from './'
