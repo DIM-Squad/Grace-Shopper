@@ -34,11 +34,11 @@ export default class TakeMoney extends React.Component {
         currency="USD"
         stripeKey="pk_test_E0MMENnIPp3UuKcEwdSvVuZ4"
         locale="en"
-        email="info@dimllc.com"
+        email={this.props.user.email}
         // Note: Enabling either address option will give the user the ability to
         // fill out both. Addresses are sent as a second parameter in the token callback.
-        // shippingAddress={true}
-        // billingAddress
+        shippingAddress={true}
+        billingAddress={true}
         // Note: enabling both zipCode checks and billing or shipping address will
         // cause zipCheck to be pulled from billing address (set to shipping if none provided).
         zipCode={true}
