@@ -6,7 +6,6 @@ module.exports = router
 
 router.post('/:userId', isSelfOrAdmin, async (req, res, next) => {
   try {
-    console.log(req.body)
     const newReview = await Review.create(req.body)
     res.status(201).json(newReview)
   } catch (err) {
