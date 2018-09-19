@@ -13,7 +13,7 @@ export const UserHome = props => {
   return (
     <Container>
       <Divider hidden />
-      <Header as="h1">Welcome{', ' + firstName || ''}</Header>
+      <Header as="h1">Welcome{firstName || ''}</Header>
 
       {isAdmin ? (
         <AdminHome />
