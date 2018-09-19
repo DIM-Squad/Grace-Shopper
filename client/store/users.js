@@ -17,7 +17,7 @@ export const fetchUsers = (offset, limit, filterType, filterId) => {
       } else {
         result = await axios.get(`/api/users/offset/${offset}/limit/${limit}`)
       }
-      console.log(result.data)
+
       dispatch(gotUsers(result.data))
     } catch (err) {
       dispatch(usersError())

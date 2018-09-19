@@ -86,6 +86,7 @@ chance.mixin({
     userId: chance.natural({min: 1, max: numOfUsers}),
     shippingAddress: chance.address(),
     shippingState: chance.state({territories: true}),
+    shippingCity: chance.city(),
     shippingCost: chance.natural({min: 100, max: 4500}),
     totalCost: chance.natural({min: 100, max: 4500}),
     shippingZip: chance.zip(),
