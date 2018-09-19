@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Table, Header, Button, Image} from 'semantic-ui-react'
+import {Table, Header, Button, Image, Form} from 'semantic-ui-react'
 import {removeFromCartAction, updateQuantityAction} from '../store/cart'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -25,7 +25,7 @@ class CartItem extends Component {
   }
   addToQuantity(event) {
     this.setState({
-      quantity: event.target.value
+      quantity: Number(event.target.value)
     })
   }
   changeQuantity() {
@@ -46,7 +46,7 @@ class CartItem extends Component {
         </Table.Cell>
         <Table.Cell singleLine>{formatPrice(item.price)}</Table.Cell>
         <Table.Cell>
-          <form onSubmit={this.changeQuantity}>
+          <Form onSubmit={this.changeQuantity}>
             <input
               type="number"
               name="quantity"
@@ -55,13 +55,16 @@ class CartItem extends Component {
               onChange={this.addToQuantity}
               style={styles.input}
             />
-            <input type="submit" value="Update" />
-          </form>
+            <Form.Button primary type="submit" content="Update" />
+          </Form>
+        </Table.Cell>
+        <Table.Cell textAlign="right">
+          {formatPrice(item.quantity * item.price)}
         </Table.Cell>
         <Table.Cell>
           <Button
-            color="red"
-            size="medium"
+            negative
+            basic
             onClick={() => this.removeFromCart({id: item.id})}
           >
             Remove Item
