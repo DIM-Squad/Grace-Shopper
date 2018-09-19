@@ -16,7 +16,7 @@ class Cart extends Component {
             ))}
           </Table.Body>
         </Table>
-        <TakeMoney />
+        <TakeMoney cart={this.props.cart} />
       </Container>
     )
   }

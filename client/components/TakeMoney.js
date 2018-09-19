@@ -4,23 +4,13 @@ import StripeCheckout from 'react-stripe-checkout'
 import {Button} from 'semantic-ui-react'
 
 export default class TakeMoney extends React.Component {
-  // onToken = token => {
-  //   fetch('/save-stripe-token', {
-  //     method: 'POST',
-  //     body: JSON.stringify(token)
-  //   }).then(response => {
-  //     response.json().then(data => {
-  //       console.log(`We are in business, ${data.email}`)
-  //     })
-  //   })
-  // }
-
   onToken = async token => {
-    const res = await axios.post(`/save-stripe-token`, {
-      method: 'POST',
-      body: JSON.stringify(token)
-    })
-    console.log('We are in business', res.data)
+    try {
+      const res = await axios.post(`/api/orders`, {cart: this.props.cart})
+      console.log('We are in business')
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   render() {

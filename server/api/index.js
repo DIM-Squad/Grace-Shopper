@@ -8,10 +8,6 @@ router.use('/products', require('./products'))
 router.use('/categories', require('./categories'))
 router.use('/cart', require('./cart'))
 
-// Because we want non-registered user to buy stuff
-router.post(`/orders`, async (req, res, next) => {
-  // TODO
-})
 router.use('/orders', require('./orders'))
 router.use('/reviews', require('./reviews'))
 

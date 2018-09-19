@@ -16,8 +16,7 @@ router.get('/search/:key', isAdmin, async (req, res, next) => {
 })
 
 // Because we want non-registered user to buy stuff
-router.post(`/orders`, async (req, res, next) => {
+router.post(`/`, async (req, res, next) => {
   // TODO
+  console.info('Payment has been made =>', req.body)
 })
-
-router.post(`/save-stripe-token`)
