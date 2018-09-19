@@ -21,6 +21,10 @@ const Order = db.define(
         notEmpty: true
       }
     },
+    shippingCity: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     shippingState: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -41,14 +45,14 @@ const Order = db.define(
       defaultValue: 'USA'
     },
     shippingCost: {
-      type: Sequelize.DECIMAL(10, 2),
+      type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: 0.0
+      defaultValue: 0
     },
     totalCost: {
-      type: Sequelize.DECIMAL(10, 2),
+      type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: 0.0
+      defaultValue: 0
     }
   },
   {

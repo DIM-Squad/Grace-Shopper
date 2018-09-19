@@ -109,7 +109,7 @@ class UserProfile extends Component {
       return (
         <Container>
           <Divider hidden>
-            <Segment centered>
+            <Segment>
               <EntityNotFound entity="user" />
             </Segment>
           </Divider>

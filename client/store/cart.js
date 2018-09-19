@@ -23,6 +23,15 @@ export const postCart = (cartItems, userId) => {
     dispatch(saveCartAction(cart))
   }
 }
+
+//TODO:dummy
+export const confirmOrder = (userId, cart, shippingInfo) => {
+  console.log(userId, cart, shippingInfo)
+  return dispatch => {
+    dispatch(emptyCart())
+  }
+}
+
 const cart = (state = [], action) => {
   switch (action.type) {
     case MERGE_CARTS:

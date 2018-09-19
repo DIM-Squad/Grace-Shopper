@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Table, Container, Divider, Header, Button} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {withRouter, NavLink} from 'react-router-dom'
 import {CartItem, CheckoutForm} from './'
 import {formatPrice} from '../utils/formatPrice'
 
@@ -26,7 +26,11 @@ class Cart extends Component {
   }
 
   render() {
-    return (
+    return !this.props.cart[0] ? (
+      <NavLink to="/products">
+        <h1>Shop now!</h1>
+      </NavLink>
+    ) : (
       <Container>
         <Divider horizontal />
         <Header as="h1" content="Your cart" />
