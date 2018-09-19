@@ -67,8 +67,12 @@ class Navbar extends Component {
               </Menu.Item>
               <Menu.Item>
                 <Link to="/cart">
-                  <Button color="pink">
-                    <Icon name="shopping cart" />
+                  <Button animated color="pink">
+                    <Button.Content visible>
+                      {' '}
+                      <Icon name="shopping cart" />
+                    </Button.Content>
+                    <Button.Content hidden>Cart</Button.Content>
                   </Button>
                 </Link>
               </Menu.Item>
