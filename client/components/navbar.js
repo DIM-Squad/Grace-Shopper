@@ -25,19 +25,21 @@ class Navbar extends Component {
         <Menu.Item as="h1">
           <span>I </span>
           <span>
-            <Icon name="heart" />
+            <Link to="/products">
+              <Icon name="heart" />
+            </Link>
           </span>{' '}
           <span> Art</span>
         </Menu.Item>
         <Menu.Item as={SearchBar} type="products" />
         <Menu.Item as={CategoryDropdown} />
+
         <Menu.Menu position="right">
+          <Menu.Item as={Link} to="/home">
+            Home
+          </Menu.Item>
           {this.props.isLoggedIn ? (
             <React.Fragment>
-              <Menu.Item as={Link} to="/home">
-                {/* The navbar will show these links after you log in */}
-                Home
-              </Menu.Item>
               <Menu.Item as={Link} to={`/users/${this.props.user.id}`}>
                 My Account
               </Menu.Item>
@@ -90,9 +92,7 @@ class Navbar extends Component {
 //     <Menu.Item as={SearchBar} type="products" />
 //     <Menu.Item as={CategoryDropdown} />
 //     <Menu.Menu position="right">
-//       <Menu.Item as={Link} to="/home">
-//         Home
-//       </Menu.Item>
+//
 //       {isLoggedIn ? (
 //         <React.Fragment>
 //           <Menu.Item as={Link} to={`/users/${userId}`}>
