@@ -1,4 +1,4 @@
-import {Card, Button, Image, Icon, Divider} from 'semantic-ui-react'
+import {Card, Button, Image, Icon, Divider, Popup} from 'semantic-ui-react'
 import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
@@ -7,6 +7,23 @@ import {formatPrice} from '../utils/formatPrice'
 import {addToCartAction} from '../store/cart'
 
 class ProductCollection extends Component {
+  state = {
+    isOpen: false
+  }
+
+  handleOpen = productId => {
+    this.setState({isOpen: productId})
+
+    this.timeout = setTimeout(() => {
+      this.setState({isOpen: false})
+    }, 250)
+  }
+
+  handleClose = () => {
+    this.setState({isOpen: false})
+    clearTimeout(this.timeout)
+  }
+
   componentDidMount = () => {
     let filterType, filterId
     if (this.props.featured) {
@@ -62,25 +79,53 @@ class ProductCollection extends Component {
                       >
                         More details
                       </Button>
-                      <Button
-                        color="teal"
-                        floated="left"
-                        disabled={product.quantity === 0}
-                        onClick={() =>
-                          this.addToCart({
-                            id: product.id,
-                            name: product.name,
-                            price: product.price,
-                            imageUrl: product.imageUrl
-                          })
+                      <Popup
+                        trigger={
+                          <Button
+                            color="teal"
+                            floated="left"
+                            disabled={product.quantity === 0}
+                            onClick={() => {
+                              this.addToCart({
+                                id: product.id,
+                                name: product.name,
+                                price: product.price,
+                                imageUrl: product.imageUrl
+                              })
+                              !this.props.cart.find(i => i.id === product.id) &&
+                                this.props.cart.push({
+                                  id: product.id,
+                                  name: product.name,
+                                  price: product.price,
+                                  imageUrl: product.imageUrl,
+                                  quantity: 1
+                                })
+                            }}
+                          >
+                            {product.quantity !== 0 ? (
+                              <Icon name="shopping cart" />
+                            ) : (
+                              'Out of stock'
+                            )}
+                          </Button>
                         }
-                      >
-                        {product.quantity !== 0 ? (
-                          <Icon name="shopping cart" />
-                        ) : (
-                          'Out of stock'
-                        )}
-                      </Button>
+                        content={
+                          <div>
+                            <span>
+                              {this.props.cart.find(i => i.id === product.id)
+                                ? this.props.cart.find(i => i.id === product.id)
+                                    .quantity
+                                : 1}
+                            </span>
+                            <span> in cart</span>
+                          </div>
+                        }
+                        on="click"
+                        hideOnScroll
+                        open={this.state.isOpen === product.id}
+                        onOpen={() => this.handleOpen(product.id)}
+                        onClose={this.handleClose}
+                      />
                     </Card.Content>
                   </Card>
                 )
@@ -91,7 +136,7 @@ class ProductCollection extends Component {
   }
 }
 
-const mapStateToProps = state => ({products: state.products})
+const mapStateToProps = state => ({products: state.products, cart: state.cart})
 const mapDispatchToProps = dispatch => ({
   fetchProducts: (filterType, filterId) =>
     dispatch(fetchProducts(filterType, filterId)),
