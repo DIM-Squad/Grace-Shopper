@@ -6,11 +6,19 @@ import {Button} from 'semantic-ui-react'
 export default class TakeMoney extends React.Component {
   onToken = async token => {
     try {
-      const res = await axios.post(`/api/orders`, {cart: this.props.cart})
-      console.log('We are in business')
+      const res = await axios.post(`/api/orders`, {
+        user: this.props.user,
+        cart: this.props.cart,
+        token: JSON.stringify(token)
+      })
+      console.log('We are in business =>', res)
     } catch (err) {
       console.error(err)
     }
+  }
+
+  onPostMessage = obj => {
+    console.log('Shut the fuck up!!', obj)
   }
 
   render() {
@@ -21,8 +29,8 @@ export default class TakeMoney extends React.Component {
         description="Grace shopper Rocks" // the pop-in header subtitle
         image="https://react.semantic-ui.com/images/avatar/large/matthew.png" // the pop-in header image (default none)
         ComponentClass="div"
-        panelLabel="Confirm Payment =>" // prepended to the amount in the bottom pay button
-        amount={1000} // cents
+        panelLabel="Pay" // prepended to the amount in the bottom pay button
+        amount={10000} // cents
         currency="USD"
         stripeKey="pk_test_E0MMENnIPp3UuKcEwdSvVuZ4"
         locale="en"
@@ -47,7 +55,7 @@ export default class TakeMoney extends React.Component {
         // useful if you're using React-Tap-Event-Plugin
         // triggerEvent="onTouchTap"
       >
-        <Button color="teal">Pay with Card</Button>
+        <Button color="teal">Proceed to Checkout</Button>
       </StripeCheckout>
     )
   }
