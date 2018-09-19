@@ -1,10 +1,18 @@
-import React, {Component} from 'react'
-import {Table, Container, Divider, Header, Button} from 'semantic-ui-react'
+import React, {Component, Fragment} from 'react'
+import {
+  Table,
+  Container,
+  Divider,
+  Header,
+  Button,
+  Message
+} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import TakeMoney from './TakeMoney'
 import {withRouter, NavLink} from 'react-router-dom'
-import {CartItem, CheckoutForm} from './'
+import {CartItem} from './'
 import {formatPrice} from '../utils/formatPrice'
+import {confirmOrder} from '../store/cart'
 
 class Cart extends Component {
   state = {
@@ -28,9 +36,20 @@ class Cart extends Component {
 
   render() {
     return !this.props.cart[0] ? (
-      <NavLink to="/products">
-        <h1>Shop now!</h1>
-      </NavLink>
+      <Container>
+        <Divider hidden />
+        <Message positive>
+          <Message.Header>
+            Congratulations {this.props.user.firstName || ''},
+          </Message.Header>
+          <p>
+            Would you like to continue&nbsp;
+            <NavLink to="/products">
+              <strong>shopping?</strong>
+            </NavLink>
+          </p>
+        </Message>
+      </Container>
     ) : (
       <Container>
         <Divider horizontal />
@@ -72,18 +91,26 @@ class Cart extends Component {
             </Table.Row>
           </Table.Footer>
         </Table>
-        <TakeMoney user={this.props.user} cart={this.props.cart} />
-        <Divider horizontal />
         {!this.state.checkingOut && (
           <Button primary type="submit" onClick={this.readyForCheckout}>
             Check out
           </Button>
         )}
         {this.state.checkingOut && (
-          <CheckoutForm
-            shipping={this.calcShipping()}
-            total={this.calcTotal()}
-          />
+          <Fragment>
+            <TakeMoney
+              user={this.props.user}
+              cart={this.props.cart}
+              shipping={this.calcShipping()}
+              total={this.calcTotal()}
+              confirmOrder={this.props.confirmOrder}
+            />
+            <Divider horizontal />
+            {/* <CheckoutForm
+              shipping={this.calcShipping()}
+              total={this.calcTotal()}
+            /> */}
+          </Fragment>
         )}
       </Container>
     )
@@ -93,5 +120,5 @@ const mapStateToProps = state => ({
   cart: state.cart,
   user: state.user
 })
-
-export default withRouter(connect(mapStateToProps)(Cart))
+const mapDispatchToProps = {confirmOrder}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Cart))

@@ -2,23 +2,41 @@ import React from 'react'
 import axios from 'axios'
 import StripeCheckout from 'react-stripe-checkout'
 import {Button} from 'semantic-ui-react'
+import {withRouter} from 'react-router-dom'
 
-export default class TakeMoney extends React.Component {
-  onToken = async token => {
+class TakeMoney extends React.Component {
+  onToken = async (token, address) => {
+    // Eliminate unnecessary field items
+    const modifiedCart = this.props.cart.map(cartItem => ({
+      itemPrice: cartItem.price,
+      quantity: cartItem.quantity,
+      imageUrl: cartItem.imageUrl,
+      productId: cartItem.id
+    }))
+    console.log('Edited cartItem =>', modifiedCart)
+    // Call Axios ...
     try {
       const res = await axios.post(`/api/orders`, {
         user: this.props.user,
-        cart: this.props.cart,
+        cart: modifiedCart,
+        address: address,
+        shippingCost: this.props.shipping,
+        totalCost: this.props.total,
         token: JSON.stringify(token)
       })
-      console.log('We are in business =>', res)
+      // Use an alert module ...
+      console.log('Returned after creating an Order backend', res.data)
+      alert('Please check your email for Order confirmation')
+      // call confirm order
+      this.props.confirmOrder(this.props.user.id, this.props.cart, {
+        ...this.state,
+        shippingCost: this.props.shipping,
+        totalCost: this.props.total
+      })
+      this.props.history.push(`/users/${res.data.userId}/orders/${res.data.id}`)
     } catch (err) {
       console.error(err)
     }
-  }
-
-  onPostMessage = obj => {
-    console.log('Shut the fuck up!!', obj)
   }
 
   render() {
@@ -30,11 +48,11 @@ export default class TakeMoney extends React.Component {
         image="https://react.semantic-ui.com/images/avatar/large/matthew.png" // the pop-in header image (default none)
         ComponentClass="div"
         panelLabel="Pay" // prepended to the amount in the bottom pay button
-        amount={10000} // cents
+        amount={this.props.total} // cents
         currency="USD"
         stripeKey="pk_test_E0MMENnIPp3UuKcEwdSvVuZ4"
         locale="en"
-        email={this.props.user.email}
+        email="dimsquad@dimsquadll.com"
         // Note: Enabling either address option will give the user the ability to
         // fill out both. Addresses are sent as a second parameter in the token callback.
         shippingAddress={true}
@@ -44,7 +62,7 @@ export default class TakeMoney extends React.Component {
         zipCode={true}
         // alipay // accept Alipay (default false)
         // bitcoin // accept Bitcoins (default false)
-        allowRememberMe // "Remember Me" option (default true)
+        //allowRememberMe // "Remember Me" option (default true)
         token={this.onToken} // submit callback
         opened={this.onOpened} // called when the checkout popin is opened (no IE6/7)
         closed={this.onClosed} // called when the checkout popin is closed (no IE6/7)
@@ -55,8 +73,10 @@ export default class TakeMoney extends React.Component {
         // useful if you're using React-Tap-Event-Plugin
         // triggerEvent="onTouchTap"
       >
-        <Button color="teal">Proceed to Checkout</Button>
+        <Button color="teal">Place Order</Button>
       </StripeCheckout>
     )
   }
 }
+
+export default withRouter(TakeMoney)

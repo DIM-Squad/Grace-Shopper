@@ -48,6 +48,7 @@
     "express-session": "^1.15.1",
     "history": "^4.6.3",
     "morgan": "^1.8.1",
+    "nodemailer": "^4.6.8",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
@@ -62,10 +63,10 @@
     "redux-logger": "^2.8.1",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "stripe": "^6.10.0",
     "semantic-ui-react": "^0.82.5",
     "sequelize": "^4.38.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "stripe": "^6.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",
