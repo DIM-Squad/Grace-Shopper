@@ -92,14 +92,6 @@ class ProductCollection extends Component {
                                 price: product.price,
                                 imageUrl: product.imageUrl
                               })
-                              !this.props.cart.find(i => i.id === product.id) &&
-                                this.props.cart.push({
-                                  id: product.id,
-                                  name: product.name,
-                                  price: product.price,
-                                  imageUrl: product.imageUrl,
-                                  quantity: 1
-                                })
                             }}
                           >
                             {product.quantity !== 0 ? (
@@ -112,10 +104,9 @@ class ProductCollection extends Component {
                         content={
                           <div>
                             <span>
-                              {this.props.cart.find(i => i.id === product.id)
-                                ? this.props.cart.find(i => i.id === product.id)
-                                    .quantity
-                                : 1}
+                              {this.props.cart.find(i => i.id === product.id) &&
+                                this.props.cart.find(i => i.id === product.id)
+                                  .quantity}
                             </span>
                             <span> in cart</span>
                           </div>

@@ -229,7 +229,8 @@ class ProductDetail extends Component {
 
 const mapStateToProps = state => ({
   selectedProduct: state.selectedProduct,
-  user: state.user
+  user: state.user,
+  cart: state.cart
 })
 
 const mapDispatchToProps = {
