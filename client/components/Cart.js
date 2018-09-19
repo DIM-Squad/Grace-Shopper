@@ -77,7 +77,12 @@ class Cart extends Component {
             Check out
           </Button>
         )}
-        {this.state.checkingOut && <CheckoutForm />}
+        {this.state.checkingOut && (
+          <CheckoutForm
+            shipping={this.calcShipping()}
+            total={this.calcTotal()}
+          />
+        )}
       </Container>
     )
   }
