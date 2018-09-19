@@ -142,9 +142,7 @@ async function seed() {
   })
   await Order.bulkCreate(chance.n(chance.order, numOfOrders))
   await ProductCategory.bulkCreate(productCategoryAssociations)
-  await LineItem.bulkCreate(lineItemAssociations, {
-    individualHooks: true
-  })
+  await LineItem.bulkCreate(lineItemAssociations)
 
   console.log(`seeded successfully`)
 }
