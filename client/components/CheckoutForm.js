@@ -19,7 +19,11 @@ class CheckoutForm extends Component {
   }
 
   placeOrder = () => {
-    this.props.confirmOrder(this.props.user.id, this.props.cart, this.state)
+    this.props.confirmOrder(this.props.user.id, this.props.cart, {
+      ...this.state,
+      shippingCost: this.props.shipping,
+      totalCost: this.props.total
+    })
     this.props.history.push('/products')
   }
 
