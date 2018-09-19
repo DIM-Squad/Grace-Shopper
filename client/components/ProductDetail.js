@@ -7,11 +7,12 @@ import {
   Container,
   Button,
   Form,
-  Rating
+  Rating,
+  Popup
 } from 'semantic-ui-react'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, NavLink} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 // User defined imports
 import {
   fetchSelectedProduct,
@@ -29,7 +30,21 @@ import {AddProductForm} from './'
 class ProductDetail extends Component {
   state = {
     rating: 3,
-    editing: false
+    editing: false,
+    isOpen: false
+  }
+
+  handleOpen = () => {
+    this.setState({isOpen: true})
+
+    this.timeout = setTimeout(() => {
+      this.setState({isOpen: false})
+    }, 200)
+  }
+
+  handleClose = () => {
+    this.setState({isOpen: false})
+    clearTimeout(this.timeout)
   }
 
   componentDidMount = () => {
@@ -123,21 +138,10 @@ class ProductDetail extends Component {
                           />
                           <Item.Meta
                             content={
-                              selectedProduct.categories && (
-                                <div>
-                                  <span>In</span>
-                                  <span>
-                                    {selectedProduct.categories.map(c => (
-                                      <NavLink
-                                        to={`/categories/${c.id}`}
-                                        key={c.id}
-                                      >
-                                        {'  ' + c.name}
-                                      </NavLink>
-                                    ))}
-                                  </span>
-                                </div>
-                              )
+                              selectedProduct.categories &&
+                              selectedProduct.categories
+                                .map(c => c.name)
+                                .join(', ')
                             }
                           />
                           <Divider hidden />
@@ -156,19 +160,41 @@ class ProductDetail extends Component {
                             {selectedProduct.description}
                             <Divider hidden />
                           </Item.Description>
-                          <Button
-                            color="teal"
-                            onClick={() =>
-                              this.addToCart({
-                                id: selectedProduct.id,
-                                name: selectedProduct.name,
-                                price: selectedProduct.price,
-                                imageUrl: selectedProduct.imageUrl
-                              })
+                          <Popup
+                            trigger={
+                              <Button
+                                color="teal"
+                                onClick={() =>
+                                  this.addToCart({
+                                    id: selectedProduct.id,
+                                    name: selectedProduct.name,
+                                    price: selectedProduct.price,
+                                    imageUrl: selectedProduct.imageUrl
+                                  })
+                                }
+                              >
+                                Add to Cart
+                              </Button>
                             }
-                          >
-                            Add to Cart
-                          </Button>
+                            content={
+                              <div>
+                                <span>
+                                  {this.props.cart.find(
+                                    i => i.id === selectedProduct.id
+                                  ) &&
+                                    this.props.cart.find(
+                                      i => i.id === selectedProduct.id
+                                    ).quantity}
+                                </span>
+                                <span> in cart</span>
+                              </div>
+                            }
+                            on="click"
+                            hideOnScroll
+                            open={this.state.isOpen}
+                            onOpen={this.handleOpen}
+                            onClose={this.handleClose}
+                          />
                         </React.Fragment>
                       )}
                     </Item.Content>
@@ -240,7 +266,8 @@ class ProductDetail extends Component {
 
 const mapStateToProps = state => ({
   selectedProduct: state.selectedProduct,
-  user: state.user
+  user: state.user,
+  cart: state.cart
 })
 
 const mapDispatchToProps = {

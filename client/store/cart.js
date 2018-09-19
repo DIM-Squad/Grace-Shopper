@@ -51,7 +51,10 @@ const cart = (state = [], action) => {
     case REMOVE_FROM_CART:
       return state.filter(item => item.id !== action.itemId)
     case UPDATE_QUANTITY:
-      return [state.filter(item => item.id !== action.item.id), action.item]
+      const newCart3 = [...state]
+      newCart3.find(i => i.id === action.item.id).quantity =
+        action.item.quantity
+      return newCart3
     case EMPTY_CART:
       return []
     case SAVE_CART:
