@@ -59,7 +59,7 @@ class CartItem extends Component {
           </Form>
         </Table.Cell>
         <Table.Cell textAlign="right">
-          {formatPrice(item.quantity * item.price)}
+          {formatPrice(this.state.quantity * item.price)}
         </Table.Cell>
         <Table.Cell>
           <Button
