@@ -2,7 +2,7 @@
 
 ## Visit us
 
-https://fathomless-springs-91449.herokuapp.com
+https://i-love-art.herokuapp.com/
 
 ## Waffle
 
