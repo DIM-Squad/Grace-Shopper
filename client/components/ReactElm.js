@@ -1,15 +1,15 @@
 var React = require('react')
 
 export default class Elm extends React.Component {
-  ref(node) {
+  ref = node => {
     if (node === null) return
-    var app = this.props.src.embed(node, this.props.flags)
+    const app = this.props.src.init({node, flags: this.props.flags})
     if (typeof this.props.ports !== 'undefined') this.props.ports(app.ports)
   }
-  shouldComponentUpdate() {
+  shouldComponentUpdate = () => {
     return false
   }
-  render() {
+  render = () => {
     return <div ref={this.ref} />
   }
 }

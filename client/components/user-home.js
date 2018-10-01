@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Container, Header, Divider} from 'semantic-ui-react'
 import {ProductCollection, AdminHome} from './'
+import Elm from './ReactElm' //'./ReactElm'
+import ElmComponents from './src/Main'
 
 /**
  * COMPONENT
@@ -12,7 +14,9 @@ export const UserHome = props => {
 
   return (
     <Container>
+      <Elm src={ElmComponents.Elm.Buttons} flags="" ports={() => false} />
       <Divider hidden />
+
       <Header as="h1">Welcome {firstName || ''}</Header>
 
       {isAdmin ? (
