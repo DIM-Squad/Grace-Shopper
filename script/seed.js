@@ -13,6 +13,7 @@ const {
 } = require('../server/db/models')
 const Chance = require('chance')
 const chance = new Chance(95698435)
+const generateArt = require('../server/utils/generateArt')
 
 const numOfCategories = 13
 const numOfArtists = 12
@@ -47,8 +48,6 @@ chance.mixin({
     name: chance.words(),
     description: chance.paragraph(),
     price: chance.natural({min: 400, max: 168800}),
-    imageUrl:
-      'http://www.chattanoogasciencefair.org/wp-content/uploads/food-art-prints-food-art-prints-society6.jpg',
     artistId: chance.natural({min: 1, max: numOfArtists}),
     size: chance.weighted(['small', 'medium', 'large'], [8, 21, 15]),
     quantity: chance.weighted(
@@ -105,6 +104,7 @@ for (let i = 1; i <= numOfProducts; i++) {
   for (let j = 0; j < numOfAssocs; j++) {
     productCategoryAssociations.push({productId: i, categoryId: assocs[j]})
   }
+  generateArt(i)
 }
 
 const lineItemAssociations = []

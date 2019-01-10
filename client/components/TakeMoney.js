@@ -10,7 +10,7 @@ class TakeMoney extends React.Component {
     const modifiedCart = this.props.cart.map(cartItem => ({
       itemPrice: cartItem.price,
       quantity: cartItem.quantity,
-      imageUrl: cartItem.imageUrl,
+      imageUrl: `img/img${cartItem.id.toString().padStart(4, '0')}.svg`,
       productId: cartItem.id
     }))
     console.log('Edited cartItem =>', modifiedCart)

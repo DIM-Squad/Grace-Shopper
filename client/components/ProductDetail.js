@@ -62,7 +62,7 @@ class ProductDetail extends Component {
       name: event.name,
       price: event.price,
       quantity: 1,
-      imageUrl: event.imageUrl
+      imageUrl: `/img/img${event.id.toString().padStart(4, '0')}.svg`
     })
   }
 
@@ -98,7 +98,11 @@ class ProductDetail extends Component {
               <Grid container columns={2}>
                 <Grid.Column>
                   <Item>
-                    <Image size="large" src={selectedProduct.imageUrl} />
+                    <Image
+                      size="large"
+                      src={`/img/img${selectedProduct.id &&
+                        selectedProduct.id.toString().padStart(4, '0')}.svg`}
+                    />
                   </Item>
                 </Grid.Column>
                 <Grid.Column>
@@ -169,7 +173,9 @@ class ProductDetail extends Component {
                                     id: selectedProduct.id,
                                     name: selectedProduct.name,
                                     price: selectedProduct.price,
-                                    imageUrl: selectedProduct.imageUrl
+                                    imageUrl: `img/img${selectedProduct.id
+                                      .toString()
+                                      .padStart(4, '0')}.svg`
                                   })
                                 }
                               >
