@@ -12,7 +12,7 @@ class CartItem extends Component {
       id: this.props.item.id,
       name: this.props.item.name,
       price: this.props.item.price,
-      imageUrl: this.props.item.imageUrl,
+      imageUrl: `img/img${this.props.item.id.toString().padStart(4, '0')}.svg`,
       quantity: this.props.item.quantity
     }
     this.removeFromCart = this.removeFromCart.bind(this)

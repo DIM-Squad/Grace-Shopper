@@ -4,6 +4,6 @@
 
 https://i-love-art.herokuapp.com/
 
-## Waffle
+## Test it out
 
-[![Waffle.io - Issues in progress](https://badge.waffle.io/DIM-Squad/Grace-Shopper.png?label=in%20progress&title=In%20Progress)](http://waffle.io/DIM-Squad/Grace-Shopper)
+The admin username is zu@le.kn. An easy-to-remember non-admin username is cu@gol.eg. The seed will produce these each time. The password is "dimsquad".

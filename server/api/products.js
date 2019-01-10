@@ -10,6 +10,7 @@ const {
 } = require('../db/models')
 const Op = require('sequelize').Op
 const isAdmin = require('../auth/isAdmin')
+const generateArt = require('../utils/generateArt')
 
 module.exports = router
 
@@ -138,6 +139,8 @@ router.post('/', isAdmin, async (req, res, next) => {
         ProductCategory.create({categoryId: c.id, productId: newProduct.id})
       )
     )
+
+    generateArt(newProduct.id)
 
     res.status(201).json(newProduct)
   } catch (err) {

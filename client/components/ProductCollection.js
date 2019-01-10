@@ -41,7 +41,7 @@ class ProductCollection extends Component {
       name: event.name,
       price: event.price,
       quantity: 1,
-      imageUrl: event.imageUrl
+      imageUrl: `img/img${event.id.toString().padStart(4, '0')}.svg`
     })
   }
 
@@ -62,7 +62,9 @@ class ProductCollection extends Component {
                     <Card.Content>
                       <Image
                         size="medium"
-                        src={product.imageUrl}
+                        src={`/img/img${product.id
+                          .toString()
+                          .padStart(4, '0')}.svg`}
                         style={styles.image}
                       />
                       <Card.Header>{product.name}</Card.Header>
@@ -90,7 +92,9 @@ class ProductCollection extends Component {
                                 id: product.id,
                                 name: product.name,
                                 price: product.price,
-                                imageUrl: product.imageUrl
+                                imageUrl: `/img/img${product.id
+                                  .toString()
+                                  .padStart(4, '0')}.svg`
                               })
                             }}
                           >

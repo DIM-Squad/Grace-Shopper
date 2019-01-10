@@ -9,7 +9,10 @@ const LineItem = props => {
     <Table.Row>
       <Table.Cell>
         <Item>
-          <Image size="tiny" src={props.product.imageUrl} />
+          <Image
+            size="tiny"
+            src={`img/img${props.product.id.toString().padStart(4, '0')}.svg`}
+          />
         </Item>
       </Table.Cell>
       <Table.Cell selectable>
