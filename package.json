@@ -65,7 +65,7 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.82.5",
     "sequelize": "^4.38.1",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "stripe": "^6.10.0"
   },
   "devDependencies": {
