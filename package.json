@@ -48,7 +48,7 @@
     "express-session": "^1.15.1",
     "history": "^4.6.3",
     "morgan": "^1.8.1",
-    "nodemailer": "^4.6.8",
+    "nodemailer": "^6.4.16",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
